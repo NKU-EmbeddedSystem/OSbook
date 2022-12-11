@@ -13,8 +13,9 @@
   - if you use common matrix multiplication, can try `gcc test.c -O1 -ftree-vectorize -S` auto generate SIMD improved codes.
 
 #### About Codes
-implement 3 version of matrix multiplication: common, improved by sse, improved by avx.  
-uncomment one of them, then you can use it.  
+目前实现了三种矩阵乘算法，一种是普通的矩阵乘，另外两种分别基于SSE和AVX优化。在main函数末尾解注释其中一个即可使用。
+矩阵的大小可使用命令行参数或直接修改代码进行设定。
+矩阵使用固定种子的随机数初始化。
 
 #### References
 [1] https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html  
