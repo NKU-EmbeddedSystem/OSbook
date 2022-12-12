@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     //     printf("argv[%d] = %s\n", i, argv[i]);
     // }                 
 
-    int m = 8, n = 8, r = 8;
+    int m = 4096, n = 4096, r = 4096;
 
     int opt, tmp;
     extern char* optarg;
