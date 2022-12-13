@@ -1,3 +1,9 @@
+import joblib
+import operator
+import time
+import matplotlib.pyplot as plt
+import os
+
 def matrix_mul(matrix_A, matrix_B):
     m = len(matrix_A)
     k1 = len(matrix_A[0])
@@ -17,9 +23,33 @@ def matrix_mul(matrix_A, matrix_B):
         matrix_C.append(matrix_C_mi)
     return matrix_C
 
-A = [[1,2,3], [4,5,6], [7,8,9]]
-print(A)
-B = [[1,1,1,1,1], [2,2,2,2,2], [3,3,3,3,3]]
-print(B)
-C = matrix_mul(A,B)
-print(C)
+def main_test():
+    shapes = [2**i for i in range(0, 13)]
+    times = []
+    size = []
+    for n in shapes:
+        matrix_A = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/A_'+str(n)+'.pkl')
+        matrix_B = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/B_'+str(n)+'.pkl')
+        matrix_C_answer = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
+        size.append(n)
+        begin = time.perf_counter()
+        matrix_C = matrix_mul(matrix_A, matrix_B)
+        end = time.perf_counter()
+        times.append(end-begin)
+        if operator.eq(matrix_C, matrix_C_answer) == True:
+            print("pass size "+str(n)+f" and run {end - begin:0.10f} seconds")
+        else:
+            print("answer of size "+str(n)+" is wrong")
+
+    plt.plot(size, times, c="red")
+    plt.scatter(size, times, c="red")
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.xlabel("matirx size(n, n)")
+    plt.ylabel("run time")
+    plt.show()
+
+    try:
+        plt.savefig("./result_img/result.png")
+    except:
+        os.mkdir("./result_img")
+        plt.savefig("./result_img/result.png")
