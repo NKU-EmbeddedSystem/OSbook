@@ -10,8 +10,8 @@
 #include<regex.h>
 
 int main(){
-    //int fd=open("test.txt",O_RDONLY);
-    int fd=open("/home/kjr/OSbook/bible10.txt",O_RDONLY);
+    int fd=open("new.txt",O_RDONLY);
+    //int fd=open("/home/kjr/OSbook/bible10.txt",O_RDONLY);
     if(fd==-1){
         printf("can't open the file");
         return 1;
@@ -27,7 +27,7 @@ int main(){
     regmatch_t pmatch[1];
     regex_t reg;
     int count=0;
-    char pattern[]="[0-9]{5}";
+    char pattern[]="^From ilug-admin@linux.ie.*Aug.*";//查找ilug-admin@linux.ie在八月份发送的邮件
      
     status=regcomp(&reg,pattern,REG_EXTENDED|REG_NEWLINE);
     if(status!=0){
