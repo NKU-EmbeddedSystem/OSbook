@@ -3,3 +3,7 @@
 map_file_pattern.c:mmap方法实现文件处理并支持正则表达式
 
 read_file_pattern.c:read方法实现文件处理并支持正则表达式
+
+map_file.c:mmap方法实现文件处理并支持用户输入字符串查找
+
+read_file.c:read方法实现文件处理并支持用户输入字符串查找
