@@ -12,7 +12,7 @@ int main(int argc, const char *argv[])
     int k=0;
 
     for (i = 0; i < 2; i++) {
-        if (i == 0) pid = pid1 = fork();
+        if (0 == i) pid = pid1 = fork();
         else        pid = pid2 = fork();
 
         if (pid < 0) {
@@ -21,9 +21,9 @@ int main(int argc, const char *argv[])
         } else if (pid == 0) {   //子进程
             break;
         } else {   //父进程处理
-            waitpid(pid1, status1, 0);         //阻塞
+            waitpid(pid1, status1, 0);         //阻塞方式等待
             
-            do {                               //非阻塞
+            do {                               //非阻塞方式等待
                 k = waitpid(pid2, status2, WNOHANG);  
                 if (k == 0) {
                     printf("process2 still runing\n");
@@ -35,19 +35,21 @@ int main(int argc, const char *argv[])
 
     }
 
+    /************ 子进程处理 *******************/
+   
     if (0 == i) {      // 进程1 
-        if (execl("./process1", NULL) == -1) {
+        if (-1 == execl("./process1", NULL)) {
             perror("process1 exec");
             exit(-1);
         }
-    } else if (i == 1) {   // 进程2 
-        if (execl("./process2", NULL) == -1) {
+    } else if (1 == i) {   // 进程2  切记这里要i == 1，因为上面结束后没有判断i==1的话回执行两次，相当于在process2中又调用了process2
+        if (-1 == execl("./process2", NULL)) {
             perror("process2 exec");
             exit(-1);
         }
     }
 
-    printf("parent process exit\n");
+    printf("parent process exit!!!\n"); //父进程结束
     exit(0);
 }
 
