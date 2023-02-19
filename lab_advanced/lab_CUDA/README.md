@@ -1,82 +1,8 @@
-### 购买服务器与搭建环境
-
-##### 购买服务器
-
-本实验可以直接在腾讯云中购买自动安装GPU驱动与CUDA的服务器
-
-![image-20221211210142257](./README.assets/image-20221211210142257.png)
-
-可参考配置如下：
-
-![img](./README.assets/1670749863657-a91a3dfc-aedd-4c11-aae6-41b46eb83f5a.png)
-
-![img](./README.assets/1670749879436-df155ecb-c1ec-4805-9c3e-8cf0dcdf8f32.png)
-
-![img](./README.assets/1670749899115-7dc036d7-4bdd-4963-b1d4-f3e4975a4cb9.png)
-
-![img](./README.assets/1670750173021-647f64d1-65b3-466b-abfe-1e6e32f9cf65.png)
-
-配置成功后远程连接。
-
-##### 验证 cuda是否安装
-
-```
-nvidia-smi
-```
-
-![img](./README.assets/1670755218948-7d544a84-5d46-4a63-97d2-d82807e73c90.png)
-
-说明已经安装成功。
-
-##### 安装cmake 与验证是否安装
-
-安装：
-
-```
-sudo apt-get install cmake
-```
-
-验证：
-
-```
-cmake --version
-```
-
-![img](./README.assets/1670755172875-1e4403c0-dae3-4f87-9dac-57969452ebd6.png)
-
-##### 设置CMAKE_CUDA_COMPILER 环境变量
-
-通过自己服务器中`/usr/local/`文件夹下的`cuda` 版本来设置环境变量
-
-```
- export PATH=/usr/local/cuda-10.1/bin/:$PATH
-```
-
-并通过一下指令查看是否设置成功
-
-```
-export
-```
-
-#### 编译与运行
-
-以此编译并进行执行
-
-```
-cmake ./
-```
-
-```
-make
-```
-
-```
-./test
-```
-
 ### 实验环境
 
-本次实验在购买的带有英伟达显卡的服务器进行实验（有条件也可以在本地进行实验），操作系统是Ubuntu 20.04 LTS ， GPU驱动版本450.102.04，CUDA版本11.0.3，cuDNN版本8.1.0（版本不同不影响实验），编程语言C，Ｃ＋＋，CUDA
+本次实验可以在购买的带有英伟达显卡的服务器进行实验，操作系统是Ubuntu 20.04 LTS （不限制）， GPU驱动版本450.102.04，CUDA版本11.0.3，cuDNN版本8.1.0（版本不同不影响实验），编程语言C，Ｃ＋＋，CUDA，具体使用流程请参考[这里](./Linux服务器下运行.md)。
+
+本次实验也可以在带有英伟达显卡的个人电脑进行实验，操作系统是Windows11（不限制），需安装CUDA toolkit、Visual Studio等软件，使用编程语言C ，C++，CUDA ，具体使用流程请参考[这里](./Windows下运行.md)。
 
 ### 实验目的
 
@@ -85,6 +11,26 @@ make
 ### 实验内容
 
 本实验主要是能够搭建编译CUDA环境，基于CUDA编写矩阵乘程序并进行编译执行，而且能够进行性能评估
+
+### 关于代码
+
+kernel.cu文件：具有完整的CUDA编写程序流程，教材中代码讲解来源，包含性能分析部分代码，没有写入CMakelists.txt文件中，如果需要在linux服务器上运行，请修改CMakelist.txt文件中
+
+``` add_executable(test test.cu)
+add_executable(test test.cu)
+```
+
+为
+
+```
+add_executable(test kernel.cu)
+```
+
+
+
+test.cu文件：使用教材中提到的统一内存托管方法，而且使用`__device__` 关键字创建与使用设备端函数。矩阵乘的实现方法可以自行理解。
+
+
 
 
 
