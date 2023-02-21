@@ -82,11 +82,10 @@ int main(int argc, char *argv[])
         //如果是txt文件，则输出
         if (strstr(ptr->d_name, ".txt") != NULL)
             printf("txt文件名：%s\n", ptr->d_name);
-            char* file_name = base;
-            strcat(file_name,"/");
-            strcat(file_name,ptr->d_name);
-            //printf("%s",file_name);
-            int temp=mmap_file(file_name);
+            char buff[1024];
+            sprintf(buff, "%s%s%s", base, "/", ptr->d_name);
+            int temp=mmap_file(buff);
+            printf("%s",buff);
             final_count+=temp;
     }
     closedir(dir);
