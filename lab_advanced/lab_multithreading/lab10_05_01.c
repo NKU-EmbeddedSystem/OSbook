@@ -104,16 +104,20 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
-    int mi, ki, ni;
+    //在使用openmp时，需要把归纳变量的声明写到for中，否则无法正常并行执行
+    //int mi, ki, ni;
 	#pragma omp parallel for
-    for(mi = 0; mi < m; mi++){
-        for(ni = 0; ni < n; ni++){
-            for(ki = 0; ki < k; ki++){
+    {
+    for(int mi = 0; mi < m; mi++){
+        for(int ni = 0; ni < n; ni++){
+            for(int ki = 0; ki < k; ki++){
                 C[mi][ni] += A[mi][ki] * B[ki][ni];
             }
         }
     }
+    }
 }
+
 
 int main(){
     // int m = 3, k = 3, n = 5, i, j;

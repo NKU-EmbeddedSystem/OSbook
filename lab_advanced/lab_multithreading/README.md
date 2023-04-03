@@ -22,8 +22,7 @@
 
 （5）lab10_05_01.c：用openmp实现多线程优化。
 
-（6）lab10_05_02.c：用openmp实现多线程优化。
+（6）lab10_05_02.c：openmp解决race condition。
 
-（7）lab10_05_03.c：用openmp实现多线程优化。
 
-mm0.c、mm1.c、mm2.c、mm3.c为第一版实验用例。
+mm0.c、mm1.c、mm2.c、mm3.c为第一版实验用例；lab2.sh为用以自动跑1-150线程数量的脚本文件;data_gen.py可生成测试用数据集。

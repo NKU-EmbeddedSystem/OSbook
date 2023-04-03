@@ -22,11 +22,11 @@ void read_csv(int file_no, float* array) {
     char buffer[10000];
     int i = 0;
     if(file_no == 0){
-        fp = fopen("./dataset/shape_1000/A_1000.csv", "r");
+        fp = fopen("./dataset/shape_3000/A_3000.csv", "r");
     } else if(file_no == 1) {
-        fp = fopen("./dataset/shape_1000/B_1000.csv", "r");
+        fp = fopen("./dataset/shape_3000/B_3000.csv", "r");
     } else if(file_no == 2) {
-        fp = fopen("./dataset/shape_1000/C_1000.csv", "r");
+        fp = fopen("./dataset/shape_3000/C_3000.csv", "r");
     } else{
         assert(0);
     }
@@ -121,7 +121,7 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
     }
 }
 
-int main(){
+int main(int argc,char *argv[]){
     // int m = 3, k = 3, n = 5, i, j;
     // float* A = malloc(3*3*sizeof(float));
     // float* B = malloc(3*5*sizeof(float));
@@ -147,7 +147,7 @@ int main(){
     // free(A);
     // free(B);
     // free(C);
-    int m = 1000, k = 1000, n = 1000, i, j;
+    int m = 3000, k = 3000, n = 3000, i, j;
     float* A = malloc(m*k*sizeof(float));
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
@@ -157,11 +157,11 @@ int main(){
     read_csv(0, A);
     read_csv(1, B);
     read_csv(2, C_answer);
-
+    
     // for(int i = 1 ; i<=50; i++){
-        start = clock();
-        matrix_mul(A, B, C, m, k, n, 20);
-        end = clock();
+//        start = clock();
+        matrix_mul(A, B, C, m, k, n, atoi(argv[1]));
+//        end = clock();
     //     if(test_result(C, C_answer, m*n)){
     //         printf("check pass!\n");
     //     }else{
@@ -173,11 +173,11 @@ int main(){
     //     printf("time = %0.10f \n", (double)(end - start)/CLOCKS_PER_SEC);
     // // }
 
-    // if(test_result(C, C_answer, m*n)){
-    //     printf("check pass!\n");
-    // }else{
-    //     printf("answer wrong!\n");
-    // }
+     if(test_result(C, C_answer, m*n)){
+         printf("check pass!\n");
+     }else{
+         printf("answer wrong!\n");
+     }
     
 
     free(A);
