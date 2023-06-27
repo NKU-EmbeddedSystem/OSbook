@@ -1,0 +1,5 @@
+By the late 1950s, programs that one would recognize as an operating system were beginning to appear. Often pointed to as the earliest recognizable example is GM-NAA I/O, released in 1956 on the IBM 704. The first known example that actually referred to itself was the SHARE Operating System, a development of GM-NAA I/O, released in 1959. In a May 1960 paper describing the system, George Ryckman noted:
+
+The development of computer operating systems have materially aided the problem of getting a program or series of programs on and off the computer efficiently.[11]
+
+One of the more famous examples that is often found in discussions of early systems is the Atlas Supervisor, running on the Atlas in 1962.[12] It was referred to as such in a December 1961 article describing the system, but the context of "the Operating System" is more along the lines of "the system operates in the fashion". The Atlas team itself used the term "supervisor",[13] which was widely used along with "monitor". Brinch Hansen described it as "the most significant breakthrough in the history of operating systems."
