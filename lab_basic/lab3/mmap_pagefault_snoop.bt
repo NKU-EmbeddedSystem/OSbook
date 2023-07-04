@@ -1,0 +1,77 @@
+#!/usr/bin/env bpftrace
+/*
+ * opensnoop	Trace open() syscalls.
+ *		For Linux, uses bpftrace and eBPF.
+ *
+ * Also a basic example of bpftrace.
+ *
+ * USAGE: opensnoop.bt
+ *
+ * This is a bpftrace version of the bcc tool of the same name.
+ *
+ * Copyright 2018 Netflix, Inc.
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ *
+ * 08-Sep-2018	Brendan Gregg	Created this.
+ */
+
+BEGIN
+{
+	printf("Tracing open syscalls... Hit Ctrl-C to end.\n");
+}
+
+tracepoint:syscalls:sys_enter_open,
+tracepoint:syscalls:sys_enter_openat
+{
+	@filename[tid] = args->filename;
+}
+
+tracepoint:syscalls:sys_exit_open,
+tracepoint:syscalls:sys_exit_openat
+/@filename[tid]/
+{
+	$ret = args->ret;
+	$fd = $ret > 0 ? $ret : -1;
+	$errno = $ret > 0 ? 0 : - $ret;
+    $fname = @filename[tid];
+	// printf("open(\"%s\",\"%s\",%d)\n", comm, str($fname), $ret);
+	delete(@filename[tid]);
+	@fd_map[tid, $fd] = $fname;
+}
+
+tracepoint:syscalls:sys_enter_mmap
+{
+
+	$errno = 0;
+  /* void *mmap(void *addr, size_t length, int prot, int flags,
+                  int fd, off_t offset);
+				  */
+	@mmap_off[tid] = args->off;
+	@mmap_len[tid] = args->len;
+	@mmap_fd[tid] = args->fd;
+	@mmap_fname[tid] = @fd_map[tid, args->fd];
+}
+
+tracepoint:syscalls:sys_exit_mmap
+{
+    $fname = @mmap_fname[tid];
+	$mmap_start = args->ret;
+	$mmap_len = @mmap_len[tid];
+	printf("mmap(\"%s-%d\", fd=%d, fname=\"%s\",off=%d, len=%d, ret=0x%lX)\n",
+			comm, pid, @mmap_fd[tid], str($fname), @mmap_off[tid], $mmap_len, $mmap_start);
+}
+
+tracepoint:exceptions:page_fault_user
+{
+	printf("page_fault_user(\"%s-%d\", address=0x%lX, ip=0x%lX)\n", comm, pid, args->address, args->ip);
+}
+
+END
+{
+	clear(@filename);
+	clear(@fd_map);
+	clear(@mmap_fname);
+	clear(@mmap_off);
+	clear(@mmap_len);
+	clear(@mmap_fd);
+}
