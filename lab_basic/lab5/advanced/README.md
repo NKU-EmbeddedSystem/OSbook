@@ -26,5 +26,3 @@ g++ -o client client.cpp
 4. 输入要处理的文件数，以及要统计的单词
 
 5. 得到单词的统计结果
-
-![image-20230705151849976](C:\Users\骁\AppData\Roaming\Typora\typora-user-images\image-20230705151849976.png)
