@@ -27,4 +27,4 @@
   - avx.c：AVX矩阵乘
   - main.c：接收命令行参数，并按其初始化矩阵，完成一次测试
 - run.sh：依次执行clean-make-test三个shell脚本
-- test_loongson.c: 使用龙芯SIMD扩展（LSX与LASX）优化矩阵乘，包含一般矩阵乘实现。需在支持龙芯指令集的机器上测试，编译指令参考`gcc -o test.out -mlsx test.c`。
+- test_loongson.c: 使用龙芯SIMD扩展（LSX与LASX）优化矩阵乘，包含一般矩阵乘实现。需在支持龙芯指令集的机器上测试，编译指令参考`gcc -o test.out -mlsx test.c`。（曾由龙芯对接同学测试）
