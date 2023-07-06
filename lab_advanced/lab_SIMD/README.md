@@ -11,7 +11,7 @@
   - `cat /proc/cpuinfo | grep -i avx`
 - 运行脚本run.sh，自动完成程序编译及性能测试
   - `bash run.sh`
-  - 或运行`bash make.sh`生成可执行文件后，直接运行该文件并用`-m` `-n` `-r`指定矩阵大小(需为8的倍数)，它们的默认值均为8
+  - 或运行`bash make.sh`生成可执行文件后，直接运行该文件并用`-m` `-n` `-r`指定矩阵大小（需为8的倍数，它们的默认值均为8）以及`-u`指定矩阵乘方法（一般`cmn`/intel SIMD的两种实现:`sse`/`avx`，默认为`cmn`）
 
 #### 3. 文件结构
 - include/
