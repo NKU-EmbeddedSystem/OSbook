@@ -1,0 +1,6 @@
+1 4 operating
+5 10 operating
+1 10 operating
+1 5 system
+6 10 system
+1 10 system

@@ -1,0 +1,6 @@
+word 'operating' appears 32 times from file No.1 to file No.4
+word 'operating' appears 21 times from file No.5 to file No.10
+word 'operating' appears 53 times from file No.1 to file No.10
+word 'system' appears 28 times from file No.1 to file No.5
+word 'system' appears 16 times from file No.6 to file No.10
+word 'system' appears 44 times from file No.1 to file No.10
