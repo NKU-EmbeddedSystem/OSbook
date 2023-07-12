@@ -1,0 +1,2 @@
+Word 'operating' appears 53 times from file No.1 to file No.10
+Word 'system' appears 44 times from file No.1 to file No.10
