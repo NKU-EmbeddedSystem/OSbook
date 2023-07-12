@@ -1,5 +1,5 @@
 
-// 服务器端代码
+//服务器端代码
 #include <iostream>
 #include <cstring>
 #include <sys/socket.h>
@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <vector>
 #include <stdexcept>
+#include <fstream>
 
 using namespace std;
 
@@ -94,9 +95,13 @@ int main() {
                     int occurrences = atoi(buffer);
                     totalOccurrences += occurrences;
                 }
-
+                
+                ofstream outfile("output.txt");
+                streambuf* coutBuf = cout.rdbuf();
+                cout.rdbuf(outfile.rdbuf());
                 cout << "Word '" << word << "' appears " << totalOccurrences << " times from file No.1 to file No." << n << endl;
-
+                cout.rdbuf(coutBuf);
+                outfile.close();
                 break;
             }
         }
