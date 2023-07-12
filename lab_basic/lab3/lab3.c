@@ -10,7 +10,7 @@
 #include<regex.h>
 
 int main(){
-    int fd=open("new.txt",O_RDONLY);
+    int fd=open("input/new.txt",O_RDONLY);
     if(fd==-1){
         printf("can't open the file");
         return 1;
