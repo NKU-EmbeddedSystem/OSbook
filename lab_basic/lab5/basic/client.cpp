@@ -42,7 +42,7 @@ int main(){
 	cout << cmd1 << endl;	
 	string cmd2 = cmd1 + word;
 	cout << cmd2 << endl;
-	string cmd =  string("./word_count.sh ") + " " + word;
+	string cmd =  string("./word_count.sh ") + " " + word + " > output.txt ";
 	cout << cmd << endl;
 	system(cmd.c_str());
 	close(sockfd);
