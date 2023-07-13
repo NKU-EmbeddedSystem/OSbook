@@ -1,0 +1,450 @@
+thread number: 1
+time = 4014750.250000
+check pass!
+thread number: 2
+time = 2003094.625000
+check pass!
+thread number: 3
+time = 1353453.375000
+check pass!
+thread number: 4
+time = 1055393.375000
+check pass!
+thread number: 5
+time = 913962.312500
+check pass!
+thread number: 6
+time = 711494.000000
+check pass!
+thread number: 7
+time = 684899.000000
+check pass!
+thread number: 8
+time = 607250.312500
+check pass!
+thread number: 9
+time = 610771.687500
+check pass!
+thread number: 10
+time = 570427.687500
+check pass!
+thread number: 11
+time = 536698.312500
+check pass!
+thread number: 12
+time = 534309.312500
+check pass!
+thread number: 13
+time = 539235.687500
+check pass!
+thread number: 14
+time = 459544.343750
+check pass!
+thread number: 15
+time = 448506.656250
+check pass!
+thread number: 16
+time = 429924.343750
+check pass!
+thread number: 17
+time = 441951.000000
+check pass!
+thread number: 18
+time = 337615.000000
+check pass!
+thread number: 19
+time = 319457.343750
+check pass!
+thread number: 20
+time = 305872.343750
+check pass!
+thread number: 21
+time = 315449.656250
+check pass!
+thread number: 22
+time = 297870.000000
+check pass!
+thread number: 23
+time = 307893.000000
+check pass!
+thread number: 24
+time = 345715.343750
+check pass!
+thread number: 25
+time = 330854.343750
+check pass!
+thread number: 26
+time = 332895.656250
+check pass!
+thread number: 27
+time = 384155.656250
+check pass!
+thread number: 28
+time = 385781.343750
+check pass!
+thread number: 29
+time = 330990.656250
+check pass!
+thread number: 30
+time = 339786.656250
+check pass!
+thread number: 31
+time = 320241.343750
+check pass!
+thread number: 32
+time = 319050.000000
+check pass!
+thread number: 33
+time = 337649.343750
+check pass!
+thread number: 34
+time = 321551.656250
+check pass!
+thread number: 35
+time = 411643.343750
+check pass!
+thread number: 36
+time = 408344.000000
+check pass!
+thread number: 37
+time = 323368.000000
+check pass!
+thread number: 38
+time = 297880.656250
+check pass!
+thread number: 39
+time = 335944.343750
+check pass!
+thread number: 40
+time = 297643.656250
+check pass!
+thread number: 41
+time = 358586.656250
+check pass!
+thread number: 42
+time = 381511.656250
+check pass!
+thread number: 43
+time = 351196.343750
+check pass!
+thread number: 44
+time = 447878.656250
+check pass!
+thread number: 45
+time = 271622.343750
+check pass!
+thread number: 46
+time = 384990.343750
+check pass!
+thread number: 47
+time = 337786.343750
+check pass!
+thread number: 48
+time = 360668.656250
+check pass!
+thread number: 49
+time = 284569.656250
+check pass!
+thread number: 50
+time = 245666.671875
+check pass!
+thread number: 51
+time = 314895.000000
+check pass!
+thread number: 52
+time = 238470.671875
+check pass!
+thread number: 53
+time = 401416.656250
+check pass!
+thread number: 54
+time = 293912.656250
+check pass!
+thread number: 55
+time = 226870.328125
+check pass!
+thread number: 56
+time = 446183.656250
+check pass!
+thread number: 57
+time = 333929.656250
+check pass!
+thread number: 58
+time = 301532.000000
+check pass!
+thread number: 59
+time = 487241.656250
+check pass!
+thread number: 60
+time = 410782.343750
+check pass!
+thread number: 61
+time = 275058.656250
+check pass!
+thread number: 62
+time = 198935.000000
+check pass!
+thread number: 63
+time = 477933.000000
+check pass!
+thread number: 64
+time = 337290.343750
+check pass!
+thread number: 65
+time = 293341.656250
+check pass!
+thread number: 66
+time = 197899.671875
+check pass!
+thread number: 67
+time = 427767.343750
+check pass!
+thread number: 68
+time = 410750.343750
+check pass!
+thread number: 69
+time = 279912.656250
+check pass!
+thread number: 70
+time = 253667.328125
+check pass!
+thread number: 71
+time = 189906.000000
+check pass!
+thread number: 72
+time = 528828.312500
+check pass!
+thread number: 73
+time = 341791.343750
+check pass!
+thread number: 74
+time = 377462.000000
+check pass!
+thread number: 75
+time = 279635.000000
+check pass!
+thread number: 76
+time = 211237.000000
+check pass!
+thread number: 77
+time = 604402.312500
+check pass!
+thread number: 78
+time = 473848.000000
+check pass!
+thread number: 79
+time = 372618.656250
+check pass!
+thread number: 80
+time = 402629.656250
+check pass!
+thread number: 81
+time = 282643.656250
+check pass!
+thread number: 82
+time = 201515.328125
+check pass!
+thread number: 83
+time = 183208.000000
+check pass!
+thread number: 84
+time = 466881.343750
+check pass!
+thread number: 85
+time = 436294.656250
+check pass!
+thread number: 86
+time = 420743.656250
+check pass!
+thread number: 87
+time = 389983.656250
+check pass!
+thread number: 88
+time = 356934.000000
+check pass!
+thread number: 89
+time = 279252.343750
+check pass!
+thread number: 90
+time = 190502.328125
+check pass!
+thread number: 91
+time = 470391.343750
+check pass!
+thread number: 92
+time = 576460.312500
+check pass!
+thread number: 93
+time = 441698.656250
+check pass!
+thread number: 94
+time = 450124.000000
+check pass!
+thread number: 95
+time = 401987.656250
+check pass!
+thread number: 96
+time = 353749.656250
+check pass!
+thread number: 97
+time = 324349.000000
+check pass!
+thread number: 98
+time = 233375.671875
+check pass!
+thread number: 99
+time = 197739.000000
+check pass!
+thread number: 100
+time = 177689.671875
+check pass!
+thread number: 101
+time = 629899.312500
+check pass!
+thread number: 102
+time = 559375.312500
+check pass!
+thread number: 103
+time = 582581.687500
+check pass!
+thread number: 104
+time = 406734.000000
+check pass!
+thread number: 105
+time = 381618.000000
+check pass!
+thread number: 106
+time = 374127.000000
+check pass!
+thread number: 107
+time = 338612.000000
+check pass!
+thread number: 108
+time = 309764.000000
+check pass!
+thread number: 109
+time = 241502.328125
+check pass!
+thread number: 110
+time = 191512.328125
+check pass!
+thread number: 111
+time = 170466.328125
+check pass!
+thread number: 112
+time = 767245.687500
+check pass!
+thread number: 113
+time = 702609.312500
+check pass!
+thread number: 114
+time = 550456.312500
+check pass!
+thread number: 115
+time = 496578.343750
+check pass!
+thread number: 116
+time = 567382.000000
+check pass!
+thread number: 117
+time = 517851.343750
+check pass!
+thread number: 118
+time = 378865.656250
+check pass!
+thread number: 119
+time = 390388.343750
+check pass!
+thread number: 120
+time = 317895.000000
+check pass!
+thread number: 121
+time = 322882.000000
+check pass!
+thread number: 122
+time = 288252.000000
+check pass!
+thread number: 123
+time = 232315.000000
+check pass!
+thread number: 124
+time = 180553.328125
+check pass!
+thread number: 125
+time = 159809.328125
+check pass!
+thread number: 126
+time = 572469.687500
+check pass!
+thread number: 127
+time = 728105.687500
+check pass!
+thread number: 128
+time = 675251.687500
+check pass!
+thread number: 129
+time = 651311.000000
+check pass!
+thread number: 130
+time = 609888.000000
+check pass!
+thread number: 131
+time = 561740.000000
+check pass!
+thread number: 132
+time = 461872.343750
+check pass!
+thread number: 133
+time = 531629.312500
+check pass!
+thread number: 134
+time = 449908.656250
+check pass!
+thread number: 135
+time = 429828.656250
+check pass!
+thread number: 136
+time = 399705.343750
+check pass!
+thread number: 137
+time = 347389.343750
+check pass!
+thread number: 138
+time = 275134.656250
+check pass!
+thread number: 139
+time = 293295.000000
+check pass!
+thread number: 140
+time = 231312.328125
+check pass!
+thread number: 141
+time = 184398.671875
+check pass!
+thread number: 142
+time = 158631.671875
+check pass!
+thread number: 143
+time = 847319.000000
+check pass!
+thread number: 144
+time = 931186.000000
+check pass!
+thread number: 145
+time = 887811.312500
+check pass!
+thread number: 146
+time = 763586.687500
+check pass!
+thread number: 147
+time = 818378.687500
+check pass!
+thread number: 148
+time = 773814.312500
+check pass!
+thread number: 149
+time = 729573.000000
+check pass!
+thread number: 150
+time = 690440.000000
+check pass!
