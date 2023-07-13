@@ -1,1 +1,1 @@
-word 'operating' appears 32 times from file No.1 to file No.4
+
