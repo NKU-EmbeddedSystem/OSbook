@@ -10,3 +10,9 @@
   本实验提供了两个shell脚本来直接运行basic和advanced代码，即basic.sh与advanced.sh。如果遇到无法运行的问题，可以先使用chmod 777 *.sh修改文件权限。
 
   在当前目录下使用./basic.sh和./advanced.sh即可直接运行程序。
+
+## 目录介绍
+
+input/*.txt：输入的文本数据
+input/input_basic.txt：basic任务输入
+input/input_advanced.txt：advanced任务输入
