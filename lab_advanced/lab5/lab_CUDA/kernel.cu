@@ -133,6 +133,7 @@ int main()
  //       printf("%.2f ", C[i]);
     stop_cpu = clock();// end timing
     esp_time_cpu_Data_DeviceToHost = (float)(stop_cpu - start_cpu) / CLOCKS_PER_SEC * 1000*1000;
+    
 
 
      //检查执行结果
@@ -147,6 +148,16 @@ int main()
     printf("Time for preparing data: %f us\n", esp_time_cpu_Data_Pre);
     printf("Time for Host to Device: %f us\n", esp_time_cpu_Data_HostToDevice);
     printf("Time for Device to Host: %f us\n", esp_time_cpu_Data_DeviceToHost);
+
+    char filename[50];
+    sprintf(filename, "output/time_cuda_%d.txt", m);
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("无法打开文件.\n");
+        return -1;
+    }
+    fprintf(file, "%d",  esp_time_gpu/10);
+    fclose(file);
 
     // Free device memory
     cudaFree(d_A);
