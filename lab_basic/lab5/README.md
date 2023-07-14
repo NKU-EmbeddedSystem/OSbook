@@ -23,3 +23,18 @@ input/input_basic.txt：basic任务输入
 
 input/input_advanced.txt：advanced任务输入
 
+basic.sh：基础任务运行脚本
+
+server_basic.cpp：基础任务服务器
+
+client_basic.cpp：基础任务客户端
+
+word_count_basic.sh：基础任务shell脚本
+
+advanced.sh：高级任务运行脚本
+
+server_advanced.cpp：高级任务服务端
+
+client_advanced.cpp：高级任务客户端
+
+word_count_advanced.sh：高级任务shell脚本
