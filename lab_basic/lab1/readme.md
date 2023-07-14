@@ -8,5 +8,7 @@
 
 ### 目录介绍
 input/Unsupervised Time-Series Representation Learning with.pdf、input/convolution.png、input/file renamer.py：三个需要进行重命名的文件；
+
 output/20220714.png、output/20221116.pdf、output/20221213.py：重命名后的文件；
+
 lab1.sh：用shell编程实现批量文件重命名。
