@@ -1,5 +1,6 @@
 import joblib
 import operator
+import time
 def matrix_mul(matrix_A, matrix_B):
     m = len(matrix_A)
     k1 = len(matrix_A[0])
@@ -25,9 +26,11 @@ def test():
         matrix_A = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/A_'+str(n)+'.pkl')
         matrix_B = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/B_'+str(n)+'.pkl')
         matrix_C_answer = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
+        begin = time.perf_counter()
         matrix_C_result = matrix_mul(matrix_A, matrix_B)
+        end = time.perf_counter()
         if operator.eq(matrix_C_answer,matrix_C_result) == True:
-            print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass!")
+            print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass! " + f"{end - begin:0.10f}")
         else:
             print("Check matrix_mul with " + str(n) + "*" + str(n) + " error!")
 
