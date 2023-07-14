@@ -23,6 +23,16 @@ g++ -o blockmm -O0 blockmm.cpp
 ```
 sudo perf stat -e cache-references,cache-misses ./blockmm
 ```
+
+也可以直接使用shell脚本运行程序：
+```
+./mm_cache.sh
+```
+同理如果暂无权限，我们可以使用
+```
+chmod 777 *sh
+```
+
 ## 目录结构
 
 input/size.txt：目前暂时提供了matrix_size，block_size则是固定的。
