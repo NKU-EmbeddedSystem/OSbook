@@ -1,27 +1,5 @@
 # 进阶篇实验4：多线程优化矩阵乘法
 
-input/data_gen.py：可生成自定义规模的测试用矩阵
-
-input/shape_N：测试用数据集目录，内包含三个大小为N*N的矩阵，分别为 $C = A \times B$ 式中的三个矩阵
-
-output/result.txt：测试脚本输出结果
-
-matrix_single_thread.c:单线程实现矩阵乘法
-
-matrix_dual_thread.c:双线程实现矩阵乘法
-
-matrix_multi_thread.c:多线程实现矩阵乘法
-
-matrix_lock.c:使用锁解决多线程矩阵乘法中遇到的数据冲突问题
-
-matrix_signal.c:使用信号量解决多线程矩阵乘法中遇到的数据冲突问题
-
-matrix_openmp.c:使用openmp多线程优化矩阵乘法运算
-
-openmp_critical.c:使用critical方法解决openmp中的数据冲突问题
-
-openmp_reduction.c:使用reduction方法解决openmp中的数据冲突问题
-
 ## 实验介绍
 
 本次实验使用的操作系统为Ubuntu22.04 LTS，编译器为gcc 11.3.0，编程所用语言语言为C语言。实验旨在使用多线程技术对矩阵乘法进行优化，并通过解决race condition来介绍有关锁的相关知识。
@@ -105,3 +83,25 @@ gcc openmp_reduction.c -lgomp -o openmp_reduction
 ```
 
 以上为各个测试文件的编译及测试方法。此外，还可以使用test.sh脚本来一次性执行所有的测试样例。
+## 目录结构
+input/data_gen.py：可生成自定义规模的测试用矩阵
+
+input/shape_N：测试用数据集目录，内包含三个大小为N*N的矩阵，分别为 $C = A \times B$ 式中的三个矩阵
+
+output/result.txt：测试脚本输出结果
+
+matrix_single_thread.c:单线程实现矩阵乘法
+
+matrix_dual_thread.c:双线程实现矩阵乘法
+
+matrix_multi_thread.c:多线程实现矩阵乘法
+
+matrix_lock.c:使用锁解决多线程矩阵乘法中遇到的数据冲突问题
+
+matrix_signal.c:使用信号量解决多线程矩阵乘法中遇到的数据冲突问题
+
+matrix_openmp.c:使用openmp多线程优化矩阵乘法运算
+
+openmp_critical.c:使用critical方法解决openmp中的数据冲突问题
+
+openmp_reduction.c:使用reduction方法解决openmp中的数据冲突问题
