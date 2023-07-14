@@ -1,14 +1,14 @@
 #!/bin/bash
 
 word="$3"
-#ÏÞ¶¨ÎÄ¼þ·¶Î§
-files=$(ls *.txt | head -"$2" | tail -$(($2 - $1 + 1)))
-#³õÊ¼»¯µ¥´ÊÊý
+#é™å®šæ–‡ä»¶èŒƒå›´
+files=$(ls input/*.txt | head -"$2" | tail -$(($2 - $1 + 1)))
+#åˆå§‹åŒ–å•è¯æ•°
 total=0
-#±éÀúÎÄ¼þ$1µ½ÎÄ¼þ$2£¬²¢Í³¼Æµ¥´Ê$3³öÏÖµÄ´ÎÊý
+#éåŽ†æ–‡ä»¶$1åˆ°æ–‡ä»¶$2ï¼Œå¹¶ç»Ÿè®¡å•è¯$3å‡ºçŽ°çš„æ¬¡æ•°
 for file in $files;do
 	count=$(grep -o -i -w "$word" "$file" | wc -l)
 	total=$((total + count))
 done
-#Êä³öÍ³¼Æ½á¹û
+#è¾“å‡ºç»Ÿè®¡ç»“æžœ
 echo "word '$word' appears $total times from file No.$1 to file No.$2" > output/output_basic.txt
