@@ -10,11 +10,11 @@ i. 准备工作：
 如果需要更换不同的cuda代码，修改CMakelist.txt文件中的代码，如将add_executable(test test.cu)改为add_executable(test kernel.cu)。
 
 ii. 直接编译与执行
-cmake ./
-make
-./test
+	cmake ./
+	make
+	./test
 或者直接运行
-sh cuda_linux_run.sh
+	sh cuda_linux_run.sh
 
 #### 3. 目录结构
 - input
