@@ -1,6 +1,7 @@
 import joblib
 import operator
 import time
+import os
 def matrix_mul(matrix_A, matrix_B):
     m = len(matrix_A)
     k1 = len(matrix_A[0])
@@ -29,6 +30,9 @@ def test():
         begin = time.perf_counter()
         matrix_C_result = matrix_mul(matrix_A, matrix_B)
         end = time.perf_counter()
+        if not os.path.exists('./output/'+'shape_'+str(n)):
+            os.makedirs('./output/'+'shape_'+str(n))
+        joblib.dump(matrix_C_result, filename='./output/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
         if operator.eq(matrix_C_answer,matrix_C_result) == True:
             print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass! " + f"{end - begin:0.10f}s")
         else:
