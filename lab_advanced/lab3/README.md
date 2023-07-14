@@ -1,7 +1,9 @@
 # 面向cache优化的矩阵乘法
+## 实验介绍
+
 
 ​	本章提供了三个矩阵乘法函数，分别是普通的矩阵乘法，分块矩阵乘法和优化和的矩阵乘法（交换运算顺序）。
-
+## 运行方式
 ​	编译该文件使用：
 
 ```
@@ -21,4 +23,4 @@ g++ -o blockmm -O0 blockmm.cpp
 ```
 sudo perf stat -e cache-references,cache-misses ./blockmm
 ```
-
+## 目录结构
