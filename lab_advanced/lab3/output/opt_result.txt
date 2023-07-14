@@ -1,0 +1,2 @@
+Blocked Multiplication: Time: 7003343351 nanoseconds
+Blocked Multiplication:  GFLOPS: 0.306637
