@@ -24,3 +24,13 @@ g++ -o blockmm -O0 blockmm.cpp
 sudo perf stat -e cache-references,cache-misses ./blockmm
 ```
 ## 目录结构
+
+input/size.txt：目前暂时提供了matrix_size，block_size则是固定的。
+
+mm_naive.cpp：朴素实现的矩阵乘法
+
+mm_blocked.cpp：分块矩阵乘法（优化前）
+
+mm_opt.cpp：进一步优化的分块矩阵乘法
+
+mm_cache.sh：运行上述三份代码并输出测试结果到output中
