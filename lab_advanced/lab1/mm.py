@@ -1,3 +1,5 @@
+import joblib
+import operator
 def matrix_mul(matrix_A, matrix_B):
     m = len(matrix_A)
     k1 = len(matrix_A[0])
@@ -17,9 +19,16 @@ def matrix_mul(matrix_A, matrix_B):
         matrix_C.append(matrix_C_mi)
     return matrix_C
 
-A = [[1,2,3], [4,5,6], [7,8,9]]
-print(A)
-B = [[1,1,1,1,1], [2,2,2,2,2], [3,3,3,3,3]]
-print(B)
-C = matrix_mul(A,B)
-print(C)
+def test():
+    for i in range(8):
+        n = 2**i
+        matrix_A = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/A_'+str(n)+'.pkl')
+        matrix_B = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/B_'+str(n)+'.pkl')
+        matrix_C_answer = joblib.load(filename='./dataset/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
+        matrix_C_result = matrix_mul(matrix_A, matrix_B)
+        if operator.eq(matrix_C_answer,matrix_C_result) == True:
+            print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass!")
+        else:
+            print("Check matrix_mul with " + str(n) + "*" + str(n) + " error!")
+
+test()
