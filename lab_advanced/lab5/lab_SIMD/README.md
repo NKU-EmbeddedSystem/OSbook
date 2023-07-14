@@ -1,30 +1,23 @@
-### SIMD优化矩阵乘
-#### 1. 环境配置
-示例代码测试环境：(95服务器)  
-- cpu: intel
-- OS: Ubuntu
-- 编译器：gcc 11.3.0
+### 进阶实验篇第5章：面向硬件加速器的优化_SIMD部分
+#### 1. 内容介绍
+分别实现了龙芯、Intel两种SIMD扩展优化矩阵乘的代码：  
+- 龙芯：test_loongson.c  
+- Intel：test_intel.c  
+
+其中，test_loongson.c包含一般矩阵乘方法与LSX、LASX优化的矩阵乘方法，test_intel.c包含一般矩阵乘方法与SSE、AVX优化的矩阵乘方法。设置矩阵规模和矩阵乘方法后，运行该方法10次，可得每次运行的平均时间开销，并提供查看加速比的脚本。  
 
 #### 2. 运行
-- 检查机器是否支持以及支持什么版本的SIMD扩展指令集
-  - `cat /proc/cpuinfo | grep -i sse`
-  - `cat /proc/cpuinfo | grep -i avx`
-- 运行脚本run.sh，自动完成程序编译及性能测试
-  - `bash run.sh`
-  - 或运行`bash make.sh`生成可执行文件后，直接运行该文件并用`-m` `-n` `-r`指定矩阵大小（需为8的倍数，它们的默认值均为8）以及`-u`指定矩阵乘方法（一般`cmn`/intel SIMD的两种实现:`sse`/`avx`，默认为`cmn`）
-
-#### 3. 文件结构
-- include/
-  - test.h
-- script/
-  - clean.sh：删除编译生成的obj和bin文件夹及文件
-  - make.sh：编译生成可执行文件bin/test
-  - draw.py：从结果文件夹cost_time_*中读取数据，计算平均时间开销和加速比并绘制折线图；需要python3及matplotlib、numpy库
-  - test.sh：设定矩阵乘使用的方法(cmn/sse/avx)、矩阵规模、测试次数后，运行可执行文件完成测试，最后执行draw.py统计数据、绘图
-- src/
-  - cmn.c：未优化矩阵乘
-  - sse.c：SSE矩阵乘
-  - avx.c：AVX矩阵乘
-  - main.c：接收命令行参数，并按其初始化矩阵，完成一次测试
-- run.sh：依次执行clean-make-test三个shell脚本
-- test_loongson.c: 使用龙芯SIMD扩展（LSX与LASX）优化矩阵乘，包含一般矩阵乘实现。需在支持龙芯指令集的机器上测试，编译指令参考`gcc -o test.out -mlsx test.c`。（曾由龙芯测试）
+(1) 编译：  
+i. 准备工作：  
+在input文件夹下按示例新建一个输入文件并写入矩阵规模  
+将代码中读写文件部分的文件名改为你想要的  
+**注释不需要的函数**  
+ii. 控制台编译指令示例：  
+`一般(cmn)`: gcc -o test_cmn test_x.c  
+`SSE`: gcc -o test_sse -msse test_intel.c  
+`AVX`: gcc -o test_avx -mavx test_intel.c  
+`LSX`: gcc -o test_lsx -mlsx test_loongson.c  
+`LASX`: gcc -o test_lasx -mlasx test_loongson.c  
+iii. 运行可执行文件: 指令示例`./test_xxx`  
+测试结果（时间开销）在output文件夹下  
+完成一种SIMD扩展的所有测试后，可运行compare.py查看加速比  
