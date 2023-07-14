@@ -4,8 +4,10 @@
 # 生成随机矩阵
 import numpy as np
 import os
+folder_path = './input'
 
-os.mkdir('./dataset')
+f not os.path.exists(folder_path):
+    os.makedirs(folder_path)
 #　每次生成的随机数一样
 rd = np.random.RandomState(888) 
 
@@ -17,8 +19,8 @@ for n in shapes:
     matrix_B = rd.randint(-2, 5, (n, n)) # 随机生成[-2,5)的整数，12000x10000的矩阵
     matrix_C = np.dot(matrix_A,matrix_B)
 
-    os.mkdir('./dataset/shape_'+str(n))
-    file=open('./dataset/'+'shape_'+str(n)+'/A_'+str(n)+'.csv','w')
+    os.mkdir('./input/shape_'+str(n))
+    file=open('./input/'+'shape_'+str(n)+'/A_'+str(n)+'.csv','w')
     A_list=matrix_A.tolist()
     for row in A_list:
         file.write(str(row[0]))
@@ -27,7 +29,7 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./dataset/'+'shape_'+str(n)+'/B_'+str(n)+'.csv','w')
+    file=open('./input/'+'shape_'+str(n)+'/B_'+str(n)+'.csv','w')
     B_list=matrix_B.tolist()
     for row in B_list:
         file.write(str(row[0]))
@@ -36,7 +38,7 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./dataset/'+'shape_'+str(n)+'/C_'+str(n)+'.csv','w')
+    file=open('./input/'+'shape_'+str(n)+'/C_'+str(n)+'.csv','w')
     C_list=matrix_C.tolist()
     for row in C_list:
         file.write(str(row[0]))
