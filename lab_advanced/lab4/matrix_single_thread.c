@@ -17,20 +17,22 @@
 #define false 0
 
 
-void read_csv(int file_no, float* array) {
+void read_csv(int file_no, float* array, char* dir, int size) {
     FILE * fp = NULL;
     char *line, *word;
     char buffer[10000];
+    char* path = (char*) malloc(strlen(dir)+15);
     int i = 0;
     if(file_no == 0){
-        fp = fopen("./input/shape_1000/A_1000.csv", "r");
+        sprintf(path,"%s/A_%d.csv",dir,size);
     } else if(file_no == 1) {
-        fp = fopen("./input/shape_1000/B_1000.csv", "r");
+        sprintf(path,"%s/B_%d.csv",dir,size);
     } else if(file_no == 2) {
-        fp = fopen("./input/shape_1000/C_1000.csv", "r");
+        sprintf(path,"%s/C_%d.csv",dir,size);
     } else{
         assert(0);
     }
+    fp = fopen(path, "r");
     if(fp == NULL){
         assert(0);
     }
@@ -71,16 +73,24 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
      }
 }
 
-int main(){
-    int m = 1000, k = 1000, n = 1000, i, j;
+int main(int argc,char* argv[]){
+    // 获取数据集位置以及矩阵大小
+    if(argc != 3){
+        printf("Wrong argument count!\n");
+        return 1;
+    }
+    char* dir = argv[1];
+    int size = atoi(argv[2]);
+
+    int m = size, k = size, n = size, i, j;
     float* A = malloc(m*k*sizeof(float));
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
     float* C_answer = malloc(m*n*sizeof(float));
 
-    read_csv(0, A);
-    read_csv(1, B);
-    read_csv(2, C_answer);
+    read_csv(0, A, dir,size);
+    read_csv(1, B, dir,size);
+    read_csv(2, C_answer, dir,size);
 
     struct timeval start;
     struct timeval end;
@@ -93,7 +103,8 @@ int main(){
 
     float total_time;
     total_time = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec);
-    printf("time = %f\n",total_time);
+    printf("time = %f s\n",total_time/CLOCKS_PER_SEC);
+    
     if(test_result(C, C_answer, m*n)){
         printf("check pass!\n");
     }else{

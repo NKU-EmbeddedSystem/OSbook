@@ -1,7 +1,8 @@
 #include<stdio.h>
-#include"/home/zby/local/include/omp.h"
+#include<omp.h>
 
 /**
+// 发生数据冲突代码示例
 int main() {
   int sum = 0;
   #pragma omp parallel for
@@ -11,18 +12,6 @@ int main() {
   printf("%d", sum);
   return 0;
 }
-**/
-// reduction
-/**
-int main() {
-	int sum = 0;
- #pragma omp parallel for reduction(+:sum)
- 	for (int i = 0; i < 10; i++) {
- 		sum = sum + i;
- 	}
- 	printf("%d", sum);
- 	return 0;
- }
 **/
 
 //critical
@@ -35,7 +24,7 @@ int main() {
       sum = sum + i;
     }
   }
-  printf("%d", sum);
+  printf("%d\n", sum);
   return 0;
 }
 
