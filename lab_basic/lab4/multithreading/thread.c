@@ -5,11 +5,13 @@
 #include <regex.h>
 #include <time.h>
 #include<fcntl.h>
+#include <pthread.h>
 #define MAX_THREAD_NUM 10
 
 FILE *fp;
 char *pattern = "^From ilug-admin@linux.ie.*Aug.*";
 int total_count;
+pthread_mutex_t mutex;
 
 void *thread_func(void *arg)
 {
@@ -17,7 +19,7 @@ void *thread_func(void *arg)
     int thread_num = *(int *)arg;
     int fd_out = open("output/out.txt",O_CREAT|O_WRONLY|O_APPEND);
     if(fd_out == -1){
-    	printf("cannot open the output file\n");
+        printf("cannot open the output file\n");
     }
     
     while (fgets(buf, 1024, fp) != NULL)
@@ -36,9 +38,13 @@ void *thread_func(void *arg)
             // printf("no match\n");
         } else if (status == 0) {
             //printf("%s",buf);
+            if (pthread_mutex_lock(&mutex) != 0){
+                fprintf(stdout, "lock error!\n");
+            }
             sprintf(str,"%s",buf);
             write(fd_out,str,sizeof(str));
             total_count++;
+            pthread_mutex_unlock(&mutex);
         } else {
             printf("regexec failed\n");
         }
@@ -58,6 +64,12 @@ int main(int argc, char *argv[])
     total_count = 0;
     start = clock();
 
+    // 初始化互斥锁
+    if (pthread_mutex_init(&mutex, NULL) != 0){
+    // 互斥锁初始化失败
+        return 1;
+    }
+    
     if ((fp = fopen("input/new.txt", "r")) == NULL)
     {
         printf("open file failed\n");
