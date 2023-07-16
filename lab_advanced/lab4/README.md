@@ -83,7 +83,26 @@ gcc openmp_reduction.c -lgomp -o openmp_reduction
 ```
 
 以上为各个测试文件的编译及测试方法。此外，还可以使用test.sh脚本来一次性执行所有的测试样例。
+
 ## 目录结构
+
+```
+lab4/
+├── README.md
+├── input/
+│   └── data_gen.py         -- 可生成自定义规模的测试用矩阵
+├── matrix_dual_thread.c
+├── matrix_lock.c
+├── matrix_multi_thread.c
+├── matrix_openmp.c
+├── matrix_signal.c
+├── matrix_single_thread.c
+├── openmp_critical.c
+├── openmp_reduction.c
+├── output/
+│   └── result.txt
+└── test.sh
+```
 input/data_gen.py：可生成自定义规模的测试用矩阵
 
 input/shape_N：测试用数据集目录，内包含三个大小为N*N的矩阵，分别为 $C = A \times B$ 式中的三个矩阵
