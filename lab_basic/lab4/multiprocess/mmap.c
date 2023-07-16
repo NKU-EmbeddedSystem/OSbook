@@ -13,7 +13,8 @@
 int final_count=0;
 
 int mmap_file(char* file_name){
-    int fd=open(file_name,O_RDONLY);
+    int fd=open(file_name,O_RDONLY); 
+    int fd_out = open("output/out.txt",O_CREAT|O_WRONLY);
     //int fd=open("/home/kjr/OSbook/bible10.txt",O_RDONLY);
     if(fd==-1){
         printf("can't open the file");
@@ -39,17 +40,22 @@ int mmap_file(char* file_name){
     }
 
     char output[1024]={"\0"};
+    char str[51];
     while(1){
         status=regexec(&reg,mmapped,1,pmatch,0);
         if(status==0){
             count++;
             strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-            printf("matched:%s\n",output);
+            //printf("matched:%s\n",output);
+            sprintf(str,"%s\n\0",output);
+            //printf("%s",str);
+            write(fd_out,str,sizeof(str));
             mmapped += pmatch[0].rm_eo;
         }
         else break;
     }
     regfree(&reg);
+    close(fd_out);
     return count;
 }
 

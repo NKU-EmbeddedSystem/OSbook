@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
 
     // 将共享内存初始化为0
     *shmaddr = 0;
+    
+    //fd = open("output/out.txt",O_CREAT | O_RDWR | O_TRUNC);
 
     pid_t pid1, pid2;
     int status1, status2;
