@@ -99,6 +99,6 @@ int main() {
     vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
     vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
 
-    performanceTest(A, B, "Blocked Multiplication: ", matrixMultiplicationBlockedOpt);
+    performanceTest(A, B, "Optimized Blocked Multiplication: ", matrixMultiplicationBlockedOpt);
     
 }
