@@ -92,6 +92,7 @@ int main(int argc, char *argv[])
         pthread_join(tid[i], NULL);
     }
     fclose(fp);
+    pthread_mutex_destroy(&mutex);
     end = clock();
     double total_time = (end-start)/CLOCKS_PER_SEC;
     printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);
