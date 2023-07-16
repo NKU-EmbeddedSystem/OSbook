@@ -17,10 +17,6 @@ void *thread_func(void *arg)
 {
     char buf[1024];
     int thread_num = *(int *)arg;
-    int fd_out = open("output/out.txt",O_CREAT|O_WRONLY|O_APPEND);
-    if(fd_out == -1){
-        printf("cannot open the output file\n");
-    }
     
     while (fgets(buf, 1024, fp) != NULL)
     {
@@ -42,7 +38,7 @@ void *thread_func(void *arg)
                 fprintf(stdout, "lock error!\n");
             }
             sprintf(str,"%s",buf);
-            write(fd_out,str,sizeof(str));
+            printf("%s",str);
             total_count++;
             pthread_mutex_unlock(&mutex);
         } else {
@@ -51,7 +47,6 @@ void *thread_func(void *arg)
         
         regfree(&reg);
     }
-    close(fd_out);
     pthread_exit(NULL);
 }
 
@@ -95,6 +90,6 @@ int main(int argc, char *argv[])
     pthread_mutex_destroy(&mutex);
     end = clock();
     double total_time = (end-start)/CLOCKS_PER_SEC;
-    printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);
+    printf("Total count=%d\n",total_count);
     return 0;
 }
