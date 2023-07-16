@@ -16,8 +16,8 @@ for i in range(1,len(sys.argv)):
     shapes.append(int(sys.argv[i]))
 
 for n in shapes:
-    if os.path.exists('./shape_'+str(n)):
-        shutil.rmtree('./shape_'+str(n))
+    if os.path.exists('./input/shape_'+str(n)):
+        shutil.rmtree('./input/shape_'+str(n))
         ## 或不生成
         # continue
     # 随机整数
@@ -25,8 +25,8 @@ for n in shapes:
     matrix_B = rd.randint(-2, 5, (n, n)) # 随机生成[-2,5)的整数，12000x10000的矩阵
     matrix_C = np.dot(matrix_A,matrix_B)
 
-    os.mkdir('./shape_'+str(n))
-    file=open('./'+'shape_'+str(n)+'/A_'+str(n)+'.csv','w')
+    os.mkdir('./input/shape_'+str(n))
+    file=open('./input/'+'shape_'+str(n)+'/A_'+str(n)+'.csv','w')
     A_list=matrix_A.tolist()
     for row in A_list:
         file.write(str(row[0]))
@@ -35,7 +35,7 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./'+'shape_'+str(n)+'/B_'+str(n)+'.csv','w')
+    file=open('./input/'+'shape_'+str(n)+'/B_'+str(n)+'.csv','w')
     B_list=matrix_B.tolist()
     for row in B_list:
         file.write(str(row[0]))
@@ -44,7 +44,7 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./'+'shape_'+str(n)+'/C_'+str(n)+'.csv','w')
+    file=open('./input/'+'shape_'+str(n)+'/C_'+str(n)+'.csv','w')
     C_list=matrix_C.tolist()
     for row in C_list:
         file.write(str(row[0]))
