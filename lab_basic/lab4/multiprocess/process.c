@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <sys/shm.h>
+#include <time.h>
 
 #define MAX_PROCESS 2
 #define MAX_FILE_NAME_LEN 256
@@ -20,8 +21,9 @@ int main(int argc, char *argv[])
     int fd;
     char buf[1024];
     int count;
+    clock_t start,end;
     // int *status, *status2;
-
+    start = clock();
     // 创建共享内存
     shmid = shmget(IPC_PRIVATE, sizeof(int), 0666);
     if (shmid < 0) {
@@ -41,7 +43,7 @@ int main(int argc, char *argv[])
 
     pid_t pid1, pid2;
     int status1, status2;
-
+    
     if ((pid1 = fork()) == 0) {
         // 子进程1
         execl("./mmap", "mmap","f1", NULL);
@@ -61,9 +63,10 @@ int main(int argc, char *argv[])
     // printf("status2: %d\n", WEXITSTATUS(*status2));
     *shmaddr+=WEXITSTATUS(status1);
     *shmaddr+=WEXITSTATUS(status2);
-
+    end = clock();
+    double total_time = (end-start)/1000;
     // 输出文件夹中文件的总行数
-    printf("Total count: %d\n", *shmaddr);
+    printf("\nTotal count: %d\nTotal time: %f\n", *shmaddr, total_time);
 
     // 删除共享内存
     shmctl(shmid, IPC_RMID, NULL);

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <regex.h>
-
+#include <time.h>
 #define MAX_THREAD_NUM 10
 
 FILE *fp;
@@ -45,10 +45,11 @@ int main(int argc, char *argv[])
     int i, ret;
     pthread_t tid[MAX_THREAD_NUM];
     int thread_num[MAX_THREAD_NUM];
-
+    clock_t start,end;
     total_count = 0;
+    start = clock();
 
-    if ((fp = fopen("file1.txt", "r")) == NULL)
+    if ((fp = fopen("input/new.txt", "r")) == NULL)
     {
         printf("open file failed\n");
         return -1;
@@ -70,6 +71,8 @@ int main(int argc, char *argv[])
         pthread_join(tid[i], NULL);
     }
     fclose(fp);
-    printf("total count=%d",total_count);
+    end = clock();
+    double total_time = (end-start)/1000;
+    printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);
     return 0;
 }
