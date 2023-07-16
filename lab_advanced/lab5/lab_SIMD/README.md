@@ -24,12 +24,15 @@ iii. 运行可执行文件: 指令示例"./test_xxx"
 完成一种SIMD扩展的所有测试后，可运行compare.py查看加速比  
 
 ## 目录结构
-- input
-  - compare.py: 完成龙芯SIMD优化矩阵乘所有测试(cmn,lsx,lasx)或intel的所有测试(cmn,sse,avx)后，使用该脚本查看加速比
-  - input1.txt：程序输入示例，用于设定矩阵规模
-- output
-  - avx_input1.txt：输出示例
-  - cmn_input1.txt：输出示例
-  - sse_input1.txt：输出示例
-- test_intel.c：Intel SIMD优化矩阵乘
-- test_loongson.c：龙芯SIMD优化矩阵乘
+
+```
+lab_SIMD/
+├── README.md
+├── input/
+│   ├── compare.py    -- 完成龙芯SIMD优化矩阵乘所有测试(cmn,lsx,lasx)或intel的所有测试(cmn,sse,avx)后，使用该脚本查看加速比
+│   └── input*.txt    -- 程序输入示例，用于设定矩阵规模
+├── output/
+│   └── *_input*.txt  -- 输出示例
+├── test_intel.c      -- Intel SIMD优化矩阵乘
+└── test_loongson.c   -- 龙芯SIMD优化矩阵乘
+```

@@ -9,11 +9,11 @@
 ## 目录介绍
 
 ```
-.
-├── input
+lab2/
+├── README.md
+├── input/
 │   └── ham.zip  -- 众多邮件的压缩包
 ├── lab2.sh      -- 利用shell编程实现批量文本文件内容过滤
-├── output
-│   └── new.txt  -- 过滤后的新文件，其中包含回复邮件的发送人和日期
-└── readme.md
+└── output/
+    └── new.txt  -- 过滤后的新文件，其中包含回复邮件的发送人和日期
 ```
