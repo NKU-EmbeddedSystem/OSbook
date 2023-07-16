@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     end = clock();
     double total_time = (end-start)/1000;
     // 输出文件夹中文件的总行数
-    printf("\nTotal count: %d\nTotal time: %f\n", *shmaddr, total_time);
+    printf("Total count: %d\n", *shmaddr);
 
     // 删除共享内存
 
