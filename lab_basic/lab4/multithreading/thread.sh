@@ -2,4 +2,4 @@
 
 gcc thread.c -o thread -lpthread
 
-./thread
+./thread > output/new.txt
