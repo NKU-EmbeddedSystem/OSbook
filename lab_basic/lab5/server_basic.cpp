@@ -13,7 +13,8 @@ int main() {
     struct sockaddr_in servaddr, clientaddr;
     socklen_t len = sizeof(clientaddr);
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    //创建socket
+
     if (sockfd == -1) {
         cout << "Socket creation failed...\n";
         return 0;
@@ -23,21 +24,22 @@ int main() {
     setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     memset(&servaddr, 0, sizeof(servaddr));
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    servaddr.sin_port = htons(8080);
-
-    if ((bind(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr))) != 0) {
+    //设置servaddr即server端地址和端口
+    
+    //绑定servaddr和socket
+    if (  ) {
         cout << "Socket bind failed...\n";
         return 0;
     }
 
-    if ((listen(sockfd, 5)) != 0) {
+    //服务端开始监听
+    if (   ) {
         cout << "Listen failed...\n";
         return 0;
     }
 
-    connfd = accept(sockfd, (struct sockaddr *) &clientaddr, &len);
+    //接收客户端连接请求
+    
     if (connfd < 0) {
         cout << "Server accept failed...\n";
         return 0;

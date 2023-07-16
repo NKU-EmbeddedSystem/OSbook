@@ -111,7 +111,11 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
 
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
-
+    
+    ofstream of;
+    of.open("./output/time/mm_naive.txt",ios::out);
+    of<<duration.count();
+    of.close();
     // vector<vector<float>> referenceResult = matrixMultiplicationDirect(A, B);
     // if (verifyMatrixEquality(referenceResult, result)) {
     //     cout << "Result correct!" << endl;
@@ -137,8 +141,8 @@ int main() {
     stringstream ss(line);
     ss >> blocksize >> matrixsize;
 
-    vector<vector<float>> A(size, vector<float>(size, 1.0));
-    vector<vector<float>> B(size, vector<float>(size, 2.0));
+    vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
+    vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
 
 
     performanceTest(A, B, "Blocked Multiplication: ", matrixMultiplicationDirect);

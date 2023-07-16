@@ -14,17 +14,18 @@ int main() {
     struct sockaddr_in servaddr;
 
     try {
-        sockfd = socket(AF_INET, SOCK_STREAM, 0);
-        if (sockfd == -1) {
+      //创建socket
+        
+      if (sockfd == -1) {
             throw runtime_error("Socket creation failed...");
         }
 
         memset(&servaddr, 0, sizeof(servaddr));
-        servaddr.sin_family = AF_INET;
-        servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-        servaddr.sin_port = htons(8080);
 
-        if (connect(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) == -1) {
+      //创建客户端地址和端口
+
+      //绑定客户端地址和端口
+      if( ){
             throw runtime_error("Connect failed...");
         }
 
@@ -54,7 +55,7 @@ int main() {
             throw runtime_error("Error sending result to the server...");
         }
 
-        close(sockfd);
+    close(sockfd);
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
         if (sockfd != -1) {

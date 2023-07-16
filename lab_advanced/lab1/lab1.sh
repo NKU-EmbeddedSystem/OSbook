@@ -1,7 +1,7 @@
-if [ $1 == "gen_data" ]
+if [[ $1 == "gen_data" ]]
 then
 python3 gendata.py
-elif [ $1 == "test" ]
+elif [[ $1 == "test" ]]
 then
 python3 mm.py
 else

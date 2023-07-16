@@ -30,21 +30,19 @@ int main(){
     char output[1024]={"\0"};
 
     //read 系统调用
-    /*while(len>0){
-        char buf[2048]={"\0"};
-        len=read(fd,buf,2048);
-        char *temp=buf;
-        while(1){
-            status=regexec(&reg,temp,1,pmatch,0);
-            if(status==0){
+    while(len>0){
+      //循环调用read读取数据  
+      
+      while(1){
+        //判断read读取的数据是否匹配正则表达式pattern
+            if(  ){
                 count++;
-                strncpy(output,temp+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-                printf("matched:%s\n",output);
-                temp += pmatch[0].rm_eo;
+                //打印匹配到的数据
+            
             }
             else break;
         }
-    }*/
+    }
 
 
 
@@ -52,16 +50,15 @@ int main(){
     struct stat sb;
     if(fstat(fd,&sb)==-1) printf("fstat error!");
     char *mmapped;
-    if((mmapped=mmap(NULL,sb.st_size,PROT_READ,MAP_SHARED,fd,0))==(void *)-1) printf("mmapped error!");
+    //调用mmap映射数据  
+    
     close(fd);
 
     while(1){
-        status=regexec(&reg,mmapped,1,pmatch,0);
-        if(status==0){
+        //判断mmap映射的数据是否匹配正则表达式pattern
+        if(    ){
             count++;
-            strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-            printf("matched:%s\n",output);
-            mmapped += pmatch[0].rm_eo;
+                //打印匹配到的数据
         }
         else break;
     }

@@ -89,6 +89,10 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
 
+    ofstream of;
+    of.open("./output/time/mm_blocked.txt",ios::out);
+    of<<duration.count();
+    of.close();
     // vector<vector<float>> referenceResult = matrixMultiplicationDirect(A, B);
     // if (verifyMatrixEquality(referenceResult, result)) {
     //     cout << "Result correct!" << endl;

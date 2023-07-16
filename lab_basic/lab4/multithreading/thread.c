@@ -5,11 +5,13 @@
 #include <regex.h>
 #include <time.h>
 #include<fcntl.h>
+#include <pthread.h>
 #define MAX_THREAD_NUM 10
 
 FILE *fp;
 char *pattern = "^From ilug-admin@linux.ie.*Aug.*";
 int total_count;
+pthread_mutex_t mutex;
 
 void *thread_func(void *arg)
 {
@@ -36,9 +38,11 @@ void *thread_func(void *arg)
             // printf("no match\n");
         } else if (status == 0) {
             //printf("%s",buf);
+           //加锁 
             sprintf(str,"%s",buf);
             write(fd_out,str,sizeof(str));
-            total_count++;
+           
+          //释放锁
         } else {
             printf("regexec failed\n");
         }
@@ -58,6 +62,9 @@ int main(int argc, char *argv[])
     total_count = 0;
     start = clock();
 
+    // 初始化互斥锁
+   
+
     if ((fp = fopen("input/new.txt", "r")) == NULL)
     {
         printf("open file failed\n");
@@ -67,7 +74,8 @@ int main(int argc, char *argv[])
     for (i = 0; i < MAX_THREAD_NUM; i++)
     {
         thread_num[i] = i;
-        ret = pthread_create(&tid[i], NULL, thread_func, &thread_num[i]);
+        //创建多线程执行thread_func任务
+
         if (ret != 0)
         {
             printf("Create thread %d failed\n", i);
@@ -80,6 +88,7 @@ int main(int argc, char *argv[])
         pthread_join(tid[i], NULL);
     }
     fclose(fp);
+    pthread_mutex_destroy(&mutex);
     end = clock();
     double total_time = (end-start)/CLOCKS_PER_SEC;
     printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);

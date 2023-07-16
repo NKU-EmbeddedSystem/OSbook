@@ -79,7 +79,7 @@ int main(){
     float result_time = (float)result_clock / CLOCKS_PER_SEC;
 
     if(test_result(C, C_answer, m*n)){
-        printf("check pass! %fs\n", result_time);
+        printf("%fs\n", result_time);
     }else{
         printf("answer wrong!\n");
     }

@@ -32,7 +32,10 @@ def test():
         end = time.perf_counter()
         if not os.path.exists('./output/'+'shape_'+str(n)):
             os.makedirs('./output/'+'shape_'+str(n))
+        filename='./output/time/'+'shape_'+str(n)+".txt"
         joblib.dump(matrix_C_result, filename='./output/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
+        with open(filename,'w') as f:
+            f.write(f"{end-begin}")
         if operator.eq(matrix_C_answer,matrix_C_result) == True:
             print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass! " + f"{end - begin:0.10f}s")
         else:

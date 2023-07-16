@@ -19,8 +19,8 @@ int main() {
     socklen_t len = sizeof(clientaddr);
 
     try {
-        sockfd = socket(AF_INET, SOCK_STREAM, 0);
-        if (sockfd == -1) {
+      //创建socket  
+      if (sockfd == -1) {
             throw runtime_error("Socket creation failed...");
         }
 
@@ -28,26 +28,24 @@ int main() {
         setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
         memset(&servaddr, 0, sizeof(servaddr));
-        servaddr.sin_family = AF_INET;
-        servaddr.sin_addr.s_addr = INADDR_ANY;
-        servaddr.sin_port = htons(8080);
 
-        if (bind(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) != 0) {
+            //设置servaddr即server端地址和端口
+
+        //绑定servaddr和socket
+        if (  ) {
             throw runtime_error("Socket bind failed...");
         }
-
-        if (listen(sockfd, 5) != 0) {
+        
+        //服务端开始监听
+        if (   ) {
             throw runtime_error("Listen failed...");
         }
 
         cout << "Server is running and waiting for connections..." << endl;
 
         vector<int> clientSockets;
-	//int m;
-        //cout << "Enter the total number of clients (m): ";
-        //cin >> m;
         while (true) {
-            connfd = accept(sockfd, (struct sockaddr*)&clientaddr, &len);
+           //接收客户端连接请求
             if (connfd < 0) {
                 throw runtime_error("Server accept failed...");
             }
@@ -57,15 +55,6 @@ int main() {
             
             
             if (clientSockets.size() == 5) {  // Assuming there will be exactly 5 clients
-                //int n;
-                //string word;
-
-                //cout << "Enter the total number of files (n): ";
-                //cin >> n;
-                
-                //cout << "Enter the word to count: ";
-                //cin.ignore();
-                //getline(cin, word);
                 int m =5;
                 ifstream inputFile("input/input_advanced.txt");
                 string line;
@@ -85,7 +74,8 @@ int main() {
                         endFile += remainingFiles;
                     }
 
-                    string message = to_string(startFile) + " " + to_string(endFile) + " \"" + word + "\"";
+                    //发送客户端起始文件，截止文件即查询word
+                    
                     ssize_t sendBytes = send(clientSockets[i], message.c_str(), message.length(), 0);
                     if (sendBytes <= 0) {
                         throw runtime_error("Error sending message to client " + to_string(i+1));
@@ -97,7 +87,7 @@ int main() {
                 for (int i = 0; i < clientSockets.size(); i++) {
                     char buffer[1024];
                     memset(buffer, 0, sizeof(buffer));
-                    ssize_t recvBytes = recv(clientSockets[i], buffer, sizeof(buffer), 0);
+                    //接收客户端回信
                     if (recvBytes <= 0) {
                         throw runtime_error("Error receiving result from client " + to_string(i+1));
                     }
