@@ -4,14 +4,22 @@
 # 生成随机矩阵
 import numpy as np
 import os
+import sys
+import shutil
 
 # os.mkdir('./dataset')
 #　每次生成的随机数一样
 rd = np.random.RandomState(676) 
+shapes=[]
 
-shapes=[500]
+for i in range(1,len(sys.argv)):
+    shapes.append(int(sys.argv[i]))
 
 for n in shapes:
+    if os.path.exists('./shape_'+str(n)):
+        shutil.rmtree('./shape_'+str(n))
+        ## 或不生成
+        # continue
     # 随机整数
     matrix_A = rd.randint(-2, 5, (n ,n)) # 随机生成[-2,5)的整数，10000x12000的矩阵
     matrix_B = rd.randint(-2, 5, (n, n)) # 随机生成[-2,5)的整数，12000x10000的矩阵
