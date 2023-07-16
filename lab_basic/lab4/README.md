@@ -8,26 +8,41 @@
 ### 多进程
 
 ```
-gcc -o mmap mmap.c
-gcc -o process process.c
-./process
+chmod +x process.sh
+./process.sh
 ```
 
 ### 多线程
 
 ```
-gcc thread.c -o thread -lpthread
-./thread
+chmod +x thread.sh
+./thread.sh
 ```
 
 ## 目录结构
-
-multiprocess/README.md：多进程实验的运行方式
-
-multiprocess/mmap.c：查找一个文件夹中所有文件的特殊字符串数量
-
-multiprocess/process.c：多进程调度的程序
-
-multithreading/README.md：多线程饰演的运行方式
-
-multithreading/thread.c：多线程实现查找一个大文件中的特殊字符串数量
+```
+.
+├── multiprocess            -- 多进程实验目录
+│   ├── input               -- 输入文件
+│   │   ├── f1
+│   │   │   ├── test1.txt
+│   │   │   └── test2.txt
+│   │   └── f2
+│   │       ├── test3.txt
+│   │       └── test4.txt
+│   ├── mmap.c              -- 用于实现一个文件夹中所有文件的特殊字符串查找
+│   ├── output              -- 输出文件
+│   │   └── out.txt
+│   ├── process.c           -- 实现进程管理
+│   ├── process.sh          -- 多进程程序运行脚本
+│   └── README.md
+├── multithreading          -- 多线程实验目录
+│   ├── input               -- 输入文件
+│   │   └── new.txt
+│   ├── output              -- 输出文件
+│   │   └── out.txt
+│   ├── README.md
+│   ├── thread.c            -- 多线程实现一个文件中的特殊字符串查找
+│   └── thread.sh           -- 多线程程序运行脚本
+└── README.md
+```
