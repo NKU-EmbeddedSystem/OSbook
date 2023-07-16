@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
     
     if ((pid1 = fork()) == 0) {
         // 子进程1
-        execl("./mmap", "mmap","f1", NULL);
+        execl("./mmap", "mmap","input/f1", NULL);
     } else if ((pid2 = fork()) == 0) {
         // 子进程2
-        execl("./mmap", "mmap","f2", NULL);
+        execl("./mmap", "mmap","input/f2", NULL);
     } else {
         // 父进程
         waitpid(pid1, &status1, 0);

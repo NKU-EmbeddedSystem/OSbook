@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     }
     fclose(fp);
     end = clock();
-    double total_time = (end-start)/1000;
+    double total_time = (end-start)/CLOCKS_PER_SEC;
     printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);
     return 0;
 }
