@@ -50,7 +50,7 @@ vector<vector<float>> matrixMultiplicationBlocked1(const vector<vector<float>>& 
     return C;
 }
 
-// 针�?cache优化的分块矩阵乘�??
+// cache优化的分块矩阵乘
 vector<vector<float>> matrixMultiplicationBlocked2(const vector<vector<float>>& A, const vector<vector<float>>& B) {
     int m = A.size();
     int n = A[0].size();
@@ -137,10 +137,10 @@ int main() {
     stringstream ss(line);
     ss >> blocksize >> matrixsize;
 
-    vector<vector<float>> A(size, vector<float>(size, 1.0));
-    vector<vector<float>> B(size, vector<float>(size, 2.0));
+    vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
+    vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
 
 
-    performanceTest(A, B, "Blocked Multiplication: ", matrixMultiplicationDirect);
+    performanceTest(A, B, "Naive Multiplication: ", matrixMultiplicationDirect);
     
 }
