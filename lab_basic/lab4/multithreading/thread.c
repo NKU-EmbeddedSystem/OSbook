@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <regex.h>
 #include <time.h>
+#include<fcntl.h>
 #define MAX_THREAD_NUM 10
 
 FILE *fp;
@@ -14,9 +15,14 @@ void *thread_func(void *arg)
 {
     char buf[1024];
     int thread_num = *(int *)arg;
-
+    int fd_out = open("output/out.txt",O_CREAT|O_WRONLY|O_APPEND);
+    if(fd_out == -1){
+    	printf("cannot open the output file\n");
+    }
+    
     while (fgets(buf, 1024, fp) != NULL)
     {
+        char str[51];
         // printf("Thread %d: %s", thread_num, buf);
         // TODO: match special substring
         regex_t reg;
@@ -29,14 +35,17 @@ void *thread_func(void *arg)
         if (status == REG_NOMATCH) {
             // printf("no match\n");
         } else if (status == 0) {
-            printf("match\n");
+            //printf("%s",buf);
+            sprintf(str,"%s",buf);
+            write(fd_out,str,sizeof(str));
             total_count++;
         } else {
             printf("regexec failed\n");
         }
+        
         regfree(&reg);
     }
-
+    close(fd_out);
     pthread_exit(NULL);
 }
 
