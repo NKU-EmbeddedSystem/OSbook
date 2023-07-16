@@ -13,7 +13,8 @@ do
     #提取文件的后缀名
     name=${filename#*.}
     #进行拼接
-    mv "$i" "$dir/${formate_date}.${name}"
+    echo "${formate_date}.${name}">>./output/new.txt
+    #修改源文件可使用mv
 done
 
 
