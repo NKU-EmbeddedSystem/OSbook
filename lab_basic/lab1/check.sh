@@ -12,8 +12,10 @@ calculate_md5() {
             continue
         fi
 
+        filename=$(basename "$file")
+
         # 计算文件的MD5值
-        md5=$(md5sum "$file" | awk '{print $1}')
+        md5=$(echo -n $filename |md5sum | awk '{print $1}')
         md5_list+=("$md5")
     done
 
