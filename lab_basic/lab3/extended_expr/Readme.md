@@ -27,6 +27,6 @@ sudo bpftrace -l '*syscalls*mmap*'  -v
 ```
 sudo bpftrace mmap_pagefault_snoop.bt > faults.py
 ```
-- 实验结果如下图，所要观察的程序的进程号为3550795：
+- 实验结果如下图，所要观察的程序的进程号为3550795,page_fault_user事件打印了有关页面错误的信息，包括进程ID、进程名称、错误地址和指令指针；mmap事件打印了有关mmap调用的信息，包括进程ID、文件描述符（fd）、文件名（fname）、偏移量（off）、映射长度（len）和返回值（ret）：
 
 ![result](ebpf_result.png)
