@@ -24,7 +24,7 @@ g++ -o mm_naive -O0 mm_naive.cpp
 
 ```
 
-sudo perf stat -e cache-references,cache-misses ./blockmm
+sudo perf stat -e cache-references,cache-misses ./mm_naive
 ```
 
 也可以直接使用shell脚本运行程序：
