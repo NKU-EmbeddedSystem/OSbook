@@ -4,11 +4,11 @@
 .LC0:
 	.string	"r"
 .LC1:
-	.string	"./input/shape_1024/A_1024.csv"
+	.string	"./input/A_1024.csv"
 .LC2:
-	.string	"./input/shape_1024/B_1024.csv"
+	.string	"./input/B_1024.csv"
 .LC3:
-	.string	"./input/shape_1024/C_1024.csv"
+	.string	"./input/C_1024.csv"
 .LC4:
 	.string	"mm.c"
 .LC5:
@@ -110,6 +110,9 @@ read_csv:
 	movq	%rax, -10024(%rbp)
 	cmpq	$0, -10024(%rbp)
 	jne	.L10
+	movq	-10040(%rbp), %rax
+	movq	%rax, %rdi
+	call	fclose@PLT
 	nop
 	movq	-8(%rbp), %rax
 	xorq	%fs:40, %rax
@@ -317,6 +320,18 @@ matrix_mul:
 	.string	"check pass! %fs\n"
 .LC9:
 	.string	"answer wrong!"
+.LC10:
+	.string	"w"
+.LC11:
+	.string	"./output/result/result.txt"
+.LC12:
+	.string	"a"
+.LC13:
+	.string	"%d "
+.LC14:
+	.string	"./output/time/time.txt"
+.LC15:
+	.string	"%fs\n"
 	.text
 	.globl	main
 	.type	main, @function
@@ -328,85 +343,85 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$80, %rsp
+	subq	$96, %rsp
+	movl	$1024, -76(%rbp)
+	movl	$1024, -72(%rbp)
 	movl	$1024, -68(%rbp)
-	movl	$1024, -64(%rbp)
-	movl	$1024, -60(%rbp)
-	movl	-68(%rbp), %eax
-	imull	-64(%rbp), %eax
+	movl	-76(%rbp), %eax
+	imull	-72(%rbp), %eax
+	cltq
+	salq	$2, %rax
+	movq	%rax, %rdi
+	call	malloc@PLT
+	movq	%rax, -56(%rbp)
+	movl	-72(%rbp), %eax
+	imull	-68(%rbp), %eax
 	cltq
 	salq	$2, %rax
 	movq	%rax, %rdi
 	call	malloc@PLT
 	movq	%rax, -48(%rbp)
-	movl	-64(%rbp), %eax
-	imull	-60(%rbp), %eax
+	movl	-76(%rbp), %eax
+	imull	-68(%rbp), %eax
 	cltq
 	salq	$2, %rax
 	movq	%rax, %rdi
 	call	malloc@PLT
 	movq	%rax, -40(%rbp)
-	movl	-68(%rbp), %eax
-	imull	-60(%rbp), %eax
+	movl	-76(%rbp), %eax
+	imull	-68(%rbp), %eax
 	cltq
 	salq	$2, %rax
 	movq	%rax, %rdi
 	call	malloc@PLT
 	movq	%rax, -32(%rbp)
-	movl	-68(%rbp), %eax
-	imull	-60(%rbp), %eax
-	cltq
-	salq	$2, %rax
-	movq	%rax, %rdi
-	call	malloc@PLT
-	movq	%rax, -24(%rbp)
-	movq	-48(%rbp), %rax
+	movq	-56(%rbp), %rax
 	movq	%rax, %rsi
 	movl	$0, %edi
 	call	read_csv
-	movq	-40(%rbp), %rax
+	movq	-48(%rbp), %rax
 	movq	%rax, %rsi
 	movl	$1, %edi
 	call	read_csv
-	movq	-24(%rbp), %rax
+	movq	-32(%rbp), %rax
 	movq	%rax, %rsi
 	movl	$2, %edi
 	call	read_csv
 	call	clock@PLT
-	movq	%rax, -16(%rbp)
-	movl	-60(%rbp), %r8d
-	movl	-64(%rbp), %edi
-	movl	-68(%rbp), %ecx
-	movq	-32(%rbp), %rdx
-	movq	-40(%rbp), %rsi
-	movq	-48(%rbp), %rax
+	movq	%rax, -24(%rbp)
+	movl	-68(%rbp), %r8d
+	movl	-72(%rbp), %edi
+	movl	-76(%rbp), %ecx
+	movq	-40(%rbp), %rdx
+	movq	-48(%rbp), %rsi
+	movq	-56(%rbp), %rax
 	movl	%r8d, %r9d
 	movl	%edi, %r8d
 	movq	%rax, %rdi
 	call	matrix_mul
 	call	clock@PLT
-	movq	%rax, -8(%rbp)
-	movq	-8(%rbp), %rax
-	movl	%eax, %edx
+	movq	%rax, -16(%rbp)
 	movq	-16(%rbp), %rax
+	movl	%eax, %edx
+	movq	-24(%rbp), %rax
 	subl	%eax, %edx
 	movl	%edx, %eax
-	movl	%eax, -56(%rbp)
-	cvtsi2ss	-56(%rbp), %xmm0
+	movl	%eax, -64(%rbp)
+	cvtsi2ss	-64(%rbp), %xmm0
 	movss	.LC7(%rip), %xmm1
 	divss	%xmm1, %xmm0
-	movss	%xmm0, -52(%rbp)
-	movl	-68(%rbp), %eax
-	imull	-60(%rbp), %eax
+	movss	%xmm0, -60(%rbp)
+	movl	-76(%rbp), %eax
+	imull	-68(%rbp), %eax
 	movl	%eax, %edx
-	movq	-24(%rbp), %rcx
-	movq	-32(%rbp), %rax
+	movq	-32(%rbp), %rcx
+	movq	-40(%rbp), %rax
 	movq	%rcx, %rsi
 	movq	%rax, %rdi
 	call	test_result
 	testl	%eax, %eax
 	je	.L28
-	cvtss2sd	-52(%rbp), %xmm0
+	cvtss2sd	-60(%rbp), %xmm0
 	leaq	.LC8(%rip), %rdi
 	movl	$1, %eax
 	call	printf@PLT
@@ -415,6 +430,73 @@ main:
 	leaq	.LC9(%rip), %rdi
 	call	puts@PLT
 .L29:
+	movq	$0, -8(%rbp)
+	leaq	.LC10(%rip), %rsi
+	leaq	.LC11(%rip), %rdi
+	call	fopen@PLT
+	movq	%rax, -8(%rbp)
+	movq	-8(%rbp), %rax
+	movq	%rax, %rdi
+	call	fclose@PLT
+	leaq	.LC12(%rip), %rsi
+	leaq	.LC11(%rip), %rdi
+	call	fopen@PLT
+	movq	%rax, -8(%rbp)
+	movl	$0, -84(%rbp)
+	jmp	.L30
+.L33:
+	movl	$0, -80(%rbp)
+	jmp	.L31
+.L32:
+	movl	-84(%rbp), %eax
+	imull	-68(%rbp), %eax
+	movl	%eax, %edx
+	movl	-80(%rbp), %eax
+	addl	%edx, %eax
+	cltq
+	leaq	0(,%rax,4), %rdx
+	movq	-40(%rbp), %rax
+	addq	%rdx, %rax
+	movss	(%rax), %xmm0
+	cvttss2si	%xmm0, %edx
+	movq	-8(%rbp), %rax
+	leaq	.LC13(%rip), %rsi
+	movq	%rax, %rdi
+	movl	$0, %eax
+	call	fprintf@PLT
+	addl	$1, -80(%rbp)
+.L31:
+	movl	-80(%rbp), %eax
+	cmpl	-68(%rbp), %eax
+	jl	.L32
+	movq	-8(%rbp), %rax
+	movq	%rax, %rsi
+	movl	$10, %edi
+	call	fputc@PLT
+	addl	$1, -84(%rbp)
+.L30:
+	movl	-84(%rbp), %eax
+	cmpl	-76(%rbp), %eax
+	jl	.L33
+	movq	-8(%rbp), %rax
+	movq	%rax, %rdi
+	call	fclose@PLT
+	leaq	.LC12(%rip), %rsi
+	leaq	.LC14(%rip), %rdi
+	call	fopen@PLT
+	movq	%rax, -8(%rbp)
+	cvtss2sd	-60(%rbp), %xmm0
+	movq	-8(%rbp), %rax
+	leaq	.LC15(%rip), %rsi
+	movq	%rax, %rdi
+	movl	$1, %eax
+	call	fprintf@PLT
+	movq	-8(%rbp), %rax
+	movq	%rax, %rdi
+	call	fclose@PLT
+	movq	-56(%rbp), %rax
+	movq	%rax, %rdi
+	call	free@PLT
 	movq	-48(%rbp), %rax
 	movq	%rax, %rdi
 	call	free@PLT
@@ -422,9 +504,6 @@ main:
 	movq	%rax, %rdi
 	call	free@PLT
 	movq	-32(%rbp), %rax
-	movq	%rax, %rdi
-	call	free@PLT
-	movq	-24(%rbp), %rax
 	movq	%rax, %rdi
 	call	free@PLT
 	movl	$0, %eax

@@ -15,11 +15,11 @@ void read_csv(int file_no, float* array) {
     char buffer[10000];
     int i = 0;
     if(file_no == 0){
-        fp = fopen("./input/shape_1024/A_1024.csv", "r");
+        fp = fopen("./input/A_1024.csv", "r");
     } else if(file_no == 1) {
-        fp = fopen("./input/shape_1024/B_1024.csv", "r");
+        fp = fopen("./input/B_1024.csv", "r");
     } else if(file_no == 2) {
-        fp = fopen("./input/shape_1024/C_1024.csv", "r");
+        fp = fopen("./input/C_1024.csv", "r");
     } else{
         assert(0);
     }
@@ -33,6 +33,7 @@ void read_csv(int file_no, float* array) {
             word = strtok(NULL, ",");
         }
     }
+    fclose(fp);
 }
 
 bool test_result(float* result, float* answer, int len){
@@ -83,6 +84,22 @@ int main(){
     }else{
         printf("answer wrong!\n");
     }
+
+    FILE * fp = NULL;
+    fp = fopen("./output/result/result.txt", "w");
+    fclose(fp);
+    fp = fopen("./output/result/result.txt", "a");
+    for(i = 0; i < m; i++){
+        for(j = 0; j < n; j++){
+            fprintf(fp, "%d ", (int)C[i*n+j]);
+        }
+        fprintf(fp, "\n");
+    }
+    fclose(fp);
+
+    fp = fopen("./output/time/time.txt", "a");
+    fprintf(fp, "%fs\n", result_time);
+    fclose(fp);
     
 
     free(A);

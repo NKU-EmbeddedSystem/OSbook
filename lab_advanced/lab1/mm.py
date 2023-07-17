@@ -22,20 +22,33 @@ def matrix_mul(matrix_A, matrix_B):
     return matrix_C
 
 def test():
-    for i in range(8):
-        n = 2**i
-        matrix_A = joblib.load(filename='./input/'+'shape_'+str(n)+'/A_'+str(n)+'.pkl')
-        matrix_B = joblib.load(filename='./input/'+'shape_'+str(n)+'/B_'+str(n)+'.pkl')
-        matrix_C_answer = joblib.load(filename='./input/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
+    time_file = open("./output/time/time.txt", "w")
+    time_file.write("time\n")
+    time_file.close()
+    for i in range(1):
+        n = 2**10
+        matrix_A = joblib.load(filename='./input/'+'/A_'+str(n)+'.pkl')
+        matrix_B = joblib.load(filename='./input/'+'/B_'+str(n)+'.pkl')
+        matrix_C_answer = joblib.load(filename='./input/'+'/C_'+str(n)+'.pkl')
         begin = time.perf_counter()
         matrix_C_result = matrix_mul(matrix_A, matrix_B)
         end = time.perf_counter()
-        if not os.path.exists('./output/'+'shape_'+str(n)):
-            os.makedirs('./output/'+'shape_'+str(n))
-        joblib.dump(matrix_C_result, filename='./output/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
+        answer = open("./output/result/result.txt", "w")
+        answer.close()
+        answer = open("./output/result/result.txt", "a")
+        for j in range(n):
+            for k in range(n):
+                answer.write(str(matrix_C_answer[j][k]) + " ")
+            answer.write("\n")
+        answer.close()
+        # joblib.dump(matrix_C_result, filename='./output/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
         if operator.eq(matrix_C_answer,matrix_C_result) == True:
             print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass! " + f"{end - begin:0.10f}s")
         else:
             print("Check matrix_mul with " + str(n) + "*" + str(n) + " error!")
+        time_file = open("./output/time/time.txt", "a")
+        time_file.write(str(end-begin)+"s\n")
+        time_file.close()
+        # joblib.dump(end - begin, filename='./output/time/time.txt')
 
 test()
