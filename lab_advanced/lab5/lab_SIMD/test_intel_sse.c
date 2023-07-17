@@ -57,6 +57,7 @@ void sse_matrix_multiplication(float**matrix, float**matrix_1, float**matrix_2, 
     for (int i=0; i<m; i++) {
         for (int j=0; j<r; j++) {
             for (int k=0; k<n; k+=4) {
+                // 使用SEE SIMD指令进行矩阵乘
                 _mm_storeu_ps(tmp, _mm_mul_ps(
                     _mm_loadu_ps((float*)(matrix_1[i]+k)), 
                     _mm_setr_ps(matrix_2[k][j], matrix_2[k+1][j], matrix_2[k+2][j], matrix_2[k+3][j])

@@ -52,6 +52,7 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
     
+    // 利用矩阵A与矩阵B对应行乘积并累加计算C矩阵
     int mi, ki, ni;
     for(mi = 0; mi < m; mi++){
         for(ni = 0; ni < n; ni++){

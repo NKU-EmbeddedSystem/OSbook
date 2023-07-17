@@ -11,6 +11,7 @@ def matrix_mul(matrix_A, matrix_B):
     k = k1
 
     matrix_C = []
+    # 利用矩阵A与矩阵B对应行乘积并累加计算C矩阵
     for mi in range(m):
         matrix_C_mi = []
         for ni in range(n):
@@ -41,7 +42,6 @@ def test():
                 answer.write(str(matrix_C_answer[j][k]) + " ")
             answer.write("\n")
         answer.close()
-        # joblib.dump(matrix_C_result, filename='./output/'+'shape_'+str(n)+'/C_'+str(n)+'.pkl')
         if operator.eq(matrix_C_answer,matrix_C_result) == True:
             print("Check matrix_mul with " + str(n) + "*" + str(n) + " pass! " + f"{end - begin:0.10f}s")
         else:
@@ -49,6 +49,5 @@ def test():
         time_file = open("./output/time/time.txt", "a")
         time_file.write(str(end-begin)+"s\n")
         time_file.close()
-        # joblib.dump(end - begin, filename='./output/time/time.txt')
 
 test()

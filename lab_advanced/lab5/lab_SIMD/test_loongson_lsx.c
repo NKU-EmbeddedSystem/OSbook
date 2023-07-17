@@ -62,6 +62,7 @@ void lsx_matrix_multiplication(float**matrix, float**matrix_1, float**matrix_2, 
     for (int i=0; i<m; i++) {
         for (int j=0; j<r; j++) {
             for (int k=0; k<n; k+=4) {
+                // 使用lsx SIMD指令进行矩阵乘
 		__lsx_vst(__lsx_vfmul_s( 
                       (__m128)__lsx_vld((float*)(matrix_1[i]+k), 0),
                       __lsx_setr_s(matrix_2[k][j], matrix_2[k+1][j], matrix_2[k+2][j], matrix_2[k+3][j])), tmp, 0);

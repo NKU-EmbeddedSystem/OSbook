@@ -57,6 +57,7 @@ void avx_matrix_multiplication(float**matrix, float**matrix_1, float**matrix_2, 
     for (int i=0; i<m; i++) {
         for (int j=0; j<r; j++) {
             for (int k=0; k<n; k+=8) {
+                // 使用AVX SIMD指令进行矩阵乘
                 _mm256_storeu_ps(tmp, _mm256_mul_ps(
                     _mm256_loadu_ps((matrix_1[i]+k)), 
                     _mm256_setr_ps(matrix_2[k][j], matrix_2[k+1][j], matrix_2[k+2][j], matrix_2[k+3][j],
