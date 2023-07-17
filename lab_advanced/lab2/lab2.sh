@@ -1,4 +1,4 @@
-if [ -e ./input/shape_1024/A_1024.csv ]
+if [ -e ./input/A_1024.csv ]
 then
 echo "Dataset already exists"
 else
@@ -10,8 +10,7 @@ rm ./output/time/time.txt
 fi
 touch ./output/time/time.txt
 printf "time\n" > ./output/time/time.txt
-if [ "$1" == "test" ]
-then
+
 gcc -O0 -S mm.c -o ./output/S/mm_O0.s
 gcc -O1 -S mm.c -o ./output/S/mm_O1.s
 gcc -O2 -S mm.c -o ./output/S/mm_O2.s
@@ -28,6 +27,5 @@ printf "O2: " >> ./output/time/time.txt
 ./output/executable/mm2
 printf "O3: " >> ./output/time/time.txt
 ./output/executable/mm3
-else
-echo "wrong usage of lab2.sh"
-fi
+python3 draw.py
+
