@@ -13,3 +13,6 @@ for i in range(c):
         time_cuda = f.readline()
     speed = float(time_py)/float(time_cuda)
     print("\t({})\t{}\t{}\t\t{}".format(shapes[i],round(float(time_py),4),round(float(time_cuda),4),round(speed,4)))
+    
+    
+

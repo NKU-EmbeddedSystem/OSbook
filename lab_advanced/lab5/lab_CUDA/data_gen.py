@@ -12,7 +12,7 @@ if not os.path.exists(folder_path):
 #　每次生成的随机数一样
 rd = np.random.RandomState(888) 
 
-shapes=[10,20,30,40,50,60,70,80,90,100]
+shapes=[1000]
 
 for n in shapes:
     # 随机整数
@@ -22,7 +22,7 @@ for n in shapes:
     matrix_C = np.dot(matrix_A,matrix_B)
     T2 = time.time()
     T3= (T2-T1)*1000
-    with open("output/time_py_"+str(n)+".txt",'w') as f:
+    with open("output/time/time_py_"+str(n)+".txt",'w') as f:
         f.write(str(T3))
 
     os.mkdir('./input/shape_'+str(n))
