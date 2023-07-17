@@ -7,7 +7,7 @@ fi
 
 # 计算输出文件的MD5值
 md5_output=$(md5sum "output/new.txt" | awk '{print $1}')
-md5_target="0c664549236f2ca30b61837802af9645"
+md5_target="b14cd32d72393e489093dc2f78eed647"
 
 # 比较两个MD5值列表是否相等
 if [[ "$md5_output" == "$md5_target" ]]; then

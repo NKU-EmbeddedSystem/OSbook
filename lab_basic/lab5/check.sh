@@ -12,7 +12,7 @@ fi
 md5_basic_output=$(md5sum "output/output_basic.txt" | awk '{print $1}')
 md5_advanced_output=$(md5sum "output/output_advanced.txt" | awk '{print $1}')
 md5_basic_target="9c220a1481f40ffa6293a091f452a87a"
-md5_advanced_target="7ec9febf9386ff21d0a7a8c4f0a7e371"
+md5_advanced_target="7198d84258186f44fa15bb10a811a7b5"
 
 # 比较两个MD5值列表是否相等
 score=0
