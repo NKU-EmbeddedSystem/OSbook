@@ -12,3 +12,4 @@ do
      awk 'NR==1' "$filename" >> ./output/new.txt
    fi
 done
+
