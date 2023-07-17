@@ -19,7 +19,7 @@ ii. 直接编译与执行
 直接运行
 
 ```
-	sh cuda_linux_run.sh
+sh cuda_linux_run.sh
 ```
 
 ## 目录结构
@@ -36,12 +36,15 @@ lab_CUDA/
 ├── cuda_linux_run.sh	-- 在linux上运行的shell脚本
 ├── data_gen.py			-- 随机生成相应维度的相乘的矩阵A，B以及相乘的结果C和在python上所需时间
 ├── input/
-│   └── compare.py		-- 比较python与cuda矩阵乘的时间与速度
+│   ├── shape_1000 		-- 由data_gen.py生成的进行计算的输入矩阵
+    └── compare.py		-- 比较python与cuda矩阵乘的时间与速度
 ├── kernel.cu			-- 具有基础且完整的CUDA编写程序流程，教材中的代码讲解主要来源，包括性能分析部分
 ├── output/
 │   ├── result/
-│   │	└── time_cuda_*.txt	-- cuda运行的时间
+│   │	├── result_*.txt 	-- 实际的cuda进行计算的输出
+│   │	└── baseline_*.txt	-- 标准输出
 │   └── time/
-	└── time_py_*.txt	-- python运行的时间 
+│   │	├── time_cuda_*.txt	-- cuda 进行计算时间
+│   │	└── time_py_*.txt	-- python进行计算的时间 
 └── test.cu				-- 使用统一内存托管的方法编写的矩阵乘代码
 ```
