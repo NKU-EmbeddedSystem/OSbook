@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
     *shmaddr+=WEXITSTATUS(status1);
     *shmaddr+=WEXITSTATUS(status2);
     end = clock();
-    double total_time = (end-start)/1000;
+    double total_time = (end-start);
     // 输出文件夹中文件的总行数
-    printf("Total count: %d\n", *shmaddr);
+    printf("Total count: %d\nTotal time:%fclock", *shmaddr,total_time);
 
     // 删除共享内存
     shmctl(shmid, IPC_RMID, NULL);

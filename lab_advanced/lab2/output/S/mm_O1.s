@@ -4,11 +4,11 @@
 .LC0:
 	.string	"r"
 .LC1:
-	.string	"./input/shape_1024/A_1024.csv"
+	.string	"./input/A_1024.csv"
 .LC2:
-	.string	"./input/shape_1024/B_1024.csv"
+	.string	"./input/B_1024.csv"
 .LC3:
-	.string	"./input/shape_1024/C_1024.csv"
+	.string	"./input/C_1024.csv"
 .LC4:
 	.string	"mm.c"
 .LC5:
@@ -120,6 +120,8 @@ read_csv:
 	jne	.L8
 	jmp	.L7
 .L18:
+	movq	%r14, %rdi
+	call	fclose@PLT
 	movq	10008(%rsp), %rax
 	xorq	%fs:40, %rax
 	jne	.L19
@@ -296,6 +298,18 @@ matrix_mul:
 	.string	"check pass! %fs\n"
 .LC9:
 	.string	"answer wrong!"
+.LC10:
+	.string	"w"
+.LC11:
+	.string	"./output/result/result.txt"
+.LC12:
+	.string	"a"
+.LC13:
+	.string	"%d "
+.LC14:
+	.string	"./output/time/time.txt"
+.LC15:
+	.string	"%fs\n"
 	.text
 	.globl	main
 	.type	main, @function
@@ -320,59 +334,115 @@ main:
 	pushq	%rbx
 	.cfi_def_cfa_offset 56
 	.cfi_offset 3, -56
-	subq	$8, %rsp
-	.cfi_def_cfa_offset 64
+	subq	$40, %rsp
+	.cfi_def_cfa_offset 96
 	movl	$4194304, %edi
 	call	malloc@PLT
-	movq	%rax, %r14
+	movq	%rax, %r15
+	movl	$4194304, %edi
+	call	malloc@PLT
+	movq	%rax, %rbp
+	movq	%rax, 16(%rsp)
 	movl	$4194304, %edi
 	call	malloc@PLT
 	movq	%rax, %r13
 	movl	$4194304, %edi
 	call	malloc@PLT
-	movq	%rax, %r12
-	movl	$4194304, %edi
-	call	malloc@PLT
-	movq	%rax, %rbp
-	movq	%r14, %rsi
+	movq	%rax, %r14
+	movq	%rax, 24(%rsp)
+	movq	%r15, %rsi
 	movl	$0, %edi
 	call	read_csv
-	movq	%r13, %rsi
+	movq	%rbp, %rsi
 	movl	$1, %edi
 	call	read_csv
-	movq	%rbp, %rsi
+	movq	%r14, %rsi
 	movl	$2, %edi
 	call	read_csv
 	call	clock@PLT
-	movq	%rax, %r15
+	movq	%rax, %rbx
 	movl	$1024, %r9d
 	movl	$1024, %r8d
 	movl	$1024, %ecx
-	movq	%r12, %rdx
-	movq	%r13, %rsi
-	movq	%r14, %rdi
+	movq	%r13, %rdx
+	movq	%rbp, %rsi
+	movq	%r15, %rdi
 	call	matrix_mul
 	call	clock@PLT
-	movq	%rax, %rbx
+	subl	%ebx, %eax
+	pxor	%xmm0, %xmm0
+	cvtsi2ss	%eax, %xmm0
+	divss	.LC7(%rip), %xmm0
+	movss	%xmm0, 12(%rsp)
 	movl	$1048576, %edx
-	movq	%rbp, %rsi
-	movq	%r12, %rdi
+	movq	%r14, %rsi
+	movq	%r13, %rdi
 	call	test_result
 	testl	%eax, %eax
-	jne	.L45
-	leaq	.LC9(%rip), %rdi
-	call	puts@PLT
+	je	.L42
+	pxor	%xmm0, %xmm0
+	cvtss2sd	12(%rsp), %xmm0
+	leaq	.LC8(%rip), %rsi
+	movl	$1, %edi
+	movl	$1, %eax
+	call	__printf_chk@PLT
 .L43:
-	movq	%r14, %rdi
+	leaq	.LC10(%rip), %rsi
+	leaq	.LC11(%rip), %rdi
+	call	fopen@PLT
+	movq	%rax, %rdi
+	call	fclose@PLT
+	leaq	.LC12(%rip), %rsi
+	leaq	.LC11(%rip), %rdi
+	call	fopen@PLT
+	movq	%rax, %r12
+	movl	$0, %ebp
+	leaq	.LC13(%rip), %r14
+.L44:
+	movl	$0, %ebx
+.L45:
+	leal	0(%rbp,%rbx), %eax
+	cltq
+	cvttss2si	0(%r13,%rax,4), %ecx
+	movq	%r14, %rdx
+	movl	$1, %esi
+	movq	%r12, %rdi
+	movl	$0, %eax
+	call	__fprintf_chk@PLT
+	addq	$1, %rbx
+	cmpq	$1024, %rbx
+	jne	.L45
+	movq	%r12, %rsi
+	movl	$10, %edi
+	call	fputc@PLT
+	addl	$1024, %ebp
+	cmpl	$1048576, %ebp
+	jne	.L44
+	movq	%r12, %rdi
+	call	fclose@PLT
+	leaq	.LC12(%rip), %rsi
+	leaq	.LC14(%rip), %rdi
+	call	fopen@PLT
+	movq	%rax, %rbx
+	pxor	%xmm0, %xmm0
+	cvtss2sd	12(%rsp), %xmm0
+	leaq	.LC15(%rip), %rdx
+	movl	$1, %esi
+	movq	%rax, %rdi
+	movl	$1, %eax
+	call	__fprintf_chk@PLT
+	movq	%rbx, %rdi
+	call	fclose@PLT
+	movq	%r15, %rdi
+	call	free@PLT
+	movq	16(%rsp), %rdi
 	call	free@PLT
 	movq	%r13, %rdi
 	call	free@PLT
-	movq	%r12, %rdi
-	call	free@PLT
-	movq	%rbp, %rdi
+	movq	24(%rsp), %rdi
 	call	free@PLT
 	movl	$0, %eax
-	addq	$8, %rsp
+	addq	$40, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 56
 	popq	%rbx
@@ -388,17 +458,10 @@ main:
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	ret
-.L45:
+.L42:
 	.cfi_restore_state
-	subl	%r15d, %ebx
-	pxor	%xmm0, %xmm0
-	cvtsi2ss	%ebx, %xmm0
-	divss	.LC7(%rip), %xmm0
-	cvtss2sd	%xmm0, %xmm0
-	leaq	.LC8(%rip), %rsi
-	movl	$1, %edi
-	movl	$1, %eax
-	call	__printf_chk@PLT
+	leaq	.LC9(%rip), %rdi
+	call	puts@PLT
 	jmp	.L43
 	.cfi_endproc
 .LFE55:

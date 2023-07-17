@@ -16,7 +16,8 @@
 lab2/
 ├── README.md
 ├── gendata.py  -- 生成测试数据，生成的数据存放于input文件夹中
+├── input/      -- 含有两个用于乘法的矩阵A、B和A与B的矩阵乘结果
 ├── lab2.sh     -- 执行脚本，用于控制生成数据集和执行程序验证
 ├── mm.c        -- 用C语言实现矩阵相乘，包含测试函数调用以及数据读取函数
-└── output/     -- 包含S和executable两个文件夹，S文件夹用于存放生成的汇编文件，executable文件夹用于存放生成的可执行文件
+└── output/     -- 包含S、executable、result和time四个文件夹，S文件夹用于存放生成的汇编文件，executable文件夹用于存放生成的可执行文件，result内包含标准结果并存放程序生成的结果，time内包含程序运行时间
 ```

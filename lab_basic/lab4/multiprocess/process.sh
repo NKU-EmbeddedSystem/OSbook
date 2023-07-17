@@ -2,5 +2,6 @@
 
 gcc -o mmap mmap.c
 gcc -o process process.c
-
-./process > output/new.txt 
+gcc lab3.c -o lab3
+./lab3 > output/lab3_result.txt
+./process > output/lab4_process_result.txt 
