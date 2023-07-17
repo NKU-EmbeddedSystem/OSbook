@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace std::chrono; // 高精度时间库命名空间
-#define blockSize 128
+
 
 // 直接实现的矩阵乘
 vector<vector<float>> matrixMultiplicationDirect(const vector<vector<float>>& A, const vector<vector<float>>& B) {
