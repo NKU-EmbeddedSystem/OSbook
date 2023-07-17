@@ -47,6 +47,8 @@ bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<fl
 
     return true;
 }
+
+//写入矩阵结果
 void writeResultToFile(const vector<vector<float>>& result, const string& filename) {
     ofstream outputFile(filename);
 
@@ -65,6 +67,7 @@ void writeResultToFile(const vector<vector<float>>& result, const string& filena
     }
 }
 
+//写入所耗时间
 void writeDurationToFile(long long duration, const string& filename) {
     ofstream outputFile(filename);
 
