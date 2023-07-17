@@ -9,6 +9,7 @@
 #include<sys/types.h>
 #include<regex.h>
 
+// read 系统调用
 int readSystemCall(int fd, regex_t reg, char* output) {
     int len = 1;
     int status = 0;
@@ -17,12 +18,15 @@ int readSystemCall(int fd, regex_t reg, char* output) {
 
     while (len > 0) {
         char buf[2048] = {"\0"};
+        // 循环调用read读取数据
         len = read(fd, buf, 2048);
         char* temp = buf;
         while (1) {
+            // 判断read读取的数据是否匹配正则表达式pattern
             status = regexec(&reg, temp, 1, pmatch, 0);
             if (status == 0) {
                 count++;
+                // 打印匹配到的数据
                 strncpy(output, temp + pmatch[0].rm_so, pmatch[0].rm_eo - pmatch[0].rm_so);
                 printf("matched: %s\n", output);
                 temp += pmatch[0].rm_eo;
@@ -35,6 +39,7 @@ int readSystemCall(int fd, regex_t reg, char* output) {
     return count;
 }
 
+// mmap 系统调用
 int mmapSystemCall(int fd, regex_t reg, char* output) {
     struct stat sb;
     if (fstat(fd, &sb) == -1) {
@@ -43,6 +48,7 @@ int mmapSystemCall(int fd, regex_t reg, char* output) {
     }
 
     char* mmapped;
+    // 调用mmap映射数据
     if ((mmapped = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0)) == (void*)-1) {
         printf("mmapped error!\n");
         return -1;
@@ -55,9 +61,11 @@ int mmapSystemCall(int fd, regex_t reg, char* output) {
     int count = 0;
 
     while (1) {
+        // 判断read读取的数据是否匹配正则表达式pattern
         status = regexec(&reg, mmapped, 1, pmatch, 0);
         if (status == 0) {
             count++;
+            // 打印匹配到的数据
             strncpy(output, mmapped + pmatch[0].rm_so, pmatch[0].rm_eo - pmatch[0].rm_so);
             printf("matched: %s\n", output);
             mmapped += pmatch[0].rm_eo;
