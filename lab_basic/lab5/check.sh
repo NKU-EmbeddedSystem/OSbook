@@ -12,10 +12,8 @@ calculate_md5() {
             continue
         fi
 
-        filename=$(basename "$file")
-
         # 计算文件的MD5值
-        md5=$(echo -n $filename |md5sum | awk '{print $1}')
+        md5=$(md5sum "$file" | awk '{print $1}')
         md5_list+=("$md5")
     done
 
@@ -41,13 +39,12 @@ if [[ "$md5_list1" == "$md5_list2" ]]; then
     echo "相等的MD5值的个数为: $count"
 
     # 计算目录下的文件总数
-    file_count=$(find "$input_dir" -type f | wc -l)
-    echo "目录 $input_dir 下的文件总数为: $file_count"
+    file_count=$(find "$dir1" -type f | wc -l)
+    #echo "目录 $dir1 下的文件总数为: $file_count"
     
-    ratio=$(echo "scale=2;$count / $file_count*100" | bc)
+    ratio=$(echo "scale=2;$count*2 / $file_count*100" | bc)
     echo "最终分数为: $ratio"
     
 else
     echo "目录1和目录2下的文件MD5值不相等"
 fi
-
