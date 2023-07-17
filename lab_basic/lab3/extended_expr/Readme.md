@@ -27,6 +27,6 @@ sudo bpftrace -l '*syscalls*mmap*'  -v
 ```
 sudo bpftrace mmap_pagefault_snoop.bt > faults.py
 ```
-- 实验结果
+- 实验结果如下图，所要观察的程序的进程号为3550795：
 
 ![result](ebpf_result.png)
