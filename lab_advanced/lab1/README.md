@@ -6,7 +6,9 @@
 
 ## 运行方式
 
-本次实验提供了一个执行脚本lab1.sh。./lab1.sh gen_data用于生成数据集，./lab1.sh test用于测试。如果提示wrong usage of lab1.sh表示脚本的参数不是gen_data或test。
+本次实验提供了一个执行脚本lab1.sh。
+
+`./lab1.sh`用于生成数据集并进行测试，若数据集存在，则不生成。
 
 ## 目录结构
 
