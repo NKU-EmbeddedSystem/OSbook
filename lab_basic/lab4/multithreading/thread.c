@@ -27,12 +27,10 @@ void *thread_func(void *arg)
     sprintf(file_name, "%s%d%s", "input/test", thread_num+1,".txt");
     
     int fd=open(file_name,O_RDONLY); 
-    //printf("%s",file_name);
     if(fd==-1){
         printf("can't open the file");
         return 1;
     }
-    // TODO: match special substring
     struct stat sb;
     if(fstat(fd,&sb)==-1) printf("fstat error!");
     char *mmapped;
@@ -56,53 +54,22 @@ void *thread_func(void *arg)
     while(1){
         status=regexec(&reg,mmapped,1,pmatch,0);
         if(status==0){
+            // 加锁
             if (pthread_mutex_lock(&mutex) != 0){
                 fprintf(stdout, "lock error!\n");
             }
             sprintf(str,"%s",buf);
             printf("%s",str);
             total_count++;
+            // 释放锁
             pthread_mutex_unlock(&mutex);
-            //count++;
             strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-            //printf("matched:%s\n",output);
             sprintf(str,"%s\n\0",output);
-            //printf("%s",str);
             mmapped += pmatch[0].rm_eo;
         }
         else break;
     }
     regfree(&reg);
-    //return count;
-    /*while (fgets(buf, 1024, fp) != NULL)
-    {
-        char str[51];
-        // printf("Thread %d: %s", thread_num, buf);
-        // TODO: match special substring
-        regex_t reg;
-        int status;
-        if (regcomp(&reg, pattern, REG_EXTENDED) != 0) {
-            printf("regcomp failed\n");
-            // return -1;
-        }
-        status = regexec(&reg, buf, 0, NULL, 0);
-        if (status == REG_NOMATCH) {
-            // printf("no match\n");
-        } else if (status == 0) {
-            //printf("%s",buf);
-            if (pthread_mutex_lock(&mutex) != 0){
-                fprintf(stdout, "lock error!\n");
-            }
-            sprintf(str,"%s",buf);
-            printf("%s",str);
-            total_count++;
-            pthread_mutex_unlock(&mutex);
-        } else {
-            printf("regexec failed\n");
-        }
-        
-        regfree(&reg);
-    }*/
     pthread_exit(NULL);
 }
 
@@ -120,16 +87,11 @@ int main(int argc, char *argv[])
     // 互斥锁初始化失败
         return 1;
     }
-    
-    /*if ((fp = fopen("input/new.txt", "r")) == NULL)
-    {
-        printf("open file failed\n");
-        return -1;
-    }*/
 
     for (i = 0; i < MAX_THREAD_NUM; i++)
     {
         thread_num[i] = i;
+        // 创建多线程执行thread_func任务
         ret = pthread_create(&tid[i], NULL, thread_func, &thread_num[i]);
         if (ret != 0)
         {
@@ -140,9 +102,11 @@ int main(int argc, char *argv[])
 
     for (i = 0; i < MAX_THREAD_NUM; i++)
     {
+        //等待线程结束
         pthread_join(tid[i], NULL);
     }
     //fclose(fp);
+    // 销毁互斥锁
     pthread_mutex_destroy(&mutex);
     end = clock();
     double total_time = (end-start)/*/CLOCKS_PER_SEC*/;
