@@ -44,7 +44,7 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./input/'+'shape_'+str(n)+'/C_'+str(n)+'.csv','w')
+    file=open('./output/'+'shape_'+str(n)+'/answer_'+str(n)+'.txt','w')
     C_list=matrix_C.tolist()
     for row in C_list:
         file.write(str(row[0]))
