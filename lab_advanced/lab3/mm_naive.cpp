@@ -17,6 +17,7 @@ vector<vector<float>> matrixMultiplicationDirect(const vector<vector<float>>& A,
 
     vector<vector<float>> C(m, vector<float>(p, 0.0));
 
+    //矩阵乘法部分，三层循环直接计算
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < p; j++) {
             for (int k = 0; k < n; k++) {
