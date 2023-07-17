@@ -1,36 +1,19 @@
 #!/bin/bash
 
-# 计算目录下文件的MD5值
-calculate_md5() {
-    local directory=$1
+if [ ! -e "output/new.txt" ]; then
+    echo "输出文件不存在，lab2 最终分数为: 0。"
+    exit 1
+fi
 
-    # 遍历目录中的所有文件
-    for file in "$directory"/*; do
-        # 忽略子目录
-        if [[ -d $file ]]; then
-            continue
-        fi
-
-        # 计算文件的MD5值
-        local md5=$(md5sum "$file" | awk '{print $1}')
-    done
-
-    echo "$md5"
-}
-
-# 目录1和目录2的路径
-dir1="output/"
-dir2="output/"
-
-# 计算目录1和目录2下文件的MD5值
-md5_1=$(calculate_md5 "$dir1")
-md5_2=$(calculate_md5 "$dir2")
+# 计算输出文件的MD5值
+md5_output=$(md5sum "output/new.txt" | awk '{print $1}')
+md5_target="0c664549236f2ca30b61837802af9645"
 
 # 比较两个MD5值列表是否相等
-if [[ "$md5_1" == "$md5_2" ]]; then
-    echo "目录1和目录2下的文件MD5值相等"
-    
+if [[ "$md5_output" == "$md5_target" ]]; then
+    echo "输出文件MD5值匹配，lab2 最终分数为: 100。"
 else
-    echo "目录1和目录2下的文件MD5值不相等"
+    echo "输出文件MD5值不匹配，lab2 最终分数为: 0。"
+    echo $md5_output
 fi
 

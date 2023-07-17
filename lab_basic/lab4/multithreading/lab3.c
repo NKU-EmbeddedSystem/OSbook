@@ -62,7 +62,7 @@ int main(){
         if(status==0){
             count++;
             strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-            printf("matched:%s\n",output);
+            printf("%s\n",output);
             mmapped += pmatch[0].rm_eo;
         }
         else break;

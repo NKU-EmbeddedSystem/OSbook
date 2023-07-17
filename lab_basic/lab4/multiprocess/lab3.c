@@ -31,25 +31,6 @@ int main(){
     }
     char output[1024]={"\0"};
 
-    //read 系统调用
-    /*while(len>0){
-        char buf[2048]={"\0"};
-        len=read(fd,buf,2048);
-        char *temp=buf;
-        while(1){
-            status=regexec(&reg,temp,1,pmatch,0);
-            if(status==0){
-                count++;
-                strncpy(output,temp+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-                printf("matched:%s\n",output);
-                temp += pmatch[0].rm_eo;
-            }
-            else break;
-        }
-    }*/
-
-
-
     //mmap 系统调用
     struct stat sb;
     if(fstat(fd,&sb)==-1) printf("fstat error!");
@@ -62,7 +43,7 @@ int main(){
         if(status==0){
             count++;
             strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-            printf("matched:%s\n",output);
+            printf("%s\n",output);
             mmapped += pmatch[0].rm_eo;
         }
         else break;
