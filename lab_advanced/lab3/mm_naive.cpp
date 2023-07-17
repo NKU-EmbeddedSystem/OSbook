@@ -28,26 +28,6 @@ vector<vector<float>> matrixMultiplicationDirect(const vector<vector<float>>& A,
     return C;
 }
 
-//结果验证函数
-bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<float>>& B) {
-    if (A.size() != B.size() || A[0].size() != B[0].size()) {
-        return false;
-    }
-
-    int m = A.size();
-    int n = A[0].size();
-
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (A[i][j] != B[i][j]) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
 //写入矩阵结果
 void writeResultToFile(const vector<vector<float>>& result, const string& filename) {
     ofstream outputFile(filename);
@@ -99,13 +79,6 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
     writeDurationToFile(duration.count(), "output/time/time_naive.txt");
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
-
-    // vector<vector<float>> referenceResult = matrixMultiplicationDirect(A, B);
-    // if (verifyMatrixEquality(referenceResult, result)) {
-    //     cout << "Result correct!" << endl;
-    // } else {
-    //     cout << "Result wrong!" << endl;
-    // }
 }
 
 
