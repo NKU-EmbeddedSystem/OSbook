@@ -1,42 +1,22 @@
-<<<<<<< HEAD
 #!/bin/bash
 
-dir=$(dirname "$0")/input
+input_dir=$(dirname "$0")/input
+output_dir=$(dirname "$0")/output
 
-for i in "$dir"/*
+for i in "$input_dir"/*
 do
-    #提取文件名
-    filename=$(basename "$i")
-    #获取文件的修改时间
-    mtime=$(stat -c %Y "$i")
-    #格式化时间
-    formate_date=$(date '+%Y%m%d' -d @"$mtime")
-    #提取文件的后缀名
-    name=${filename#*.}
-    #进行拼接
-    mv "$i" "$dir/${formate_date}.${name}"
+# 提取文件名
+filename=$(basename "$i")
+# 获取文件的修改时间
+mtime=$(stat -c %Y "$i")
+# 格式化时间
+formatted_date=$(date '+%Y%m%d' -d @"$mtime")
+# 提取文件的后缀名
+extension=${filename#*.}
+# 构建新的文件名
+new_filename="${formatted_date}.${extension}"
+# 拼接输出路径
+output_path="$output_dir/$new_filename"
+# 移动文件到输出路径
+mv "$i" "$output_path"
 done
-
-
-=======
-#!/bin/bash
-
-dir=$(dirname "$0")/input
-
-for i in "$dir"/*
-do
-    #提取文件名
-    filename=$(basename "$i")
-    #获取文件的修改时间
-    mtime=$(stat -c %Y "$i")
-    #格式化时间
-    formate_date=$(date '+%Y%m%d' -d @"$mtime")
-    #提取文件的后缀名
-    name=${filename#*.}
-    #进行拼接
-    echo "${formate_date}.${name}">>./output/new.txt
-    #修改源文件可使用mv
-done
-
-
->>>>>>> 2c55923f7a5c1d88fbdce3b7e38d25a4dc5bd172
