@@ -24,7 +24,9 @@ int main() {
       sum = sum + i;
     }
   }
-  printf("%d\n", sum);
+  FILE* fp = fopen("./output/result/openmp_critical.txt","w");
+  fprintf(fp,"%d",sum);
+  fclose(fp);
   return 0;
 }
 

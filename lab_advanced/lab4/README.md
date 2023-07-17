@@ -100,7 +100,8 @@ lab4/
 ├── openmp_critical.c
 ├── openmp_reduction.c
 ├── output/
-│   └── result.txt
+│   └── result              -- 矩阵乘法结果以及openmp示例结果
+│   └── time                -- 矩阵乘法运行时间
 └── test.sh
 ```
 input/data_gen.py：可生成自定义规模的测试用矩阵

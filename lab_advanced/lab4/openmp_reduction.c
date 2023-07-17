@@ -9,6 +9,8 @@ int main()
 	{
 		sum = sum + i;
 	}
-	printf("%d", sum);
+  FILE* fp = fopen("./output/result/openmp_reduction.txt","w");
+  fprintf(fp,"%d",sum);
+  fclose(fp);
 	return 0;
 }

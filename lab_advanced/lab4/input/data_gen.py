@@ -44,11 +44,11 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./output/'+'shape_'+str(n)+'/answer_'+str(n)+'.txt','w')
+    file=open('./output/result/answer.txt','w')
     C_list=matrix_C.tolist()
     for row in C_list:
-        file.write(str(row[0]))
+        file.write(str(float(row[0])))
         for i in range(1,len(row)):
-            file.write(','+str(row[i]))
+            file.write(' '+str(float(row[i])))
         file.write('\n')
     file.close()

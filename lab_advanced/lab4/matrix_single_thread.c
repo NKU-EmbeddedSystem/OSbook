@@ -1,9 +1,3 @@
-/**
- * @file mm0.c
- * @author By
- * @brief basic mm(row)
- */
-
 #include <bits/types/struct_timeval.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,8 +21,6 @@ void read_csv(int file_no, float* array, char* dir, int size) {
         sprintf(path,"%s/A_%d.csv",dir,size);
     } else if(file_no == 1) {
         sprintf(path,"%s/B_%d.csv",dir,size);
-    } else if(file_no == 2) {
-        sprintf(path,"%s/C_%d.csv",dir,size);
     } else{
         assert(0);
     }
@@ -44,17 +36,6 @@ void read_csv(int file_no, float* array, char* dir, int size) {
         }
     }
 }
-
-bool test_result(float* result, float* answer, int len){
-    int i;
-    for(i = 0; i < len; i++){
-        if(result[i] != answer[i]){
-            return false;
-        }
-    }
-    return true;
-}
-
 
 void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k, int n){
     float(*A)[k] = (float(*)[k]) matrix_A;
@@ -86,11 +67,9 @@ int main(int argc,char* argv[]){
     float* A = malloc(m*k*sizeof(float));
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
-    float* C_answer = malloc(m*n*sizeof(float));
 
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
-    read_csv(2, C_answer, dir,size);
 
     struct timeval start;
     struct timeval end;
@@ -110,20 +89,19 @@ int main(int argc,char* argv[]){
     FILE* result_fp=fopen("./output/result/matrix_single_thread.txt","w");
     for(int i = 0; i < m; i++){
         for(int j = 0; j < n; j++){
-            fprintf(result_fp,"%d ",C[i][j]);
+            fprintf(result_fp,"%.1f ",result_C[i][j]);
         }
         fprintf(result_fp,"\n");
     }
     fclose(result_fp);
-    
+
     // 输出运算时间
     FILE* time_fp = fopen("./output/time/matrix_single_thread.txt","w");
-    fprintf(time_fp,"%fs",total_time/CLOCKS_PER_SEC);
+    fprintf(time_fp,"%f s",total_time/CLOCKS_PER_SEC);
     fclose(time_fp);
 
     free(A);
     free(B);
     free(C);
-    free(C_answer);
     return 0;
 }
