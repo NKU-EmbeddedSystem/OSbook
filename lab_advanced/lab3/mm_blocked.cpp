@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace std::chrono; // 高精度时间库命名空间
-#define blockSize 128
+#define blockSize 128 //设置分块大小
 
 // 分块矩阵乘法
 vector<vector<float>> matrixMultiplicationBlocked(const vector<vector<float>>& A, const vector<vector<float>>& B) {
