@@ -24,15 +24,16 @@ int main(int argc, char *argv[])
     clock_t start,end;
     // int *status, *status2;
     start = clock();
-    // 创建共享内存
-    
+    // TODO 创建共享内存
+    shmid = [TODO];
+
     if (shmid < 0) {
         perror("shmget error");
         exit(1);
     }
 
-    // 将共享内存映射到当前进程的地址空间
-    
+    // TODO 将共享内存映射到当前进程的地址空间
+    shmaddr = [TODO];
     if (shmaddr == (int *)-1) {
         perror("shmat error");
         exit(1);
@@ -51,18 +52,18 @@ int main(int argc, char *argv[])
         // 子进程2运行mmap任务
         execl("./mmap", "mmap","input/f2", NULL);
     } else {
-        // 父进程回收子进程资源
+        // TODO 父进程回收子进程资源
     
     }
 
-    //共享内存记录子进程任务结果
+    // TODO 共享内存记录子进程任务结果
     
     end = clock();
-    double total_time = (end-start)/1000;
+    double total_time = (end-start);
     // 输出文件夹中文件的总行数
-    printf("Total count: %d\n", *shmaddr);
+    printf("Total count: %d\nTotal time:%fclock", *shmaddr,total_time);
 
-    // 删除共享内存
+    // TODO 删除共享内存
 
     return 0;
 }

@@ -6,7 +6,13 @@
 #include <time.h>
 #include<fcntl.h>
 #include <pthread.h>
-#define MAX_THREAD_NUM 10
+#include <dirent.h>
+#include<sys/mman.h>
+#include<sys/stat.h>
+#include<string.h>
+#include<sys/time.h>
+#include<sys/types.h>
+#define MAX_THREAD_NUM 4
 
 FILE *fp;
 char *pattern = "^From ilug-admin@linux.ie.*Aug.*";
@@ -17,33 +23,53 @@ void *thread_func(void *arg)
 {
     char buf[1024];
     int thread_num = *(int *)arg;
+    char file_name[1024];
+    sprintf(file_name, "%s%d%s", "input/test", thread_num+1,".txt");
     
-    while (fgets(buf, 1024, fp) != NULL)
-    {
-        char str[51];
-        // printf("Thread %d: %s", thread_num, buf);
-        // TODO: match special substring
-        regex_t reg;
-        int status;
-        if (regcomp(&reg, pattern, REG_EXTENDED) != 0) {
-            printf("regcomp failed\n");
-            // return -1;
-        }
-        status = regexec(&reg, buf, 0, NULL, 0);
-        if (status == REG_NOMATCH) {
-            // printf("no match\n");
-        } else if (status == 0) {
-            //printf("%s",buf);
-           //加锁 
-            sprintf(str,"%s",buf);
-            printf("%s",str); 
-            //释放锁
-        } else {
-            printf("regexec failed\n");
-        }
-        
-        regfree(&reg);
+    int fd=open(file_name,O_RDONLY); 
+    if(fd==-1){
+        printf("can't open the file");
+        return 1;
     }
+    struct stat sb;
+    if(fstat(fd,&sb)==-1) printf("fstat error!");
+    char *mmapped;
+    if((mmapped=mmap(NULL,sb.st_size,PROT_READ,MAP_SHARED,fd,0))==(void *)-1) printf("mmapped error!");
+    close(fd);
+
+    int status=0;
+    regmatch_t pmatch[1];
+    regex_t reg;
+    int count=0;
+    char pattern[]="^From ilug-admin@linux.ie.*Aug.*";//查找ilug-admin@linux.ie在八月份发送的邮件
+     
+    status=regcomp(&reg,pattern,REG_EXTENDED|REG_NEWLINE);
+    if(status!=0){
+        printf("compile error!\n");
+        return -1;
+    }
+
+    char output[1024]={"\0"};
+    char str[51];
+    while(1){
+        status=regexec(&reg,mmapped,1,pmatch,0);
+        if(status==0){
+            // TODO 加锁
+            if (TODO != 0){
+                fprintf(stdout, "lock error!\n");
+            }
+            sprintf(str,"%s",buf);
+            printf("%s",str);
+            total_count++;
+            // TODO 释放锁
+            [TODO]
+            strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
+            sprintf(str,"%s\n\0",output);
+            mmapped += pmatch[0].rm_eo;
+        }
+        else break;
+    }
+    regfree(&reg);
     pthread_exit(NULL);
 }
 
@@ -56,20 +82,17 @@ int main(int argc, char *argv[])
     total_count = 0;
     start = clock();
 
-    // 初始化互斥锁
-   
-
-    if ((fp = fopen("input/new.txt", "r")) == NULL)
-    {
-        printf("open file failed\n");
-        return -1;
+    // TODO 初始化互斥锁
+    if ([TODO] != 0){
+        // 互斥锁初始化失败
+        return 1;
     }
 
     for (i = 0; i < MAX_THREAD_NUM; i++)
     {
         thread_num[i] = i;
-        //创建多线程执行thread_func任务
-
+        // TODO 创建多线程执行thread_func任务
+        ret = [TODO];
         if (ret != 0)
         {
             printf("Create thread %d failed\n", i);
@@ -79,12 +102,15 @@ int main(int argc, char *argv[])
 
     for (i = 0; i < MAX_THREAD_NUM; i++)
     {
-        pthread_join(tid[i], NULL);
+        // TODO 等待线程结束
+        [TODO]
     }
-    fclose(fp);
-    pthread_mutex_destroy(&mutex);
+    //fclose(fp);
+    // TODO 销毁互斥锁
+    [TODO];
     end = clock();
-    double total_time = (end-start)/CLOCKS_PER_SEC;
-    printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);
+    double total_time = (end-start)/*/CLOCKS_PER_SEC*/;
+    printf("Total count=%d\nTotal time = %f\n",total_count,total_time);
     return 0;
 }
+

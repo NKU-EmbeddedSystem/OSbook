@@ -14,7 +14,8 @@ int main() {
     struct sockaddr_in servaddr, clientaddr;
     socklen_t len = sizeof(clientaddr);
 
-    //创建socket
+    // TODO 创建socket
+    sockfd = [TODO];
     if (sockfd == -1) {
         cout << "Socket creation failed...\n";
         return 0;
@@ -24,10 +25,13 @@ int main() {
     setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     memset(&servaddr, 0, sizeof(servaddr));
-    //创建客户端地址和端口
+    // TODO 创建客户端地址和端口
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = [TODO];
+    servaddr.sin_port = [TODO];
 
-    //绑定客户端地址和端口
-    if( ){
+    // 绑定客户端地址和端口
+    if( [TODO] == -1 ){
         cout << "Connect failed...\n";
         return 0;
     }

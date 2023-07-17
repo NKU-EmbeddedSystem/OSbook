@@ -14,7 +14,6 @@ int final_count=0;
 
 int mmap_file(char* file_name){
     int fd=open(file_name,O_RDONLY); 
-    //int fd=open("/home/kjr/OSbook/bible10.txt",O_RDONLY);
     if(fd==-1){
         printf("can't open the file");
         return 1;
