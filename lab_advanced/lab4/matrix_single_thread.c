@@ -101,16 +101,25 @@ int main(int argc,char* argv[]){
 
     gettimeofday(&end,NULL);
 
+    // 计算乘法运行时间
     float total_time;
     total_time = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec);
-    printf("time = %f s\n",total_time/CLOCKS_PER_SEC);
-    
-    if(test_result(C, C_answer, m*n)){
-        printf("check pass!\n");
-    }else{
-        printf("answer wrong!\n");
+    float(*result_C)[n] = (float(*)[n]) C;
+
+    // 输出运算结果
+    FILE* result_fp=fopen("./output/result/matrix_single_thread.txt","w");
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            fprintf(result_fp,"%d ",C[i][j]);
+        }
+        fprintf(result_fp,"\n");
     }
+    fclose(result_fp);
     
+    // 输出运算时间
+    FILE* time_fp = fopen("./output/time/matrix_single_thread.txt","w");
+    fprintf(time_fp,"%fs",total_time/CLOCKS_PER_SEC);
+    fclose(time_fp);
 
     free(A);
     free(B);

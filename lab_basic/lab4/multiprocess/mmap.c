@@ -13,8 +13,7 @@
 int final_count=0;
 
 int mmap_file(char* file_name){
-    int fd=open(file_name,O_RDONLY);
-    //int fd=open("/home/kjr/OSbook/bible10.txt",O_RDONLY);
+    int fd=open(file_name,O_RDONLY); 
     if(fd==-1){
         printf("can't open the file");
         return 1;
@@ -39,12 +38,15 @@ int mmap_file(char* file_name){
     }
 
     char output[1024]={"\0"};
+    char str[51];
     while(1){
         status=regexec(&reg,mmapped,1,pmatch,0);
         if(status==0){
             count++;
             strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
-            printf("matched:%s\n",output);
+            //printf("matched:%s\n",output);
+            sprintf(str,"%s\n\0",output);
+            printf("%s",str);
             mmapped += pmatch[0].rm_eo;
         }
         else break;
@@ -63,7 +65,6 @@ int main(int argc, char *argv[])
     getcwd(base, sizeof(base));
     strcat(base,"/");
     strcat(base,argv[1]);
-    printf("当前路径为：%s\n", base);
 
     //打开指定文件夹
     if ((dir = opendir(base)) == NULL)
@@ -81,12 +82,12 @@ int main(int argc, char *argv[])
 
         //如果是txt文件，则输出
         if (strstr(ptr->d_name, ".txt") != NULL)
-            printf("txt文件名：%s\n", ptr->d_name);
+        {
             char buff[1024];
             sprintf(buff, "%s%s%s", base, "/", ptr->d_name);
             int temp=mmap_file(buff);
-            printf("%s",buff);
             final_count+=temp;
+        }
     }
     closedir(dir);
     // printf("final_count:%d",final_count);

@@ -52,7 +52,13 @@ lab3
 ├── mm_naive.cpp    -- 朴素实现的矩阵乘法
 ├── mm_opt.cpp      -- 进一步优化的分块矩阵乘法
 └── output/
-    ├── blocked_result.txt
-    ├── naive_result.txt
-    └── opt_result.txt
+    ├── result/
+    │   ├── blocked_result.txt
+    │   ├── naive_result.txt
+    │   └── opt_result.txt
+    └── time/
+        ├── blocked_time.txt
+        ├── naive_time.txt
+        └── opt_time.txt
+    
 ```

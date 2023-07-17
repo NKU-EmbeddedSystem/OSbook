@@ -50,7 +50,7 @@ vector<vector<float>> matrixMultiplicationBlocked1(const vector<vector<float>>& 
     return C;
 }
 
-// 针�?cache优化的分块矩阵乘�??
+// cache优化的分块矩阵乘
 vector<vector<float>> matrixMultiplicationBlocked2(const vector<vector<float>>& A, const vector<vector<float>>& B) {
     int m = A.size();
     int n = A[0].size();
@@ -93,6 +93,35 @@ bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<fl
 
     return true;
 }
+void writeResultToFile(const vector<vector<float>>& result, const string& filename) {
+    ofstream outputFile(filename);
+
+    if (outputFile.is_open()) {
+        for (const auto& row : result) {
+            for (const auto& element : row) {
+                outputFile << element << " ";
+            }
+            outputFile << endl;
+        }
+
+        outputFile.close();
+        cout << "Result written to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
+}
+
+void writeDurationToFile(long long duration, const string& filename) {
+    ofstream outputFile(filename);
+
+    if (outputFile.is_open()) {
+        outputFile << duration << endl;
+        outputFile.close();
+        cout << "Duration written to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
+}
 
 // 性能测试函数
 void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>& B, const string& testName,
@@ -104,11 +133,18 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
 
     auto end = high_resolution_clock::now(); // 记录结束时间
     auto duration = duration_cast<nanoseconds>(end - start); // 计算时间
-
+    //输出结果
+    writeResultToFile(result, "output/result/result_naive.txt");
+    // for (const auto& row : result) {
+    //     for (const auto& element : row) {
+    //         cout << element << " ";
+    //     }
+    //     cout << endl;
+    // }
     double time = duration.count() / 1e9; 
     double size = A.size(); 
     double gflops = (2.0 * size * size * size) / time / 1e9; // 计算GFLOPS
-
+    writeDurationToFile(duration.count(), "output/time/time_naive.txt");
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
 
@@ -123,22 +159,22 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
 
 int main() {
 
-    //int size = 1024; 
-    ifstream inputFile("input/size.txt");
+    int matrixsize = 2048; 
+    // ifstream inputFile("input/size.txt");
 
-    if (!inputFile.is_open()) {
-        cout << "Failed to open input or output file...\n";
-        return 0;
-    }
+    // if (!inputFile.is_open()) {
+    //     cout << "Failed to open input or output file...\n";
+    //     return 0;
+    // }
 
-    string line;
-    getline(inputFile, line);
-    int blocksize, matrixsize;
-    stringstream ss(line);
-    ss >> blocksize >> matrixsize;
+    // string line;
+    // getline(inputFile, line);
+    // int blocksize, matrixsize;
+    // stringstream ss(line);
+    // ss >> blocksize >> matrixsize;
 
-    vector<vector<float>> A(size, vector<float>(size, 1.0));
-    vector<vector<float>> B(size, vector<float>(size, 2.0));
+    vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
+    vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
 
 
     performanceTest(A, B, "Blocked Multiplication: ", matrixMultiplicationDirect);

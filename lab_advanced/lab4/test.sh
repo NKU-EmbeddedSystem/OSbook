@@ -1,5 +1,7 @@
 size=100
 
+python3 ./input/data_gen.py size
+
 echo "===============\n单线程矩阵乘法\n" > output/result.txt
 gcc matrix_single_thread.c -o matrix_single_thread
 ./matrix_single_thread ./input/shape_$size $size >> output/result.txt

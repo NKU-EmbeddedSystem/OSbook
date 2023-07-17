@@ -4,19 +4,23 @@
 #include <stdlib.h>
 #include <regex.h>
 #include <time.h>
+#include<fcntl.h>
+#include <pthread.h>
 #define MAX_THREAD_NUM 10
 
 FILE *fp;
 char *pattern = "^From ilug-admin@linux.ie.*Aug.*";
 int total_count;
+pthread_mutex_t mutex;
 
 void *thread_func(void *arg)
 {
     char buf[1024];
     int thread_num = *(int *)arg;
-
+    
     while (fgets(buf, 1024, fp) != NULL)
     {
+        char str[51];
         // printf("Thread %d: %s", thread_num, buf);
         // TODO: match special substring
         regex_t reg;
@@ -29,14 +33,20 @@ void *thread_func(void *arg)
         if (status == REG_NOMATCH) {
             // printf("no match\n");
         } else if (status == 0) {
-            printf("match\n");
+            //printf("%s",buf);
+            if (pthread_mutex_lock(&mutex) != 0){
+                fprintf(stdout, "lock error!\n");
+            }
+            sprintf(str,"%s",buf);
+            printf("%s",str);
             total_count++;
+            pthread_mutex_unlock(&mutex);
         } else {
             printf("regexec failed\n");
         }
+        
         regfree(&reg);
     }
-
     pthread_exit(NULL);
 }
 
@@ -49,6 +59,12 @@ int main(int argc, char *argv[])
     total_count = 0;
     start = clock();
 
+    // 初始化互斥锁
+    if (pthread_mutex_init(&mutex, NULL) != 0){
+    // 互斥锁初始化失败
+        return 1;
+    }
+    
     if ((fp = fopen("input/new.txt", "r")) == NULL)
     {
         printf("open file failed\n");
@@ -71,8 +87,9 @@ int main(int argc, char *argv[])
         pthread_join(tid[i], NULL);
     }
     fclose(fp);
+    pthread_mutex_destroy(&mutex);
     end = clock();
-    double total_time = (end-start)/1000;
-    printf("\nTotal count=%d\nTotal time: %f\n",total_count,total_time);
+    double total_time = (end-start)/CLOCKS_PER_SEC;
+    printf("Total count=%d\n",total_count);
     return 0;
 }

@@ -95,16 +95,6 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
-    // int mi, ki, ni;
-    // for(mi = 0; mi < m; mi++){
-    //     for(ni = 0; ni < n; ni++){
-    //         for(ki = 0; ki < k; ki++){
-    //             C[mi][ni] += A[mi][ki] * B[ki][ni];
-    //         }
-    //     }
-    // }
-
-    // new code for multitreading
     pthread_t th1;
     pthread_t th2;
 
@@ -150,12 +140,6 @@ int main(int argc,char* argv[]){
     float total_time;
     total_time = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec);
     printf("time = %f s\n",total_time/CLOCKS_PER_SEC);
-    
-    if(test_result(C, C_answer, m*n)){
-        printf("check pass!\n");
-    }else{
-        printf("answer wrong!\n");
-    }
     
 
     free(A);

@@ -1,15 +1,15 @@
 #include <iostream>
 #include <vector>
-#include <chrono> // Ìí¼ÓĞÔÄÜ²âÊÔËùĞèµÄÍ·ÎÄ¼ş
-#include <cstdlib> // Ìí¼ÓC±ê×¼¿âÍ·ÎÄ¼ş
+#include <chrono> // æ·»åŠ æ€§èƒ½æµ‹è¯•æ‰€éœ€çš„å¤´æ–‡ä»¶
+#include <cstdlib> // æ·»åŠ Cæ ‡å‡†åº“å¤´æ–‡ä»¶
 #include <sstream>
 #include <fstream>
 
 using namespace std;
-using namespace std::chrono; // ¸ß¾«¶ÈÊ±¼ä¿âÃüÃû¿Õ¼ä
+using namespace std::chrono; // é«˜ç²¾åº¦æ—¶é—´åº“å‘½åç©ºé—´
 #define blockSize 128
 
-// Ö±½ÓÊµÏÖµÄ¾ØÕó³Ë·¨
+// ç›´æ¥å®ç°çš„çŸ©é˜µä¹˜æ³•
 vector<vector<float>> matrixMultiplicationDirect(const vector<vector<float>>& A, const vector<vector<float>>& B) {
     int m = A.size();
     int n = A[0].size();
@@ -28,7 +28,7 @@ vector<vector<float>> matrixMultiplicationDirect(const vector<vector<float>>& A,
     return C;
 }
 
-// ·Ö¿é¾ØÕó³Ë·¨
+// åˆ†å—çŸ©é˜µä¹˜æ³•
 vector<vector<float>> matrixMultiplicationBlocked(const vector<vector<float>>& A, const vector<vector<float>>& B) {
     int m = A.size();
     int n = A[0].size();
@@ -51,7 +51,7 @@ vector<vector<float>> matrixMultiplicationBlocked(const vector<vector<float>>& A
 }
 
 
-//½á¹ûÑéÖ¤º¯Êı
+//ç»“æœéªŒè¯å‡½æ•°
 bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<float>>& B) {
     if (A.size() != B.size() || A[0].size() != B[0].size()) {
         return false;
@@ -70,22 +70,58 @@ bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<fl
 
     return true;
 }
+void writeResultToFile(const vector<vector<float>>& result, const string& filename) {
+    ofstream outputFile(filename);
 
-// ĞÔÄÜ²âÊÔº¯Êı
+    if (outputFile.is_open()) {
+        for (const auto& row : result) {
+            for (const auto& element : row) {
+                outputFile << element << " ";
+            }
+            outputFile << endl;
+        }
+
+        outputFile.close();
+        cout << "Result written to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
+}
+
+void writeDurationToFile(long long duration, const string& filename) {
+    ofstream outputFile(filename);
+
+    if (outputFile.is_open()) {
+        outputFile << duration << endl;
+        outputFile.close();
+        cout << "Duration written to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
+}
+
+// æ€§èƒ½æµ‹è¯•å‡½æ•°
 void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>& B, const string& testName,
                      vector<vector<float>> (*multiplyFunction)(const vector<vector<float>>&, const vector<vector<float>>&) ) {
-    auto start = high_resolution_clock::now(); // ¼ÇÂ¼¿ªÊ¼Ê±¼ä
+    auto start = high_resolution_clock::now(); // è®°å½•å¼€å§‹æ—¶é—´
 
-    // Ö´ĞĞ¾ØÕó³Ë·¨
+    // æ‰§è¡ŒçŸ©é˜µä¹˜æ³•
     vector<vector<float>> result = multiplyFunction(A, B);
 
-    auto end = high_resolution_clock::now(); // ¼ÇÂ¼½áÊøÊ±¼ä
-    auto duration = duration_cast<nanoseconds>(end - start); // ¼ÆËãÖ´ĞĞÊ±¼ä
-
-    double time = duration.count() / 1e9; // ×ª»»ÎªÃë
+    auto end = high_resolution_clock::now(); // è®°å½•ç»“æŸæ—¶é—´
+    auto duration = duration_cast<nanoseconds>(end - start); // è®¡ç®—æ‰§è¡Œæ—¶é—´
+    //è¾“å‡ºç»“æœ
+    writeResultToFile(result, "output/result/result_blocked.txt");
+    // for (const auto& row : result) {
+    //     for (const auto& element : row) {
+    //         cout << element << " ";
+    //     }
+    //     cout << endl;
+    // }
+    double time = duration.count() / 1e9; // è½¬æ¢ä¸ºç§’
     double size = A.size(); 
-    double gflops = (2.0 * size * size * size) / time / 1e9; // ¼ÆËãGFLOPS
-
+    double gflops = (2.0 * size * size * size) / time / 1e9; // è®¡ç®—GFLOPS
+    writeDurationToFile(duration.count(), "output/time/time_blocked.txt");
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
 
@@ -99,20 +135,20 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
 
 
 int main() {
-    // ´´½¨Á½¸ö´ó¾ØÕó
-    //int size = 1024; // ¾ØÕó´óĞ¡£¬¿ÉÒÔ¸ù¾İĞèÒªµ÷Õû
-    ifstream inputFile("input/size.txt");
+    // åˆ›å»ºä¸¤ä¸ªå¤§çŸ©é˜µ
+    int matrixsize = 2048; // çŸ©é˜µå¤§å°ï¼Œå¯ä»¥æ ¹æ®éœ€è¦è°ƒæ•´
+    // ifstream inputFile("input/size.txt");
 
-    if (!inputFile.is_open()) {
-        cout << "Failed to open input or output file...\n";
-        return 0;
-    }
+    // if (!inputFile.is_open()) {
+    //     cout << "Failed to open input or output file...\n";
+    //     return 0;
+    // }
 
-    string line;
-    getline(inputFile, line);
-    int blocksize, matrixsize;
-    stringstream ss(line);
-    ss >> blocksize >> matrixsize;
+    // string line;
+    // getline(inputFile, line);
+    // int blocksize, matrixsize;
+    // stringstream ss(line);
+    // ss >> blocksize >> matrixsize;
 
     vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
     vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
