@@ -6,7 +6,7 @@
 
 以及一般矩阵乘：test_cmn.c  
 
-其中，test_loongson_*.c包含一般矩阵乘方法与LSX、LASX优化的矩阵乘方法，test_intel_*.c包含一般矩阵乘方法与SSE、AVX优化的矩阵乘方法。  
+其中，test_loongson_\*.c包含一般矩阵乘方法与LSX、LASX优化的矩阵乘方法，test_intel_\*.c包含一般矩阵乘方法与SSE、AVX优化的矩阵乘方法。  
 input文件夹下提供了四种规模(128/256/512/1024)的矩阵输入，以及它们进行矩阵乘后的标准答案(`output/standard_result`)。
 
 ## 运行方式 
