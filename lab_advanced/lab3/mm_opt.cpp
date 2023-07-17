@@ -30,28 +30,7 @@ vector<vector<float>> matrixMultiplicationBlockedOpt(const vector<vector<float>>
     return C;
 }
 
-
-
-//结果验证函数
-bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<float>>& B) {
-    if (A.size() != B.size() || A[0].size() != B[0].size()) {
-        return false;
-    }
-
-    int m = A.size();
-    int n = A[0].size();
-
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (A[i][j] != B[i][j]) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
+//写入矩阵结果
 void writeResultToFile(const vector<vector<float>>& result, const string& filename) {
     ofstream outputFile(filename);
 
@@ -70,6 +49,7 @@ void writeResultToFile(const vector<vector<float>>& result, const string& filena
     }
 }
 
+//写入运行时间
 void writeDurationToFile(long long duration, const string& filename) {
     ofstream outputFile(filename);
 
@@ -95,12 +75,6 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
 
     //输出结果
     writeResultToFile(result, "output/result/result_opt.txt");
-    // for (const auto& row : result) {
-    //     for (const auto& element : row) {
-    //         cout << element << " ";
-    //     }
-    //     cout << endl;
-    // }
     
     double time = duration.count() / 1e9;
     double size = A.size(); 
@@ -109,35 +83,30 @@ void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>
     writeDurationToFile(duration.count(), "output/time/time_opt.txt");
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
-
-    // vector<vector<float>> referenceResult = matrixMultiplicationDirect(A, B);
-    // if (verifyMatrixEquality(referenceResult, result)) {
-    //     cout << "Result correct!" << endl;
-    // } else {
-    //     cout << "Result wrong!" << endl;
-    // }
 }
 
 
 int main() {
     int matrixsize = 2048;
+     // 初始化矩阵A
+    vector<vector<float>> A(matrixsize, vector<float>(matrixsize));
+    float valueA = 1.0;
+    for (int i = 0; i < matrixsize; i++) {
+        for (int j = 0; j < matrixsize; j++) {
+            A[i][j] = valueA;
+            valueA += 1.0;
+        }
+    }
 
-    //ifstream inputFile("input/size.txt");
-
-    // if (!inputFile.is_open()) {
-    //     cout << "Failed to open input or output file...\n";
-    //     return 0;
-    // }
-
-    // string line;
-    // getline(inputFile, line);
-    // int blocksize, matrixsize;
-    // stringstream ss(line);
-    // ss >> blocksize >> matrixsize;
-
-
-    vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
-    vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
+    // 初始化矩阵B
+    vector<vector<float>> B(matrixsize, vector<float>(matrixsize));
+    float valueB = matrixsize * matrixsize + 1.0;
+    for (int i = 0; i < matrixsize; i++) {
+        for (int j = 0; j < matrixsize; j++) {
+            B[i][j] = valueB;
+            valueB *= -1.0;
+        }
+    }
     
     performanceTest(A, B, "Blocked Multiplication: ", matrixMultiplicationBlockedOpt);
 }
