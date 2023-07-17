@@ -27,3 +27,6 @@ sudo bpftrace -l '*syscalls*mmap*'  -v
 ```
 sudo bpftrace mmap_pagefault_snoop.bt > faults.py
 ```
+- 实验结果
+
+![result](ebpf_result.png)
