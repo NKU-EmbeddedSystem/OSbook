@@ -39,7 +39,9 @@ lab_CUDA/
 │   └── compare.py		-- 比较python与cuda矩阵乘的时间与速度
 ├── kernel.cu			-- 具有基础且完整的CUDA编写程序流程，教材中的代码讲解主要来源，包括性能分析部分
 ├── output/
-│   ├── time_cuda_*.txt	-- cuda运行的时间
-│   └── time_py_*.txt	-- python运行的时间 
+│   ├── result/
+│   │	└── time_cuda_*.txt	-- cuda运行的时间
+│   └── time/
+	└── time_py_*.txt	-- python运行的时间 
 └── test.cu				-- 使用统一内存托管的方法编写的矩阵乘代码
 ```
