@@ -6,7 +6,13 @@
 #include <time.h>
 #include<fcntl.h>
 #include <pthread.h>
-#define MAX_THREAD_NUM 10
+#include <dirent.h>
+#include<sys/mman.h>
+#include<sys/stat.h>
+#include<string.h>
+#include<sys/time.h>
+#include<sys/types.h>
+#define MAX_THREAD_NUM 4
 
 FILE *fp;
 char *pattern = "^From ilug-admin@linux.ie.*Aug.*";
@@ -17,8 +23,58 @@ void *thread_func(void *arg)
 {
     char buf[1024];
     int thread_num = *(int *)arg;
+    char file_name[1024];
+    sprintf(file_name, "%s%d%s", "input/test", thread_num+1,".txt");
     
-    while (fgets(buf, 1024, fp) != NULL)
+    int fd=open(file_name,O_RDONLY); 
+    //printf("%s",file_name);
+    if(fd==-1){
+        printf("can't open the file");
+        return 1;
+    }
+    // TODO: match special substring
+    struct stat sb;
+    if(fstat(fd,&sb)==-1) printf("fstat error!");
+    char *mmapped;
+    if((mmapped=mmap(NULL,sb.st_size,PROT_READ,MAP_SHARED,fd,0))==(void *)-1) printf("mmapped error!");
+    close(fd);
+
+    int status=0;
+    regmatch_t pmatch[1];
+    regex_t reg;
+    int count=0;
+    char pattern[]="^From ilug-admin@linux.ie.*Aug.*";//查找ilug-admin@linux.ie在八月份发送的邮件
+     
+    status=regcomp(&reg,pattern,REG_EXTENDED|REG_NEWLINE);
+    if(status!=0){
+        printf("compile error!\n");
+        return -1;
+    }
+
+    char output[1024]={"\0"};
+    char str[51];
+    while(1){
+        status=regexec(&reg,mmapped,1,pmatch,0);
+        if(status==0){
+            if (pthread_mutex_lock(&mutex) != 0){
+                fprintf(stdout, "lock error!\n");
+            }
+            sprintf(str,"%s",buf);
+            printf("%s",str);
+            total_count++;
+            pthread_mutex_unlock(&mutex);
+            //count++;
+            strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
+            //printf("matched:%s\n",output);
+            sprintf(str,"%s\n\0",output);
+            //printf("%s",str);
+            mmapped += pmatch[0].rm_eo;
+        }
+        else break;
+    }
+    regfree(&reg);
+    //return count;
+    /*while (fgets(buf, 1024, fp) != NULL)
     {
         char str[51];
         // printf("Thread %d: %s", thread_num, buf);
@@ -46,7 +102,7 @@ void *thread_func(void *arg)
         }
         
         regfree(&reg);
-    }
+    }*/
     pthread_exit(NULL);
 }
 
@@ -65,11 +121,11 @@ int main(int argc, char *argv[])
         return 1;
     }
     
-    if ((fp = fopen("input/new.txt", "r")) == NULL)
+    /*if ((fp = fopen("input/new.txt", "r")) == NULL)
     {
         printf("open file failed\n");
         return -1;
-    }
+    }*/
 
     for (i = 0; i < MAX_THREAD_NUM; i++)
     {
@@ -86,10 +142,10 @@ int main(int argc, char *argv[])
     {
         pthread_join(tid[i], NULL);
     }
-    fclose(fp);
+    //fclose(fp);
     pthread_mutex_destroy(&mutex);
     end = clock();
-    double total_time = (end-start)/CLOCKS_PER_SEC;
-    printf("Total count=%d\n",total_count);
+    double total_time = (end-start)/*/CLOCKS_PER_SEC*/;
+    printf("Total count=%d\nTotal time = %f\n",total_count,total_time);
     return 0;
 }
