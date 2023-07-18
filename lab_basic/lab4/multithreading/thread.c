@@ -65,6 +65,7 @@ void *thread_func(void *arg)
             [TODO]
             strncpy(output,mmapped+pmatch[0].rm_so,pmatch[0].rm_eo-pmatch[0].rm_so);
             sprintf(str,"%s\n\0",output);
+            printf("%s",str);
             mmapped += pmatch[0].rm_eo;
         }
         else break;

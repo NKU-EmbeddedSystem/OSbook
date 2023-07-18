@@ -72,6 +72,6 @@ int main(){
     regfree(&reg);
     end = clock();
     double total_time = (end-start);
-    printf("Total count:%d\nTotal time = %fclock",count,total_time);
+    printf("Total count=%d\nTotal time = %fclock\n",count,total_time);
     return 0;
 }
