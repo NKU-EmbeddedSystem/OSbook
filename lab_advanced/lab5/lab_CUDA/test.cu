@@ -98,7 +98,7 @@ int main()
         return -1;
     }
     for(int i=0 ;i<width * height;i++){
-        fprintf(file1,"%d\n",2048);
+        fprintf(file1,"%d\n",int(2048));
     }
     fclose(file1);
     
@@ -109,7 +109,7 @@ int main()
         return -1;
     }
     for(int i=0 ;i<width * height;i++){
-        fprintf(file2,"%f\n", C->elements[i]);
+        fprintf(file2,"%d\n", int(C->elements[i]));
     }
     fclose(file2);
     return 0;
