@@ -60,6 +60,7 @@ void* matrix_mul_th(void* args){
     float(*C)[n] = (float(*)[n]) mul_args->matrix_C;
 
     int mi, ki, ni;
+    // 根据传参m_from与m_to进行部分矩阵乘
     for(mi = mul_args->m_from; mi < mul_args->m_to; mi++){
         for(ni = 0; ni < n; ni++){
             for(ki = 0; ki < k; ki++){

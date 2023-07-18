@@ -46,26 +46,6 @@ typedef struct
   int n;
 } mul_thread_args;
 
-void* matrix_mul_th(void* args){
-    mul_thread_args* mul_args = (mul_thread_args*) args;
-
-    int k = mul_args->k;
-    int n = mul_args->n;
-    float(*A)[k] = (float(*)[k]) mul_args->matrix_A;
-    float(*B)[n] = (float(*)[n]) mul_args->matrix_B;
-    float(*C)[n] = (float(*)[n]) mul_args->matrix_C;
-
-    int mi, ki, ni;
-    for(mi = mul_args->m_from; mi < mul_args->m_to; mi++){
-        for(ni = 0; ni < n; ni++){
-            for(ki = 0; ki < k; ki++){
-                C[mi][ni] += A[mi][ki] * B[ki][ni];
-            }
-        }
-    }
-
-    return NULL;
-}
 
 void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k, int n){
     float(*A)[k] = (float(*)[k]) matrix_A;

@@ -12,7 +12,7 @@
 
 （2）matrix_multi_thread：改写了创建线程的部分，使得能够自由改变线程数量，自定义线程数量进行矩阵乘法运算。
                        
-（3）matrix_lock：将 矩阵  $A_{(m\times n)}$  按列和行平分为四个矩阵   $A_{1_{(\frac{m}{2}\times n)}}$ 、 $A_{2_{(\frac{m}{2}\times n)}}$ 、 $A_{3_{(\frac{m}{2}\times n)}}$ 和  $A_{4_{(\frac{m}{2}\times n)}}$ ，使用四个线程分别计算其与矩阵 $B$ 的乘积，将计算结果整合为最终结果 矩阵 $C$ 。此时会发生race condition，使用锁解决该问题，可用以对比加锁前后的计算结果和运行时间。
+（3）matrix_lock：将 矩阵  $A_{(m\times n)}$  按列和行平分为四个矩阵   $A_{1_{(\frac{m}{2}\times \frac{n}{2})}}$ 、 $A_{2_{(\frac{m}{2}\times \frac{n}{2})}}$ 、 $A_{3_{(\frac{m}{2}\times \frac{n}{2})}}$ 和  $A_{4_{(\frac{m}{2}\times \frac{n}{2})}}$ ，使用四个线程分别计算其与矩阵 $B$ 的乘积，将计算结果整合为最终结果 矩阵 $C$ 。此时会发生race condition，使用锁解决该问题，可用以对比加锁前后的计算结果和运行时间。
 
 （4）matrix_signal：同matrix_lock，不过使用了信号量来解决race condition。
 
@@ -92,37 +92,18 @@ lab4/
 ├── input/
 │   └── shape_N/           -- 测试用矩阵A、矩阵B，大小均为N*N 
 ├── data_gen.py            -- 可生成自定义规模的测试用矩阵
-├── matrix_dual_thread.c
-├── matrix_lock.c
-├── matrix_multi_thread.c
-├── matrix_openmp.c
-├── matrix_signal.c
-├── matrix_single_thread.c
-├── openmp_critical.c
-├── openmp_reduction.c
+├── matrix_dual_thread.c -- 双线程实现矩阵乘法
+├── matrix_lock.c -- 使用锁解决多线程矩阵乘法中遇到的数据冲突问题
+├── matrix_multi_thread.c -- 多线程实现矩阵乘法
+├── matrix_openmp.c -- 使用openmp多线程优化矩阵乘法运算
+├── matrix_signal.c -- 使用信号量解决多线程矩阵乘法中遇到的数据冲突问题
+├── matrix_single_thread.c -- 单线程实现矩阵乘法
+├── openmp_critical.c -- 使用critical方法解决openmp中的数据冲突问题
+├── openmp_reduction.c -- 使用reduction方法解决openmp中的数据冲突问题
 ├── output/
 │   └── result              -- 矩阵乘法结果以及openmp示例结果
 │   └── time                -- 矩阵乘法运行时间
 └── test.sh
 ```
-input/data_gen.py：可生成自定义规模的测试用矩阵
 
-input/shape_N：测试用数据集目录，内包含三个大小为N*N的矩阵，分别为 $C = A \times B$ 式中的三个矩阵
 
-output/result.txt：测试脚本输出结果
-
-matrix_single_thread.c:单线程实现矩阵乘法
-
-matrix_dual_thread.c:双线程实现矩阵乘法
-
-matrix_multi_thread.c:多线程实现矩阵乘法
-
-matrix_lock.c:使用锁解决多线程矩阵乘法中遇到的数据冲突问题
-
-matrix_signal.c:使用信号量解决多线程矩阵乘法中遇到的数据冲突问题
-
-matrix_openmp.c:使用openmp多线程优化矩阵乘法运算
-
-openmp_critical.c:使用critical方法解决openmp中的数据冲突问题
-
-openmp_reduction.c:使用reduction方法解决openmp中的数据冲突问题

@@ -58,6 +58,7 @@ void* matrix_mul_th(void* args){
     float(*C)[n] = (float(*)[n]) mul_args->matrix_C;
 
     int mi, ki, ni;
+    // 根据传参m_from与m_to进行部分矩阵乘
     for(mi = mul_args->m_from; mi < mul_args->m_to; mi++){
         for(ni = 0; ni < n; ni++){
             for(ki = 0; ki < k; ki++){
@@ -81,6 +82,7 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
     pthread_t th2;
 
     int mid = m/2;
+    // 分别将矩阵A分成0~m/2和m/2~m两个部分传进子线程做计算
     mul_thread_args th1_args={ matrix_A, matrix_B, matrix_C, 0, mid, k, n };
     mul_thread_args th2_args={ matrix_A, matrix_B, matrix_C, mid, m, k, n };
 
