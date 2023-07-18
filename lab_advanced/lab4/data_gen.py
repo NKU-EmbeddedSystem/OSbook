@@ -11,6 +11,8 @@ if os.path.exists('./input') == False:
     os.mkdir('./input')
 if os.path.exists('./output') == False:
     os.mkdir('./output')
+    os.mkdir('./output/result')
+    os.mkdir('./output/time')
 #　每次生成的随机数一样
 rd = np.random.RandomState(676) 
 shapes=[]
@@ -47,10 +49,17 @@ for n in shapes:
         file.write('\n')
     file.close()
 
-    file=open('./output/result/answer.txt','w')
+    file=open('./output/result/matrix_answer.txt','w')
     C_list=matrix_C.tolist()
     for row in C_list:
         for i in range(0,len(row)):
             file.write(str(float(row[i]))+' ')
         file.write('\n')
     file.close()
+
+file=open('./output/result/openmp_answer.txt','w')
+s = 0
+for i in range(0,100):
+    s = s + i
+file.write(str(s))
+file.close()

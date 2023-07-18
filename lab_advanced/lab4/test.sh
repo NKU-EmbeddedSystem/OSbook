@@ -1,7 +1,11 @@
 size=100
 
-rm -r ./input
-rm -r ./output
+if [ -e "input" ]; then
+    rm -r ./input
+fi
+if [ -e "output" ]; then
+    rm -r ./output
+fi
 
 python3 ./data_gen.py $size
 

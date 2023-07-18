@@ -18,7 +18,7 @@ int main() {
 int main() {
   int sum = 0;
   #pragma omp parallel for
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 100; i++) {
     // 使用critical解决openmp所遇到的数据冲突问题
     #pragma omp critical
     {
