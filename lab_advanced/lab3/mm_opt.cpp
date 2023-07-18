@@ -19,6 +19,7 @@ vector<vector<float>> matrixMultiplicationBlockedOpt(const vector<vector<float>>
     //分块矩阵乘法部分，每次处理blockSize*blockSize
     for (int kk = 0; kk < n; kk += blockSize) {
         for (int jj = 0; jj < p; jj += blockSize) {
+            // 块内矩阵乘部分
             for (int i = 0; i < m; i++) {
                 for (int k = kk; k < min(kk + blockSize, n); k++) {
                     for (int j = jj; j < min(jj + blockSize, p); j++) {
