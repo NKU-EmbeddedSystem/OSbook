@@ -58,8 +58,6 @@ void *thread_func(void *arg)
             if (TODO != 0){
                 fprintf(stdout, "lock error!\n");
             }
-            sprintf(str,"%s",buf);
-            printf("%s",str);
             total_count++;
             // TODO 释放锁
             [TODO]

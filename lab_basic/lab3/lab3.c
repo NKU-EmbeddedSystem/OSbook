@@ -61,7 +61,7 @@ int mmapSystemCall(int fd, regex_t reg, char* output) {
     int count = 0;
 
     while (1) {
-        // TODO 判断read读取的数据是否匹配正则表达式pattern
+        // TODO 判断mmap读取的数据是否匹配正则表达式pattern
         status = [TODO];
         if (status == 0) {
             count++;
