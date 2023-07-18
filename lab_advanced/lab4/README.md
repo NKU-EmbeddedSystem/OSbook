@@ -90,7 +90,8 @@ gcc openmp_reduction.c -lgomp -o openmp_reduction
 lab4/
 ├── README.md
 ├── input/
-│   └── data_gen.py         -- 可生成自定义规模的测试用矩阵
+│   └── shape_N/           -- 测试用矩阵A、矩阵B，大小均为N*N 
+├── data_gen.py            -- 可生成自定义规模的测试用矩阵
 ├── matrix_dual_thread.c
 ├── matrix_lock.c
 ├── matrix_multi_thread.c

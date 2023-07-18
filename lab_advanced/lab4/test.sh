@@ -1,6 +1,9 @@
 size=100
 
-python3 ./input/data_gen.py $size
+rm -r ./input
+rm -r ./output
+
+python3 ./data_gen.py $size
 
 gcc matrix_single_thread.c -o matrix_single_thread -lpthread
 ./matrix_single_thread ./input/shape_$size $size 

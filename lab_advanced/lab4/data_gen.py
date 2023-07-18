@@ -7,7 +7,10 @@ import os
 import sys
 import shutil
 
-# os.mkdir('./dataset')
+if os.path.exists('./input') == False:
+    os.mkdir('./input')
+if os.path.exists('./output') == False:
+    os.mkdir('./output')
 #　每次生成的随机数一样
 rd = np.random.RandomState(676) 
 shapes=[]
@@ -47,8 +50,7 @@ for n in shapes:
     file=open('./output/result/answer.txt','w')
     C_list=matrix_C.tolist()
     for row in C_list:
-        file.write(str(float(row[0])))
-        for i in range(1,len(row)):
-            file.write(' '+str(float(row[i])))
+        for i in range(0,len(row)):
+            file.write(str(float(row[i]))+' ')
         file.write('\n')
     file.close()

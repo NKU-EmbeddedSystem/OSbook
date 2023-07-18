@@ -76,6 +76,7 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
+    // 使用双线程(th1,th2)优化矩阵乘法
     pthread_t th1;
     pthread_t th2;
 
@@ -104,6 +105,7 @@ int main(int argc,char* argv[]){
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
 
+    // 读入测试用矩阵
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
 

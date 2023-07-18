@@ -4,6 +4,7 @@
 int main()
 {
 	int sum = 0;
+// 使用reduction解决openmp所遇到的数据冲突问题
 #pragma omp parallel for reduction(+ : sum)
 	for (int i = 0; i < 10; i++)
 	{

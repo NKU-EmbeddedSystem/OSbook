@@ -65,9 +65,9 @@ void* matrix_mul_th(void* args){
     for(mi = mul_args->m_from; mi < mul_args->m_to; mi++){
         for(ni = 0; ni < n; ni++){
             for(ki = mul_args->k_from; ki < mul_args->k_to; ki++){
-                sem_wait(&sem);
+                sem_wait(&sem);  // 等待信号量，当信号量>0时向下运行，并将信号量减1
                 C[mi][ni] += A[mi][ki] * B[ki][ni];
-                sem_post(&sem);
+                sem_post(&sem);  // 归还信号，信号量加1
             }
         }
     }
@@ -81,6 +81,8 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
+    // 改变矩阵划分方式，使用四个线程(th1,th2,th3,th4)运行矩阵乘法运算
+    // 过程中发生了数据冲突，使用信号量解决该问题
     pthread_t th1;
     pthread_t th2;
     pthread_t th3;
@@ -99,8 +101,6 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
     pthread_create(&th2,NULL,matrix_mul_th,&th2_args);
     pthread_create(&th3,NULL,matrix_mul_th,&th3_args);
     pthread_create(&th4,NULL,matrix_mul_th,&th4_args);
-
-
 
     pthread_join(th1,NULL);
     pthread_join(th2,NULL);
@@ -125,6 +125,7 @@ int main(int argc,char* argv[]){
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
 
+    // 读入测试用矩阵
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
 

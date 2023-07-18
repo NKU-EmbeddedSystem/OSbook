@@ -44,6 +44,7 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
+    // 单线程运行矩阵乘法
      int mi, ki, ni;
      for(mi = 0; mi < m; mi++){
          for(ni = 0; ni < n; ni++){
@@ -68,6 +69,7 @@ int main(int argc,char* argv[]){
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
 
+    // 读入测试用矩阵
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
 

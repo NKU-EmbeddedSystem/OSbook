@@ -78,11 +78,11 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
-    // new code for multitreading
+    // 使用传入的自定义线程数量参数thread_num来设置线程数量
     pthread_t th[thread_num];
     mul_thread_args th_args[thread_num];
     for(int i = 1; i <= thread_num; i++){
-        // pthread_t th;
+        // 根据线程数按行划分矩阵，从而设置线程任务
         int step = m/thread_num;
         int begin = (i-1) * step;
         int end = begin + step;
@@ -113,6 +113,7 @@ int main(int argc,char* argv[]){
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
 
+    // 读入测试用矩阵
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
 
