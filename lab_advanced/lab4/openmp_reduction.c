@@ -4,11 +4,14 @@
 int main()
 {
 	int sum = 0;
-#pragma omp parallel for reduction(+ : sum)
-	for (int i = 0; i < 10; i++)
+// TODO 使用reduction解决openmp所遇到的数据冲突问题
+	[TODO]
+	for (int i = 0; i < 100; i++)
 	{
 		sum = sum + i;
 	}
-	printf("%d", sum);
+  FILE* fp = fopen("./output/result/openmp_reduction.txt","w");
+  fprintf(fp,"%d",sum);
+  fclose(fp);
 	return 0;
 }

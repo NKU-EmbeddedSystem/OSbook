@@ -1,9 +1,3 @@
-/**
- * @file mm0.c
- * @author By
- * @brief basic mm(row&col) + mutex
- */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -18,7 +12,6 @@ pthread_mutex_t lock;
 #define true 1
 #define false 0
 
-
 void read_csv(int file_no, float* array, char* dir, int size) {
     FILE * fp = NULL;
     char *line, *word;
@@ -29,8 +22,6 @@ void read_csv(int file_no, float* array, char* dir, int size) {
         sprintf(path,"%s/A_%d.csv",dir,size);
     } else if(file_no == 1) {
         sprintf(path,"%s/B_%d.csv",dir,size);
-    } else if(file_no == 2) {
-        sprintf(path,"%s/C_%d.csv",dir,size);
     } else{
         assert(0);
     }
@@ -45,16 +36,6 @@ void read_csv(int file_no, float* array, char* dir, int size) {
             word = strtok(NULL, ",");
         }
     }
-}
-
-bool test_result(float* result, float* answer, int len){
-    int i;
-    for(i = 0; i < len; i++){
-        if(result[i] != answer[i]){
-            return false;
-        }
-    }
-    return true;
 }
 
 typedef struct{
@@ -79,12 +60,13 @@ void* matrix_mul_th(void* args){
     float(*C)[n] = (float(*)[n]) mul_args->matrix_C;
 
     int mi, ki, ni;
-    for(mi = mul_args->m_from; mi < mul_args->m_to; mi++){
-        for(ni = 0; ni < n; ni++){
-            for(ki = mul_args->k_from; ki < mul_args->k_to; ki++){
-               pthread_mutex_lock(&lock);
-                C[mi][ni] += A[mi][ki] * B[ki][ni];
-               pthread_mutex_unlock(&lock);
+    // TODO 执行带锁的部分矩阵乘
+    for([TODO]){
+        for([TODO]){
+            for([TODO]){
+               pthread_mutex_lock(&lock); // 当前线程加锁，抢占资源
+               [TODO];
+               pthread_mutex_unlock(&lock); // 解锁释放资源，其他线程可进行运算
             }
         }
     }
@@ -98,6 +80,8 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
+    // 改变矩阵划分方式，使用四个线程(th1,th2,th3,th4)运行矩阵乘法运算
+    // 过程中发生了数据冲突，使用线程锁解决该问题
     pthread_t th1;
     pthread_t th2;
     pthread_t th3;
@@ -110,6 +94,7 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
     mul_thread_args th3_args={ matrix_A, matrix_B, matrix_C, mid_m, m, 0, mid_k, k,n };
     mul_thread_args th4_args={ matrix_A, matrix_B, matrix_C, mid_m, m, mid_k, k, k,n };
 
+    // 初始化线程锁
     pthread_mutex_init(&lock,NULL);
     pthread_create(&th1,NULL,matrix_mul_th,&th1_args);
     pthread_create(&th2,NULL,matrix_mul_th,&th2_args);
@@ -135,11 +120,10 @@ int main(int argc,char* argv[]){
     float* A = malloc(m*k*sizeof(float));
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
-    float* C_answer = malloc(m*n*sizeof(float));
 
+    // 读入测试用矩阵
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
-    read_csv(2, C_answer, dir,size);
 
     struct timeval start;
     struct timeval end;
@@ -150,20 +134,29 @@ int main(int argc,char* argv[]){
 
     gettimeofday(&end,NULL);
 
+    // 计算乘法运行时间
     float total_time;
     total_time = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec);
-    printf("time = %f s\n",total_time/CLOCKS_PER_SEC);
-    
-    if(test_result(C, C_answer, m*n)){
-        printf("check pass!\n");
-    }else{
-        printf("answer wrong!\n");
+    float(*result_C)[n] = (float(*)[n]) C;
+
+    // 输出运算结果
+    FILE* result_fp=fopen("./output/result/matrix_lock.txt","w");
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            fprintf(result_fp,"%.1f ",result_C[i][j]);
+        }
+        fprintf(result_fp,"\n");
     }
+    fclose(result_fp);
+
+    // 输出运算时间
+    FILE* time_fp = fopen("./output/time/matrix_lock.txt","w");
+    fprintf(time_fp,"%f s",total_time/CLOCKS_PER_SEC);
+    fclose(time_fp); 
     
 
     free(A);
     free(B);
     free(C);
-    free(C_answer);
     return 0;
 }

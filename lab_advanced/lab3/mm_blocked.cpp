@@ -1,46 +1,29 @@
 #include <iostream>
 #include <vector>
-#include <chrono> // Ìí¼ÓĞÔÄÜ²âÊÔËùĞèµÄÍ·ÎÄ¼ş
-#include <cstdlib> // Ìí¼ÓC±ê×¼¿âÍ·ÎÄ¼ş
+#include <chrono> // æ·»åŠ æ€§èƒ½æµ‹è¯•æ‰€éœ€çš„å¤´æ–‡ä»¶
+#include <cstdlib> // æ·»åŠ Cæ ‡å‡†åº“å¤´æ–‡ä»¶
 #include <sstream>
 #include <fstream>
 
 using namespace std;
-using namespace std::chrono; // ¸ß¾«¶ÈÊ±¼ä¿âÃüÃû¿Õ¼ä
-#define blockSize 128
+using namespace std::chrono; // é«˜ç²¾åº¦æ—¶é—´åº“å‘½åç©ºé—´
+#define blockSize 128 //è®¾ç½®åˆ†å—å¤§å°
 
-// Ö±½ÓÊµÏÖµÄ¾ØÕó³Ë·¨
-vector<vector<float>> matrixMultiplicationDirect(const vector<vector<float>>& A, const vector<vector<float>>& B) {
-    int m = A.size();
-    int n = A[0].size();
-    int p = B[0].size();
-
-    vector<vector<float>> C(m, vector<float>(p, 0.0));
-
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < p; j++) {
-            for (int k = 0; k < n; k++) {
-                C[i][j] += A[i][k] * B[k][j];
-            }
-        }
-    }
-
-    return C;
-}
-
-// ·Ö¿é¾ØÕó³Ë·¨
+// åˆ†å—çŸ©é˜µä¹˜æ³•
 vector<vector<float>> matrixMultiplicationBlocked(const vector<vector<float>>& A, const vector<vector<float>>& B) {
     int m = A.size();
     int n = A[0].size();
     int p = B[0].size();
     vector<vector<float>> C(m, vector<float>(p, 0.0));
 
-    for (int kk = 0; kk < n; kk += blockSize) {
-        for (int jj = 0; jj < p; jj += blockSize) {
-            for (int i = 0; i < m; i++) {
-                for (int j = jj; j < min(jj + blockSize, p); j++) {
-                    for (int k = kk; k < min(kk + blockSize, n); k++) {
-                        C[i][j] += A[i][k] * B[k][j];
+    // TODO åˆ†å—çŸ©é˜µä¹˜æ³•éƒ¨åˆ†ï¼Œæ¯æ¬¡å¤„ç†blockSize*blockSize
+    for ([TODO]) {
+        for ([TODO]) {
+            // TODO å—å†…çŸ©é˜µä¹˜éƒ¨åˆ†
+            for ([TODO]) {
+                for ([TODO]) {
+                    for ([TODO]) {
+                        [TODO];
                     }
                 }
             }
@@ -50,76 +33,81 @@ vector<vector<float>> matrixMultiplicationBlocked(const vector<vector<float>>& A
     return C;
 }
 
+//å†™å…¥çŸ©é˜µç»“æœ
+void writeResultToFile(const vector<vector<float>>& result, const string& filename) {
+    ofstream outputFile(filename);
 
-//½á¹ûÑéÖ¤º¯Êı
-bool verifyMatrixEquality(const vector<vector<float>>& A, const vector<vector<float>>& B) {
-    if (A.size() != B.size() || A[0].size() != B[0].size()) {
-        return false;
-    }
-
-    int m = A.size();
-    int n = A[0].size();
-
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (A[i][j] != B[i][j]) {
-                return false;
+    if (outputFile.is_open()) {
+        for (const auto& row : result) {
+            for (const auto& element : row) {
+                outputFile << element << " ";
             }
+            outputFile << endl;
         }
-    }
 
-    return true;
+        outputFile.close();
+        cout << "Result written to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
 }
 
-// ĞÔÄÜ²âÊÔº¯Êı
+//å†™å…¥è¿è¡Œæ—¶é—´
+void writeDurationToFile(long long duration, const string& filename) {
+    ofstream outputFile(filename);
+
+    if (outputFile.is_open()) {
+        outputFile << duration << endl;
+        outputFile.close();
+        cout << "Duration written to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
+}
+
+// æ€§èƒ½æµ‹è¯•å‡½æ•°
 void performanceTest(const vector<vector<float>>& A, const vector<vector<float>>& B, const string& testName,
                      vector<vector<float>> (*multiplyFunction)(const vector<vector<float>>&, const vector<vector<float>>&) ) {
-    auto start = high_resolution_clock::now(); // ¼ÇÂ¼¿ªÊ¼Ê±¼ä
+    auto start = high_resolution_clock::now(); // è®°å½•å¼€å§‹æ—¶é—´
 
-    // Ö´ĞĞ¾ØÕó³Ë·¨
+    // æ‰§è¡ŒçŸ©é˜µä¹˜æ³•
     vector<vector<float>> result = multiplyFunction(A, B);
 
-    auto end = high_resolution_clock::now(); // ¼ÇÂ¼½áÊøÊ±¼ä
-    auto duration = duration_cast<nanoseconds>(end - start); // ¼ÆËãÖ´ĞĞÊ±¼ä
-
-    double time = duration.count() / 1e9; // ×ª»»ÎªÃë
+    auto end = high_resolution_clock::now(); // è®°å½•ç»“æŸæ—¶é—´
+    auto duration = duration_cast<nanoseconds>(end - start); // è®¡ç®—æ‰§è¡Œæ—¶é—´
+    //è¾“å‡ºç»“æœ
+    writeResultToFile(result, "output/result/result_blocked.txt");
+   
+    double time = duration.count() / 1e9; // è½¬æ¢ä¸ºç§’
     double size = A.size(); 
-    double gflops = (2.0 * size * size * size) / time / 1e9; // ¼ÆËãGFLOPS
-
+    double gflops = (2.0 * size * size * size) / time / 1e9; // è®¡ç®—GFLOPS
+    writeDurationToFile(duration.count(), "output/time/time_blocked.txt");
     cout << testName << "Time: " << duration.count() << " nanoseconds" << endl;
     cout << testName << " GFLOPS: " << gflops << endl;
-
-    ofstream of;
-    of.open("./output/time/mm_blocked.txt",ios::out);
-    of<<duration.count();
-    of.close();
-    // vector<vector<float>> referenceResult = matrixMultiplicationDirect(A, B);
-    // if (verifyMatrixEquality(referenceResult, result)) {
-    //     cout << "Result correct!" << endl;
-    // } else {
-    //     cout << "Result wrong!" << endl;
-    // }
 }
 
 
 int main() {
-    // ´´½¨Á½¸ö´ó¾ØÕó
-    //int size = 1024; // ¾ØÕó´óĞ¡£¬¿ÉÒÔ¸ù¾İĞèÒªµ÷Õû
-    ifstream inputFile("input/size.txt");
-
-    if (!inputFile.is_open()) {
-        cout << "Failed to open input or output file...\n";
-        return 0;
+    int matrixsize = 2048; // çŸ©é˜µå¤§å°
+     // åˆå§‹åŒ–çŸ©é˜µA
+    vector<vector<float>> A(matrixsize, vector<float>(matrixsize));
+    float valueA = 1.0;
+    for (int i = 0; i < matrixsize; i++) {
+        for (int j = 0; j < matrixsize; j++) {
+            A[i][j] = valueA;
+            valueA += 1.0;
+        }
     }
 
-    string line;
-    getline(inputFile, line);
-    int blocksize, matrixsize;
-    stringstream ss(line);
-    ss >> blocksize >> matrixsize;
-
-    vector<vector<float>> A(matrixsize, vector<float>(matrixsize, 1.0));
-    vector<vector<float>> B(matrixsize, vector<float>(matrixsize, 2.0));
+    // åˆå§‹åŒ–çŸ©é˜µB
+    vector<vector<float>> B(matrixsize, vector<float>(matrixsize));
+    float valueB = matrixsize * matrixsize + 1.0;
+    for (int i = 0; i < matrixsize; i++) {
+        for (int j = 0; j < matrixsize; j++) {
+            B[i][j] = valueB;
+            valueB *= -1.0;
+        }
+    }
 
     performanceTest(A, B, "Blocked Multiplication: ", matrixMultiplicationBlocked);
     

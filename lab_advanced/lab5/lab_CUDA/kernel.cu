@@ -1,12 +1,16 @@
-﻿#include <stdlib.h>
+#include <stdlib.h>
 #include <cuda_runtime.h>  
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
 #include<time.h>
 
+#ifdef __unix
+#define fopen_s(pFile,filename,mode) ((*(pFile))=fopen((filename),(mode)))==NULL
+#endif
 
 // 读取csv文件，获取数据测试数据
+/* //for window run 
 void read_csv(int file_no, float* M) {
     FILE* fp = NULL;
     errno_t err;
@@ -15,13 +19,13 @@ void read_csv(int file_no, float* M) {
     char* ptr = NULL;
     int i = 0;
     if (file_no == 0) {
-        err = fopen_s(&fp, "../dataset/shape_1000/A_1000.csv", "r");
+        err = fopen_s(&fp, "../input/shape_1000/A_1000.csv", "r");
     }
     else if (file_no == 1) {
-        err = fopen_s(&fp, "../dataset/shape_1000/B_1000.csv", "r");
+        err = fopen_s(&fp, "../input/shape_1000/B_1000.csv", "r");
     }
     else if (file_no == 2) {
-        err = fopen_s(&fp, "../dataset/shape_1000/C_1000.csv", "r");
+        err = fopen_s(&fp, "../input/shape_1000/C_1000.csv", "r");
     }
     else {
         assert(0);
@@ -33,25 +37,56 @@ void read_csv(int file_no, float* M) {
         word = strtok_s(buffer, ",", &ptr);
         while (word != NULL) {
             M[i++] = strtod(word, NULL);
-            word = strtok_s(NULL, ",", &ptr);
+            word = strtok_r(NULL, ",", &ptr);
         }
     }
 }
+*/
+// for linux run
+void read_csv(int file_no, float* array) {
+    FILE * fp = NULL;
+    char *line, *word;
+    char buffer[100000];
+    int i = 0;
+    if(file_no == 0){
+        printf("hello");
+        fp = fopen("./input/shape_1000/A_1000.csv", "r");
+    } else if(file_no == 1) {
+        fp = fopen("./input/shape_1000/B_1000.csv", "r");
+    } else if(file_no == 2) {
+        fp = fopen("./input/shape_1000/C_1000.csv", "r");
+    } else{
+        assert(0);
+    }
+    if(fp == NULL){
+        //assert(0);
+    }
+    while((line = fgets(buffer, sizeof(buffer), fp))!=NULL){
+        word = strtok(line, ",");
+        while (word != NULL){
+            array[i++] = strtol(word, NULL, 10);
+            word = strtok(NULL, ",");
+        }
+    }
+}
+
+// TODO 核函数
 __global__ void matrixMul(float* A, float* B, float* C, int m, int n, int p)
 {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     float sum = 0;
-    if (row < m && col < p)
+    if ([TODO])
     {
-        for (int k = 0; k < n; k++)
+        for ([TODO])
         {
-            sum += A[row * n + k] * B[k * p + col];
+            [TODO];
         }
-        C[row * p + col] = sum;
+        [TODO];
     }
 }
-// come form the book <Professional CUDA C编程>
+
+// 预热函数，come form the book <Professional CUDA C编程>
 __global__ void warm_up_gpu() {
     unsigned int tid = blockIdx.x * blockDim.x + threadIdx.x;
     float ia, ib;
@@ -129,8 +164,6 @@ int main()
     start_cpu = clock();// start timing
     // Copy device memory to host
     cudaMemcpy(C, d_C, sizeC * sizeof(float), cudaMemcpyDeviceToHost);
-  //  for (int i = 0; i < sizeC; i++)
- //       printf("%.2f ", C[i]);
     stop_cpu = clock();// end timing
     esp_time_cpu_Data_DeviceToHost = (float)(stop_cpu - start_cpu) / CLOCKS_PER_SEC * 1000*1000;
     
@@ -149,16 +182,39 @@ int main()
     printf("Time for Host to Device: %f us\n", esp_time_cpu_Data_HostToDevice);
     printf("Time for Device to Host: %f us\n", esp_time_cpu_Data_DeviceToHost);
 
+ 
     char filename[50];
-    sprintf(filename, "output/time_cuda_%d.txt", m);
+    sprintf(filename, "output/time/time_cuda_%d.txt", m);
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
         printf("无法打开文件.\n");
         return -1;
     }
-    fprintf(file, "%d",  esp_time_gpu/10);
+    fprintf(file, "%f",  esp_time_gpu/10);
     fclose(file);
-
+    
+    sprintf(filename, "output/result/baseline_%d.txt", m);
+    FILE *file1 = fopen(filename, "w");
+    if (file1 == NULL) {
+        printf("无法打开文件.\n");
+        return -1;
+    }
+    for(int i=0 ;i<sizeC;i++){
+        fprintf(file1,"%d\n",int(C[i]));
+    }
+    fclose(file1);
+    
+    sprintf(filename, "output/result/result_%d.txt", m);
+    FILE *file2 = fopen(filename, "w");
+    if (file2 == NULL) {
+        printf("无法打开文件.\n");
+        return -1;
+    }
+    for(int i=0 ;i<sizeC;i++){
+        fprintf(file2,"%d\n", int(Ct[i]));
+    }
+    fclose(file2);
+    
     // Free device memory
     cudaFree(d_A);
     cudaFree(d_B);

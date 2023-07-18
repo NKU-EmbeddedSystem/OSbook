@@ -1,9 +1,8 @@
-if [[ $1 == "gen_data" ]]
+if [ -e ./input/A_1024.pkl ]
 then
-python3 gendata.py
-elif [[ $1 == "test" ]]
-then
-python3 mm.py
+echo "Dataset already exists"
 else
-echo "wrong usage of lab1.sh"
+python3 gendata.py
 fi
+python3 mm.py
+

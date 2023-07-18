@@ -18,13 +18,16 @@ int main() {
 int main() {
   int sum = 0;
   #pragma omp parallel for
-  for (int i = 0; i < 10; i++) {
-    #pragma omp critical
+  for (int i = 0; i < 100; i++) {
+    // TODO 使用critical解决openmp所遇到的数据冲突问题
+    [TODO]
     {
       sum = sum + i;
     }
   }
-  printf("%d\n", sum);
+  FILE* fp = fopen("./output/result/openmp_critical.txt","w");
+  fprintf(fp,"%d",sum);
+  fclose(fp);
   return 0;
 }
 

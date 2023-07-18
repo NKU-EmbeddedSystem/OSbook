@@ -1,9 +1,3 @@
-/**
- * @file mm0.c
- * @author By
- * @brief basic mm(row)
- */
-
 #include <bits/types/struct_timeval.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,8 +21,6 @@ void read_csv(int file_no, float* array, char* dir, int size) {
         sprintf(path,"%s/A_%d.csv",dir,size);
     } else if(file_no == 1) {
         sprintf(path,"%s/B_%d.csv",dir,size);
-    } else if(file_no == 2) {
-        sprintf(path,"%s/C_%d.csv",dir,size);
     } else{
         assert(0);
     }
@@ -44,17 +36,6 @@ void read_csv(int file_no, float* array, char* dir, int size) {
         }
     }
 }
-
-bool test_result(float* result, float* answer, int len){
-    int i;
-    for(i = 0; i < len; i++){
-        if(result[i] != answer[i]){
-            return false;
-        }
-    }
-    return true;
-}
-
 
 typedef struct
 {
@@ -77,10 +58,11 @@ void* matrix_mul_th(void* args){
     float(*C)[n] = (float(*)[n]) mul_args->matrix_C;
 
     int mi, ki, ni;
-    for(mi = mul_args->m_from; mi < mul_args->m_to; mi++){
-        for(ni = 0; ni < n; ni++){
-            for(ki = 0; ki < k; ki++){
-                C[mi][ni] += A[mi][ki] * B[ki][ni];
+    // TODO 根据传参m_from与m_to进行部分矩阵乘
+    for([TODO]){
+        for([TODO]){
+            for([TODO]){
+                [TODO]
             }
         }
     }
@@ -95,20 +77,12 @@ void matrix_mul(float* matrix_A, float* matrix_B, float* matrix_C, int m, int k,
 
     memset(C, 0, m*n*sizeof(float));
 
-    // int mi, ki, ni;
-    // for(mi = 0; mi < m; mi++){
-    //     for(ni = 0; ni < n; ni++){
-    //         for(ki = 0; ki < k; ki++){
-    //             C[mi][ni] += A[mi][ki] * B[ki][ni];
-    //         }
-    //     }
-    // }
-
-    // new code for multitreading
+    // 使用双线程(th1,th2)优化矩阵乘法
     pthread_t th1;
     pthread_t th2;
 
     int mid = m/2;
+    // 分别将矩阵A分成0~m/2和m/2~m两个部分传进子线程做计算
     mul_thread_args th1_args={ matrix_A, matrix_B, matrix_C, 0, mid, k, n };
     mul_thread_args th2_args={ matrix_A, matrix_B, matrix_C, mid, m, k, n };
 
@@ -132,11 +106,10 @@ int main(int argc,char* argv[]){
     float* A = malloc(m*k*sizeof(float));
     float* B = malloc(k*n*sizeof(float));
     float* C = malloc(m*n*sizeof(float));
-    float* C_answer = malloc(m*n*sizeof(float));
 
+    // 读入测试用矩阵
     read_csv(0, A, dir,size);
     read_csv(1, B, dir,size);
-    read_csv(2, C_answer, dir,size);
 
     struct timeval start;
     struct timeval end;
@@ -147,20 +120,28 @@ int main(int argc,char* argv[]){
 
     gettimeofday(&end,NULL);
 
+    // 计算乘法运行时间
     float total_time;
     total_time = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec);
-    printf("time = %f s\n",total_time/CLOCKS_PER_SEC);
-    
-    if(test_result(C, C_answer, m*n)){
-        printf("check pass!\n");
-    }else{
-        printf("answer wrong!\n");
-    }
-    
+    float(*result_C)[n] = (float(*)[n]) C;
 
+    // 输出运算结果
+    FILE* result_fp=fopen("./output/result/matrix_dual_thread.txt","w");
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            fprintf(result_fp,"%.1f ",result_C[i][j]);
+        }
+        fprintf(result_fp,"\n");
+    }
+    fclose(result_fp);
+
+    // 输出运算时间
+    FILE* time_fp = fopen("./output/time/matrix_dual_thread.txt","w");
+    fprintf(time_fp,"%f s",total_time/CLOCKS_PER_SEC);
+    fclose(time_fp);
+    
     free(A);
     free(B);
     free(C);
-    free(C_answer);
     return 0;
 }
