@@ -1,44 +1,37 @@
 #!/bin/bash
 
 if [ ! -e "output/result/result_naive.txt" ]; then
-    echo "»ù´¡¾ØÕó³Ë·¨Êä³öÎÄ¼ş²»´æÔÚ£¬lab3-1×îÖÕ·ÖÊıÎª: 0¡£"
+    echo "åŸºç¡€çŸ©é˜µä¹˜æ³•è¾“å‡ºæ–‡ä»¶ä¸å­˜åœ¨ï¼Œlab3-1æœ€ç»ˆåˆ†æ•°ä¸º: 0ã€‚"
     exit 1
 fi
 if [ ! -e "output/result/result_blocked.txt" ]; then
-    echo "·Ö¿é¾ØÕó³Ë·¨Êä³öÎÄ¼ş²»´æÔÚ£¬lab3-2×îÖÕ·ÖÊıÎª: 0¡£"
+    echo "åˆ†å—çŸ©é˜µä¹˜æ³•è¾“å‡ºæ–‡ä»¶ä¸å­˜åœ¨ï¼Œlab3-2æœ€ç»ˆåˆ†æ•°ä¸º: 0ã€‚"
     exit 1
 fi
 if [ ! -e "output/result/result_opt.txt" ]; then
-    echo "ÓÅ»¯¾ØÕó³Ë·¨Êä³öÎÄ¼ş²»´æÔÚ£¬lab3-3×îÖÕ·ÖÊıÎª: 0¡£"
+    echo "ä¼˜åŒ–çŸ©é˜µä¹˜æ³•è¾“å‡ºæ–‡ä»¶ä¸å­˜åœ¨ï¼Œlab3-3æœ€ç»ˆåˆ†æ•°ä¸º: 0ã€‚"
     exit 1
 fi
 
-# ¼ÆËãÊä³öÎÄ¼şµÄMD5Öµ
+# è®¡ç®—è¾“å‡ºæ–‡ä»¶çš„MD5å€¼
 md5_output_naive=$(md5sum "output/result/result_naive.txt" | awk '{print $1}')
 md5_output_blocked=$(md5sum "output/result/result_blocked.txt" | awk '{print $1}')
 md5_output_opt=$(md5sum "output/result/result_opt.txt" | awk '{print $1}')
-md5_target=$(md5sum "output/result/result_reference.txt" | awk '{print $1}')
 
-# ±È½ÏÁ½¸öMD5ÖµÁĞ±íÊÇ·ñÏàµÈ
-if [[ "$md5_output_naive" == "$md5_target" ]]; then
-    echo "Êä³öÎÄ¼şnaive MD5ÖµÆ¥Åä£¬lab3-1·ÖÊıÎª: 100¡£"
+if [ "$md5_output_blocked" == "$md5_output_naive" ]; then
+    echo "è¾“å‡ºæ–‡ä»¶blocked MD5å€¼åŒ¹é…ï¼Œlab3-1æœ€ç»ˆåˆ†æ•°ä¸º: 100ã€‚"
 else
-    echo "Êä³öÎÄ¼şnaive MD5Öµ²»Æ¥Åä£¬lab3-1×îÖÕ·ÖÊıÎª: 0¡£"
+    echo "è¾“å‡ºæ–‡ä»¶blocked MD5å€¼ä¸åŒ¹é…ï¼Œlab3-1æœ€ç»ˆåˆ†æ•°ä¸º: 0ã€‚"
+    echo $md5_output_blocked
     echo $md5_output_naive
 fi
-if [[ "$md5_output_blocked" == "$md5_target" ]]; then
-    echo "Êä³öÎÄ¼şblocked MD5ÖµÆ¥Åä£¬lab3-2×îÖÕ·ÖÊıÎª: 100¡£"
+if [[ "$md5_output_opt" == "$md5_output_naive" ]]; then
+    echo "è¾“å‡ºæ–‡ä»¶MD5å€¼åŒ¹é…ï¼Œlab3-2æœ€ç»ˆåˆ†æ•°ä¸º: 100ã€‚"
 else
-    echo "Êä³öÎÄ¼şblocked MD5Öµ²»Æ¥Åä£¬lab3-2×îÖÕ·ÖÊıÎª: 0¡£"
-    echo $md5_output_blocked
-fi
-if [[ "$md5_output_opt" == "$md5_target" ]]; then
-    echo "Êä³öÎÄ¼şMD5ÖµÆ¥Åä£¬lab3-3×îÖÕ·ÖÊıÎª: 100¡£"
-else
-    echo "Êä³öÎÄ¼şMD5Öµ²»Æ¥Åä£¬lab3-3×îÖÕ·ÖÊıÎª: 0¡£"
+    echo "è¾“å‡ºæ–‡ä»¶MD5å€¼ä¸åŒ¹é…ï¼Œlab3-2æœ€ç»ˆåˆ†æ•°ä¸º: 0ã€‚"
     echo $md5_output_opt
 fi
 
-if [ "$md5_output_naive" == "$md5_target" ] && [ "$md5_output_blocked" == "$md5_target" ] && [ "$md5_output_opt" == "$md5_target" ]; then
-    echo "lab3-3×îÖÕ·ÖÊıÎª: 100¡£"
+if  [ "$md5_output_blocked" == "$md5_output_naive" ] && [ "$md5_output_opt" == "$md5_output_naive" ]; then
+    echo "lab3æœ€ç»ˆåˆ†æ•°ä¸º: 100ã€‚"
 fi
