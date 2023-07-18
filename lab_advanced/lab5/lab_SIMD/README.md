@@ -25,6 +25,7 @@ input文件夹下提供了四种规模(128/256/512/1024)的矩阵输入，以及
 ```
 lab_SIMD/
 ├── check.py            -- 对比result与standard_result，用于自查矩阵乘实现的正确性
+├── check.sh            -- 打分脚本，运行该脚本前请完成某一平台所有矩阵乘方法并保证output/result只有该平台测试结果
 ├── generate.py         -- 生成程序输入，需要numpy库
 ├── input               -- 程序输入(两个矩阵四种规模)示例，可使用generate.py重新生成
 │   ├── A_1024.txt
