@@ -2,23 +2,23 @@ size=100
 
 python3 ./input/data_gen.py $size
 
-gcc matrix_single_thread.c -o matrix_single_thread
+gcc matrix_single_thread.c -o matrix_single_thread -lpthread
 ./matrix_single_thread ./input/shape_$size $size 
 echo "单线程矩阵乘法 finish"
 
-gcc matrix_dual_thread.c -o matrix_dual_thread
+gcc matrix_dual_thread.c -o matrix_dual_thread -lpthread
 ./matrix_dual_thread ./input/shape_$size $size  
 echo "双线程矩阵乘法 finish"  
 
-gcc matrix_multi_thread.c -o matrix_multi_thread
+gcc matrix_multi_thread.c -o matrix_multi_thread -lpthread
 ./matrix_multi_thread ./input/shape_$size $size 4  
 echo "多线程优化分块矩阵乘法(4) finish"  
 
-gcc matrix_lock.c -o matrix_lock
+gcc matrix_lock.c -o matrix_lock -lpthread
 ./matrix_lock ./input/shape_$size $size  
 echo "分块矩阵乘法（锁）finish"  
 
-gcc matrix_signal.c -o matrix_signal
+gcc matrix_signal.c -o matrix_signal -lpthread
 ./matrix_signal ./input/shape_$size $size  
 echo "分块矩阵乘法（信号量）finish"  
 
