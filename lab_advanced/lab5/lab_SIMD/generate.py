@@ -42,8 +42,8 @@ for n in shapes:
     file=open('./output/standard_result/C_'+str(n)+'.txt','w')
     C_list=matrix_C.tolist()
     for row in C_list:
-        file.write(str(row[0]))
+        file.write(str(row[0])+'.000000')
         for i in range(1,len(row)):
-            file.write(','+str(row[i]))
+            file.write(','+str(row[i])+'.000000')
         file.write('\n')
     file.close()
