@@ -27,17 +27,18 @@ sh cuda_linux_run.sh
 ```
 lab_CUDA/
 ├── CMakeLists.txt		-- cmake构建系统所需的文件
+├── check.sh			-- 打分脚本，会根据自己设定的维度进行矩阵乘得到的output/result内的结果进行打分，
 ├── Linux服务器下运行.assets/
 ├── Linux服务器下运行.md
 ├── README.assets/
 ├── README.md
 ├── Windows下运行.assets/
 ├── Windows下运行.md
-├── cuda_linux_run.sh	-- 在linux上运行的shell脚本
-├── data_gen.py			-- 随机生成相应维度的相乘的矩阵A，B以及相乘的结果C和在python上所需时间
+├── cuda_linux_run.sh	-- 在linux上运行的shell脚本，包括将cuda环境加入路径，请确保cmake工具已经安装
+├── data_gen.py			-- 随机生成相应维度的相乘的矩阵A，B，以及相乘的结果C和在python上所需时间，可用于实验，默认已经生成了1000维度的且以此进行实验
 ├── input/
 │   ├── shape_1000 		-- 由data_gen.py生成的进行计算的输入矩阵
-    └── compare.py		-- 比较python与cuda矩阵乘的时间与速度
+│   └── compare.py		-- 比较python与cuda矩阵乘的时间与速度
 ├── kernel.cu			-- 具有基础且完整的CUDA编写程序流程，教材中的代码讲解主要来源，包括性能分析部分
 ├── output/
 │   ├── result/

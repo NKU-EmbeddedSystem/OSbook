@@ -200,7 +200,7 @@ int main()
         return -1;
     }
     for(int i=0 ;i<sizeC;i++){
-        fprintf(file1,"%f\n",C[i]);
+        fprintf(file1,"%d\n",int(C[i]));
     }
     fclose(file1);
     
@@ -211,7 +211,7 @@ int main()
         return -1;
     }
     for(int i=0 ;i<sizeC;i++){
-        fprintf(file2,"%f\n", Ct[i]);
+        fprintf(file2,"%d\n", int(Ct[i]));
     }
     fclose(file2);
     
