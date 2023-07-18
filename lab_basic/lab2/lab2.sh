@@ -4,6 +4,7 @@ dir=$(dirname "$0")/input
 
 unzip -q "$dir/ham.zip" -d "$dir"  # 解压 ham.zip
 
+cat /dev/null > ./output/new.txt
 for i in "$dir/ham"/*
 do
    filename=$i
