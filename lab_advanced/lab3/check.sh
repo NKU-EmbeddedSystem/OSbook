@@ -30,6 +30,7 @@ if [[ "$md5_output_opt" == "$md5_output_naive" ]]; then
 else
     echo "输出文件MD5值不匹配，lab3-2最终分数为: 0。"
     echo $md5_output_opt
+    echo $md5_output_naive
 fi
 
 if  [ "$md5_output_blocked" == "$md5_output_naive" ] && [ "$md5_output_opt" == "$md5_output_naive" ]; then
