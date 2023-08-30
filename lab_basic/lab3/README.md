@@ -17,6 +17,8 @@ lab3/
 │   ├── Readme.md
 │   ├── faults.py
 │   ├── mmap_pagefault_snoop.bt
+│   ├── map_file.c
+│   └── objdump.txt
 │   ├── pipe.c
 │   └── straceout.txt
 ├── input/
