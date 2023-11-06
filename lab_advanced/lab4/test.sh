@@ -29,7 +29,7 @@ gcc matrix_signal.c -o matrix_signal -lpthread
 ./matrix_signal ./input/shape_$size $size  
 echo "分块矩阵乘法（信号量）finish"  
 
-gcc matrix_openmp.c -lgomp -o matrix_openmp
+gcc matrix_openmp.c -lgomp -o matrix_openmp #或者使用-fopenmp代替-lgomp作为参数
 ./matrix_openmp ./input/shape_$size $size  
 echo "openmp实现多线程优化矩阵乘法 finish"  
 
