@@ -44,10 +44,11 @@ chmod +x *.sh
 ```
 lab3
 ├── README.md
-├── mm_blocked.cpp  -- 分块矩阵乘法（优化前）
-├── mm_cache.sh     -- 运行上述三份代码并输出测试结果到output中
-├── mm_naive.cpp    -- 朴素实现的矩阵乘法
-├── mm_opt.cpp      -- 进一步优化的分块矩阵乘法
+├── param.h       -- 控制矩阵大小和分块大小
+├── mm_block.cpp  -- 分块矩阵乘法（优化前）
+├── mm_cache.sh   -- 运行上述三份代码并输出测试结果到output中
+├── mm_naive.cpp  -- 朴素实现的矩阵乘法
+├── mm_order.cpp  -- 交换循环顺序优化的矩阵乘法
 └── output/
     ├── result/
     │   ├── blocked_result.txt
