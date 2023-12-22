@@ -11,12 +11,17 @@
 using namespace std;
 using namespace std::chrono;
 
-void matrixMultiply(float **A, float **B, float **C, int N) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            C[i][j] = 0;
-            for (int k = 0; k < N; k++) {
-                C[i][j] += A[i][k] * B[k][j];
+void blockMatrixMultiply(float **A, float **B, float **C, int N, int blockSize) {
+    for (int i = 0; i < N; i += blockSize) {
+        for (int j = 0; j < N; j += blockSize) {
+            for (int k = 0; k < N; k += blockSize) {
+                for (int ii = i; ii < i + blockSize; ii++) {
+                    for (int jj = j; jj < j + blockSize; jj++) {
+                        for (int kk = k; kk < k + blockSize; kk++) {
+                            C[ii][jj] += A[ii][kk] * B[kk][jj];
+                        }
+                    }
+                }
             }
         }
     }
@@ -77,17 +82,17 @@ void testMatrixMultiplicationPerformance(int N, int blockSize) {
         }
     }
 
-
     auto start = std::chrono::high_resolution_clock::now();
-    matrixMultiply(A, B, C, N);
+    blockMatrixMultiply(A, B, C, N, blockSize);
     auto end = std::chrono::high_resolution_clock::now();
+    
     const float** result = const_cast<const float**>(C);
-    writeResultToFile(result, N, "output/result/result_naive.txt");
+    writeResultToFile(result, N, "output/result/result_block.txt");
 
     std::chrono::duration<double> elapsed_time = end - start;
-    cout << "Matrix multiplication: " << elapsed_time.count() << "seconds" << endl;
+    cout << "Matrix multiplication with blocking: " << elapsed_time.count() << "seconds" << endl;
 
-    writeDurationToFile(elapsed_time.count(), "output/time/time_naive.txt");
+    writeDurationToFile(elapsed_time.count(), "output/time/time_block.txt");
 
     double time = elapsed_time.count();
     double gflops = 2.0 * N * N * N / time / 1e9;
@@ -104,7 +109,7 @@ void testMatrixMultiplicationPerformance(int N, int blockSize) {
 }
 
 int main() {
-    //int N =1024; // Size of the matrices
+    //int N = 1024; // Size of the matrices
     //int blockSize = 64; // Block size for block matrix multiplication
     cout << "N = " << N << ", blockSize = " << blockSize << endl;
     srand(time(NULL)); // Seed the random number generator

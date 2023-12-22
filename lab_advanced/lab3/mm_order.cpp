@@ -13,9 +13,9 @@ using namespace std::chrono;
 
 void matrixMultiply(float **A, float **B, float **C, int N) {
     for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            C[i][j] = 0;
-            for (int k = 0; k < N; k++) {
+        for (int k = 0; k < N; k++) {
+            //C[i][j] = 0;
+            for (int j = 0; j < N; j++) {
                 C[i][j] += A[i][k] * B[k][j];
             }
         }
@@ -65,7 +65,6 @@ void testMatrixMultiplicationPerformance(int N, int blockSize) {
         C[i] = (float *)malloc(N * sizeof(float));
     }
 
-    // Initialize matrices A and B with random values
     float valueA = 1.0;
     float valueB = N * N + 1.0;
     for (int i = 0; i < N; i++) {
@@ -82,17 +81,17 @@ void testMatrixMultiplicationPerformance(int N, int blockSize) {
     matrixMultiply(A, B, C, N);
     auto end = std::chrono::high_resolution_clock::now();
     const float** result = const_cast<const float**>(C);
-    writeResultToFile(result, N, "output/result/result_naive.txt");
+    writeResultToFile(result, N, "output/result/result_order.txt");
 
     std::chrono::duration<double> elapsed_time = end - start;
-    cout << "Matrix multiplication: " << elapsed_time.count() << "seconds" << endl;
+    cout << "Matrix multiplication with changing order: " << elapsed_time.count() << "seconds" << endl;
 
-    writeDurationToFile(elapsed_time.count(), "output/time/time_naive.txt");
-
+    writeDurationToFile(elapsed_time.count(), "output/time/time_order.txt");
+    
     double time = elapsed_time.count();
     double gflops = 2.0 * N * N * N / time / 1e9;
     cout << "GFLOPS = " << gflops << endl;
-    
+
     for (int i = 0; i < N; i++) {
         free(A[i]);
         free(B[i]);
@@ -104,7 +103,7 @@ void testMatrixMultiplicationPerformance(int N, int blockSize) {
 }
 
 int main() {
-    //int N =1024; // Size of the matrices
+    //int N = 1024; // Size of the matrices
     //int blockSize = 64; // Block size for block matrix multiplication
     cout << "N = " << N << ", blockSize = " << blockSize << endl;
     srand(time(NULL)); // Seed the random number generator
