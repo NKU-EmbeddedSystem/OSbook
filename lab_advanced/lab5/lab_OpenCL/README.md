@@ -10,7 +10,6 @@ i. 准备工作：
 
 修改data_gen.py代码中的shapes为自己计算矩阵维度，并生成python运行矩阵乘的时间，结果保存在output目录中。根据[这里](./Linux服务器下运行.md)配置相关环境。
 
-如果需要更换不同的OpenCL代码，修改CMakeLists.txt文件中的代码，如将add_executable(test test.cpp)改为add_executable(test kernel.cpp)。
 
 ii. 直接编译与执行
 直接运行
