@@ -6,24 +6,25 @@
 #include <math.h>
 #include <time.h>
 
-// OpenCL kernel source as a string
-const char* kernelSource = R"CLC(
-__kernel void matrixMul(const int m, const int n, const int p, __global float* A, __global float* B, __global float* C)
-{
-    int row = get_global_id(1);
-    int col = get_global_id(0);
-    if ((row < n) && (col < m))
-    {
-        float tmp = 0.0f;
-        for (int k = 0; k < p; ++k)
-        {
-            tmp += A[row * p + k] * B[k * m + col]; // 修正B的索引
-        }
-        C[row * m + col] = tmp;
+// 读取文件内容到字符串
+char* readKernelSource(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        fprintf(stderr, "无法打开内核文件: %s\n", filename);
+        exit(1);
     }
-}
-)CLC";
 
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char* source = (char*)malloc(length + 1);
+    fread(source, 1, length, file);
+    source[length] = '\0';
+
+    fclose(file);
+    return source;
+}
 // 读取csv文件，获取数据测试数据
 void read_csv(int file_no, float* array) {
     FILE * fp = NULL;
@@ -125,8 +126,10 @@ int main()
     stop_cpu = clock();
     esp_time_cpu_Data_HostToDevice = (float)(stop_cpu - start_cpu) / CLOCKS_PER_SEC * 1000 * 1000;
 
+    char* kernelSource = readKernelSource("matrix_multiply.cl");
+
     // 创建和编译程序
-    cl_program program = clCreateProgramWithSource(context, 1, &kernelSource, NULL, &err_num);
+    cl_program program = clCreateProgramWithSource(context, 1, (const char**)&kernelSource, NULL, &err_num);
     err_num = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
     if (err_num != CL_SUCCESS) {
         size_t log_size;
@@ -149,15 +152,26 @@ int main()
     err_num |= clSetKernelArg(kernel, 4, sizeof(cl_mem), &buffer_B);
     err_num |= clSetKernelArg(kernel, 5, sizeof(cl_mem), &buffer_C);
 
-    size_t global_work_size[2] = {(size_t)m, (size_t)n};
+    
     size_t local_work_size[2] = {16, 16};
+    size_t global_work_size[2] = {
+        ((m + local_work_size[0] - 1) / local_work_size[0]) * local_work_size[0],
+        ((n + local_work_size[1] - 1) / local_work_size[1]) * local_work_size[1]
+    };
 
+    // 检查设备限制
+    size_t max_work_group_size;
+    clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(max_work_group_size), &max_work_group_size, NULL);
+    if (local_work_size[0] * local_work_size[1] > max_work_group_size) {
+        printf("Local work size too large for device\n");
+        return 1;
+    }
     // 计时：核函数执行
     cl_event event;
     cl_ulong time_start, time_end;
     double esp_time_gpu = 0.0;
     for (int i = 0; i < 10; i++) {
-        clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size, 0, NULL, &event);
+        err_num = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, local_work_size, 0, NULL, &event);
         clWaitForEvents(1, &event);
         clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_START, sizeof(time_start), &time_start, NULL);
         clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_END, sizeof(time_end), &time_end, NULL);
@@ -165,6 +179,11 @@ int main()
         clReleaseEvent(event);
     }
     esp_time_gpu /= 10.0;
+    if (err_num != CL_SUCCESS) {
+        printf("Kernel execution failed: %d\n", err_num);
+        return 1;
+    }
+    clFinish(command_queue);  // 确保所有命令执行完毕
 
     // 计时：Device->Host
     start_cpu = clock();

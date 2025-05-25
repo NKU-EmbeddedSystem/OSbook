@@ -1,3 +1,0 @@
-/home/zh/OSbook/lab_advanced/lab5/lab_OpenCL/build/CMakeFiles/matrix_multiply.dir
-/home/zh/OSbook/lab_advanced/lab5/lab_OpenCL/build/CMakeFiles/edit_cache.dir
-/home/zh/OSbook/lab_advanced/lab5/lab_OpenCL/build/CMakeFiles/rebuild_cache.dir
